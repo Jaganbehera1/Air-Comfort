@@ -33,7 +33,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
 
   // quick-contact detection: user asking for phone/call/contact
   if (/(call|phone|contact|mobile|number|reach|whatsapp|talk)/i.test(q)) {
-    return { found: true, answer: 'You can reach our team at 7978966065', score: 0 };
+    return { found: true, answer: 'You can reach our team at 8260660327', score: 0 };
   }
 
   const items = listFaqs();

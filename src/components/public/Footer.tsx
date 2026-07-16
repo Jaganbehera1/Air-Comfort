@@ -111,7 +111,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-green-400 hover:text-green-300 font-semibold transition-colors"
               >
-                Mahavir Enterprises
+                Mahavir Info Care
               </a>
             </p>
           </div>
