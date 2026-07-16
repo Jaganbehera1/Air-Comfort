@@ -13,13 +13,9 @@ import {
   Copy,
   CheckCircle
 } from 'lucide-react';
-// import { FAQItem, listFaqs, getPopularFaqs } from '../../lib/faq';
-// import { findBestMatch } from '../../lib/faqService';
-// For the widget
 import { listFaqs, findBestMatch, getPopularFaqs } from '../../lib/faq-data';
-
-// For the FAQ section
 import { getCategories, searchFaqs, getFaqsByCategory } from '../../lib/faq-data';
+
 type ChatMessage = {
   id: string;
   role: 'assistant' | 'user';
@@ -84,9 +80,7 @@ export function AssistanceWidget() {
   };
 
   const suggestions = useMemo(() => {
-    // Get unique questions from popular FAQs
     const popular = popularFaqs.slice(0, 4);
-    // Add some general questions if not enough popular ones
     if (popular.length < 4) {
       const general = faqs
         .filter(f => !popular.some(p => p.id === f.id))
@@ -110,7 +104,6 @@ export function AssistanceWidget() {
     setInput('');
     setIsTyping(true);
 
-    // Simulate typing delay for better UX
     setTimeout(() => {
       const result = findBestMatch(value);
       const reply = result.answer;
@@ -142,14 +135,12 @@ export function AssistanceWidget() {
 
   const formatMessage = (text: string) => {
     return text.split('\n').map((line, i) => {
-      // Check if line starts with bullet points
       if (line.trim().startsWith('•') || line.trim().startsWith('•')) {
         return <div key={i} className="flex items-start gap-2 my-0.5">
           <span className="text-green-400">•</span>
           <span>{line.replace('•', '').trim()}</span>
         </div>;
       }
-      // Check if line is a heading with **
       if (line.trim().startsWith('**') && line.trim().endsWith('**')) {
         return <div key={i} className="font-semibold text-green-600 mt-1">{line.replace(/\*\*/g, '')}</div>;
       }
@@ -158,7 +149,8 @@ export function AssistanceWidget() {
   };
 
   return (
-    <div ref={widgetRef} className="fixed bottom-6 right-6 z-50">
+    // Changed: bottom-24 to move it up above WhatsApp button
+    <div ref={widgetRef} className="fixed bottom-24 right-6 z-50">
       {!open ? (
         <button
           onClick={() => setOpen(true)}
