@@ -3,6 +3,7 @@ import { Navbar } from '../components/public/Navbar';
 import { Footer } from '../components/public/Footer';
 import { PartnersCarousel } from '../components/public/PartnersCarousel';
 import { useLanguage } from '../contexts/LanguageContext';
+import { AssistanceWidget } from '../components/public/AssistanceWidget'; // Add this import
 
 export function PublicLayout() {
   const { lang, setLang, t } = useLanguage();
@@ -19,6 +20,9 @@ export function PublicLayout() {
       </main>
       <PartnersCarousel />
       <Footer />
+      
+      {/* Assistance Widget - Shows on ALL pages using this layout */}
+      <AssistanceWidget />
     </div>
   );
 }

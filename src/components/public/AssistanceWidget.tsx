@@ -149,8 +149,9 @@ export function AssistanceWidget() {
   };
 
   return (
-    // Changed: bottom-24 to move it up above WhatsApp button
-    <div ref={widgetRef} className="fixed bottom-24 right-6 z-50">
+    // Moved from bottom-24 to bottom-32 to avoid overlapping with footer buttons
+    // Also adjusted right position and added responsive positioning
+    <div ref={widgetRef} className="fixed bottom-32 right-6 z-50 md:bottom-60 md:right-6">
       {!open ? (
         <button
           onClick={() => setOpen(true)}
@@ -284,9 +285,9 @@ export function AssistanceWidget() {
                   <Send className="h-3.5 w-3.5" />
                 </button>
               </div>
-              <p className="text-[9px] text-gray-400 text-center mt-1.5">
+              {/* <p className="text-[9px] text-gray-400 text-center mt-1.5">
                 Powered by AI • Available 24/7
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

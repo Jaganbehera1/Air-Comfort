@@ -977,7 +977,7 @@ export function HomePage() {
       {/* ================= PROJECTS PREVIEW ================= */}
       <ProjectsSection limit={6} />
 
-      <AssistanceWidget />
+      {/* <AssistanceWidget /> */}
 
       <style>{`
         @keyframes fadeIn {
