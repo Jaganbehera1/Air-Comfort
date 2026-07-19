@@ -77,7 +77,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
   if (!results || results.length === 0) {
     return { 
       found: false, 
-      answer: "I couldn't find a specific answer to your question. Please try rephrasing or contact our support team at 8260660327 for assistance." 
+      answer: "I couldn't find a specific answer to your question. Please try rephrasing or contact our support team at 7978322684 for assistance." 
     };
   }
 
@@ -110,7 +110,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
 
   return { 
     found: false, 
-    answer: "I couldn't find an exact match. Please try rephrasing your question or contact our team at 8260660327 for personalized assistance.",
+    answer: "I couldn't find an exact match. Please try rephrasing your question or contact our team at 7978322684 for personalized assistance.",
     score 
   };
 }

@@ -502,7 +502,7 @@ const sampleFaqs: FAQItem[] = [
   {
     id: 'faq_46',
     question: 'What are your business hours?',
-    answer: 'Our business hours:\n\n🕐 Working Hours:\n• Monday - Saturday: 8:00 AM - 8:00 PM\n• Sunday: 8:00 AM - 2:00 PM\n• Emergency Support: 24/7\n\n📞 Contact:\n• Phone: 8260660327\n• WhatsApp: 8260660327\n• Email: info@greenleafenergy.com\n\nWe respond to all queries within 24 hours!',
+    answer: 'Our business hours:\n\n🕐 Working Hours:\n• Monday - Saturday: 8:00 AM - 8:00 PM\n• Sunday: 8:00 AM - 2:00 PM\n• Emergency Support: 24/7\n\n📞 Contact:\n• Phone: 7978322684\n• WhatsApp: 9437007068\n• Email: sales.team.aircomfort@gmail.com\n\nWe respond to all queries within 24 hours!',
     category: 'Contact',
     popular: true,
     keywords: ['hours', 'timing', 'working', 'open', 'closed', 'emergency', 'contact', 'phone', 'email'],
@@ -512,7 +512,7 @@ const sampleFaqs: FAQItem[] = [
   {
     id: 'faq_47',
     question: 'How do I contact customer support?',
-    answer: 'You can reach our customer support team through:\n\n📞 Phone: 8260660327\n💬 WhatsApp: 8260660327\n✉️ Email: info@greenleafenergy.com\n\n🕐 Support Hours:\n• Chat: 24/7\n• Phone: 8:00 AM - 8:00 PM\n• Email: Response within 4 hours\n• Emergency: 24/7\n\n📱 Live Chat: Available on our website\n📍 Visit: Sahajpur, Pipili, Puri, Odisha\n\nWe\'re here to help!',
+    answer: 'You can reach our customer support team through:\n\n📞 Phone: 7978322684\n💬 WhatsApp: 9437007068\n✉️ Email: sales.team.aircomfort@gmail.com\n\n🕐 Support Hours:\n• Chat: 24/7\n• Phone: 8:00 AM - 8:00 PM\n• Email: Response within 4 hours\n• Emergency: 24/7\n\n📱 Live Chat: Available on our website\n📍 Visit: Sahajpur, Pipili, Puri, Odisha\n\nWe\'re here to help!',
     category: 'Contact',
     popular: true,
     keywords: ['contact', 'support', 'phone', 'email', 'whatsapp', 'chat', 'visit', 'address', 'helpline'],
@@ -522,7 +522,7 @@ const sampleFaqs: FAQItem[] = [
   {
     id: 'faq_48',
     question: 'What is your address?',
-    answer: '📍 Visit us at:\n\nAir Comfort\nSahajpur, Pipili\nPuri, Odisha\nIndia\n\n📞 Phone: 8260660327\n✉️ Email: info@greenleafenergy.com\n\n🕐 Visiting Hours:\n• Monday-Saturday: 8:00 AM - 8:00 PM\n• Sunday: 8:00 AM - 2:00 PM\n\nWe recommend calling before visiting!',
+    answer: '📍 Visit us at:\n\nAir Comfort\nSahajpur, Pipili\nPuri, Odisha\nIndia\n\n📞 Phone: 7978322684\n✉️ Email: sales.team.aircomfort@gmail.com\n\n🕐 Visiting Hours:\n• Monday-Saturday: 8:00 AM - 8:00 PM\n• Sunday: 8:00 AM - 2:00 PM\n\nWe recommend calling before visiting!',
     category: 'Contact',
     popular: false,
     keywords: ['address', 'location', 'visit', 'office', 'Odisha', 'Pipili', 'Puri', 'Sahajpur'],
@@ -683,7 +683,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
   if (/(call|phone|contact|mobile|number|reach|whatsapp|talk|speak|connect|help)/i.test(q)) {
     return { 
       found: true, 
-      answer: '📞 You can reach our team at:\n• Phone: 8260660327\n• WhatsApp: 8260660327\n• Email: info@greenleafenergy.com\n• Working Hours: 8:00 AM - 8:00 PM (Mon-Sat)\n\nWe\'re here to help!', 
+      answer: '📞 You can reach our team at:\n• Phone: 7978322684\n• WhatsApp: 9437007068\n• Email: sales.team.aircomfort@gmail.com\n• Working Hours: 8:00 AM - 8:00 PM (Mon-Sat)\n\nWe\'re here to help!', 
       score: 0,
       category: 'Contact'
     };
@@ -721,7 +721,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
   if (!results || results.length === 0) {
     return { 
       found: false, 
-      answer: "I couldn't find a specific answer to your question. Please try rephrasing or contact our support team at 8260660327 for assistance." 
+      answer: "I couldn't find a specific answer to your question. Please try rephrasing or contact our support team at 7978322684 for assistance." 
     };
   }
 
@@ -751,7 +751,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
 
   return { 
     found: false, 
-    answer: "I couldn't find an exact match. Please try rephrasing your question or contact our team at 8260660327 for personalized assistance.",
+    answer: "I couldn't find an exact match. Please try rephrasing your question or contact our team at 7978322684 for personalized assistance.",
     score 
   };
 }
