@@ -414,7 +414,7 @@ const sampleFaqs: FAQItem[] = [
   {
     id: 'faq_38',
     question: 'Do you offer emergency repair services?',
-    answer: 'Yes, we offer emergency repair services:\n\n🚨 Emergency Support:\n• 24/7 Helpline: Call us anytime\n• Priority Dispatch: Within 2-4 hours\n• On-site Visit: Same day emergency\n• Quick Diagnosis: Remote first\n\n🛠️ Coverage:\n• Inverter failures\n• Panel damage\n• Electrical faults\n• Battery issues\n\n📞 Emergency Contact: 8260660327\n\nNormal and emergency services available 365 days a year!',
+    answer: 'Yes, we offer emergency repair services:\n\n🚨 Emergency Support:\n• 24/7 Helpline: Call us anytime\n• Priority Dispatch: Within 2-4 hours\n• On-site Visit: Same day emergency\n• Quick Diagnosis: Remote first\n\n🛠️ Coverage:\n• Inverter failures\n• Panel damage\n• Electrical faults\n• Battery issues\n\n📞 Emergency Contact: 7978322684\n\nNormal and emergency services available 365 days a year!',
     category: 'Support',
     popular: false,
     keywords: ['emergency', 'repair', 'urgent', 'breakdown', 'fault', 'damage', 'dispatch', 'on-site', 'same day'],

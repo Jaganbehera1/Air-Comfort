@@ -39,7 +39,7 @@ export function findBestMatch(query: string, acceptScore = DEFAULT_ACCEPT_SCORE)
   if (/(call|phone|contact|mobile|number|reach|whatsapp|talk|speak|connect)/i.test(q)) {
     return { 
       found: true, 
-      answer: '📞 You can reach our team at:\n• Phone: 8260660327\n• WhatsApp: 8260660327\n• Email: info@greenleafenergy.com\n• Working Hours: 8:00 AM - 8:00 PM (Mon-Sat)', 
+      answer: '📞 You can reach our team at:\n• Phone: 7978322684\n• WhatsApp: 9437007068\n• Email: sales.team.aircomfort@gmail.com\n• Working Hours: 8:00 AM - 8:00 PM (Mon-Sat)', 
       score: 0,
       category: 'Contact'
     };
