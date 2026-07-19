@@ -55,16 +55,16 @@ export function QuotationPage() {
   }, [capacityNum]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-green-50 to-blue-50 py-12 md:py-20">
+    <div className="min-h-screen bg-gradient-to-br from-brand-sand via-brand-ice to-brand-sand py-12 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* ================= HEADER ================= */}
         <div className="mb-10 md:mb-12 text-center">
-          <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-yellow-100 to-green-100 px-4 py-2 text-sm font-semibold text-green-700 border border-yellow-200">
-            <FileText className="h-4 w-4 text-yellow-600" /> Quotation Generator
+          <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-sand to-brand-ice px-4 py-2 text-sm font-semibold text-brand-blue border border-brand-orange/20">
+            <FileText className="h-4 w-4 text-brand-orange" /> Quotation Generator
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
-            <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">Get a Professional</span>
+            <span className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan bg-clip-text text-transparent">Get a Professional</span>
             <br className="sm:hidden" />
             <span className="text-gray-800"> Solar Quotation</span>
           </h1>
@@ -90,7 +90,7 @@ export function QuotationPage() {
                 <input 
                   value={form.customer_name} 
                   onChange={(e) => setForm({ ...form, customer_name: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-green-400 focus:shadow-md transition-all duration-300 hover:border-green-300" 
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-cyan focus:shadow-md transition-all duration-300 hover:border-brand-cyan/50" 
                   placeholder="Enter full name"
                   required 
                 />
@@ -102,7 +102,7 @@ export function QuotationPage() {
                 <input 
                   value={form.phone} 
                   onChange={(e) => setForm({ ...form, phone: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-blue-400 focus:shadow-md transition-all duration-300 hover:border-blue-300" 
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-blue focus:shadow-md transition-all duration-300 hover:border-brand-blue/50" 
                   placeholder="Enter phone number"
                   required 
                 />
@@ -114,7 +114,7 @@ export function QuotationPage() {
                 <input 
                   value={form.electricity_bill} 
                   onChange={(e) => setForm({ ...form, electricity_bill: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-yellow-400 focus:shadow-md transition-all duration-300 hover:border-yellow-300" 
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-orange focus:shadow-md transition-all duration-300 hover:border-brand-orange/50" 
                   placeholder="Monthly bill amount"
                   required 
                 />
@@ -126,7 +126,7 @@ export function QuotationPage() {
                 <input 
                   value={form.address} 
                   onChange={(e) => setForm({ ...form, address: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-red-400 focus:shadow-md transition-all duration-300 hover:border-red-300" 
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-red focus:shadow-md transition-all duration-300 hover:border-brand-red/50" 
                   placeholder="Enter complete address"
                   required 
                 />
@@ -134,7 +134,7 @@ export function QuotationPage() {
               
               <div className="md:col-span-2 mt-2">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-1 h-8 bg-gradient-to-b from-yellow-500 to-green-500 rounded-full" />
+                  <div className="w-1 h-8 bg-gradient-to-b from-brand-orange to-brand-cyan rounded-full" />
                   <h2 className="text-xl font-bold text-gray-800">System Configuration</h2>
                 </div>
               </div>
@@ -146,7 +146,7 @@ export function QuotationPage() {
                 <select 
                   value={form.system_capacity} 
                   onChange={(e) => setForm({ ...form, system_capacity: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-yellow-400 focus:shadow-md transition-all duration-300 hover:border-yellow-300 bg-white"
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-orange focus:shadow-md transition-all duration-300 hover:border-brand-orange/50 bg-white"
                   required
                 >
                   {capacityOptions.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -159,7 +159,7 @@ export function QuotationPage() {
                 <select 
                   value={form.panel_brand} 
                   onChange={(e) => setForm({ ...form, panel_brand: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-orange-400 focus:shadow-md transition-all duration-300 hover:border-orange-300 bg-white"
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-orange focus:shadow-md transition-all duration-300 hover:border-brand-orange/50 bg-white"
                   required
                 >
                   {panelOptions.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -172,7 +172,7 @@ export function QuotationPage() {
                 <select 
                   value={form.inverter_brand} 
                   onChange={(e) => setForm({ ...form, inverter_brand: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-purple-400 focus:shadow-md transition-all duration-300 hover:border-purple-300 bg-white"
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-blue focus:shadow-md transition-all duration-300 hover:border-brand-blue/50 bg-white"
                   required
                 >
                   {inverterOptions.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -185,7 +185,7 @@ export function QuotationPage() {
                 <select 
                   value={form.battery_requirement} 
                   onChange={(e) => setForm({ ...form, battery_requirement: e.target.value })} 
-                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-green-400 focus:shadow-md transition-all duration-300 hover:border-green-300 bg-white"
+                  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 outline-none focus:border-brand-cyan focus:shadow-md transition-all duration-300 hover:border-brand-cyan/50 bg-white"
                   required
                 >
                   {batteryOptions.map((option) => <option key={option} value={option}>{option}</option>)}
@@ -195,7 +195,7 @@ export function QuotationPage() {
             
             <button 
               type="submit" 
-              className="mt-8 w-full bg-gradient-to-r from-yellow-400 via-green-500 to-blue-500 text-white px-8 py-3.5 rounded-xl font-bold hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-3 group"
+              className="mt-8 w-full bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3.5 rounded-xl font-bold hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-3 group"
             >
               <Sparkles className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
               Generate Quotation
@@ -204,7 +204,7 @@ export function QuotationPage() {
           </form>
 
           {/* ================= QUOTATION PREVIEW ================= */}
-          <div className="rounded-3xl border-2 border-green-200 bg-gradient-to-br from-green-900 via-teal-900 to-blue-900 p-6 md:p-8 text-white shadow-2xl relative overflow-hidden">
+          <div className="rounded-3xl border-2 border-brand-cyan/20 bg-gradient-to-br from-brand-blue via-brand-cyan to-brand-orange p-6 md:p-8 text-white shadow-2xl relative overflow-hidden">
             {/* Animated background elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-500/10 rounded-full -mr-32 -mt-32 animate-pulse" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full -ml-32 -mb-32 animate-pulse delay-700" />
@@ -213,7 +213,7 @@ export function QuotationPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-yellow-400" />
-                  <span className="font-semibold text-yellow-200">Quotation Preview</span>
+                  <span className="font-semibold text-brand-sand">Quotation Preview</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
@@ -228,22 +228,22 @@ export function QuotationPage() {
                     {form.customer_name ? form.customer_name.charAt(0).toUpperCase() : 'G'}
                   </div>
                   <div>
-                    <p className="text-xs text-green-300 font-medium">Customer</p>
+                    <p className="text-xs text-brand-sand font-medium">Customer</p>
                     <h2 className="text-xl md:text-2xl font-bold">{form.customer_name || 'Guest User'}</h2>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3 mt-3 text-sm">
                   <div className="bg-white/5 rounded-lg p-2.5">
-                    <p className="text-green-300 text-xs font-medium">Phone</p>
+                    <p className="text-brand-sand text-xs font-medium">Phone</p>
                     <p className="text-white font-semibold">{form.phone || '---'}</p>
                   </div>
                   <div className="bg-white/5 rounded-lg p-2.5">
-                    <p className="text-green-300 text-xs font-medium">Bill (₹)</p>
+                    <p className="text-brand-sand text-xs font-medium">Bill (₹)</p>
                     <p className="text-white font-semibold">{form.electricity_bill || '---'}</p>
                   </div>
                   <div className="col-span-2 bg-white/5 rounded-lg p-2.5">
-                    <p className="text-green-300 text-xs font-medium">Address</p>
+                    <p className="text-brand-sand text-xs font-medium">Address</p>
                     <p className="text-white font-semibold truncate">{form.address || '---'}</p>
                   </div>
                 </div>
@@ -252,25 +252,25 @@ export function QuotationPage() {
               {/* System Specs */}
               <div className="mt-4 grid grid-cols-2 gap-2.5 text-sm">
                 <div className="bg-white/5 rounded-lg p-2.5 border border-white/5">
-                  <p className="text-green-300 text-xs font-medium">Capacity</p>
+                  <p className="text-brand-sand text-xs font-medium">Capacity</p>
                   <p className="text-white font-bold">{form.system_capacity || '---'}</p>
                 </div>
                 <div className="bg-white/5 rounded-lg p-2.5 border border-white/5">
-                  <p className="text-green-300 text-xs font-medium">Panel</p>
+                  <p className="text-brand-sand text-xs font-medium">Panel</p>
                   <p className="text-white font-bold truncate">{form.panel_brand || '---'}</p>
                 </div>
                 <div className="bg-white/5 rounded-lg p-2.5 border border-white/5">
-                  <p className="text-green-300 text-xs font-medium">Inverter</p>
+                  <p className="text-brand-sand text-xs font-medium">Inverter</p>
                   <p className="text-white font-bold truncate">{form.inverter_brand || '---'}</p>
                 </div>
                 <div className="bg-white/5 rounded-lg p-2.5 border border-white/5">
-                  <p className="text-green-300 text-xs font-medium">Battery</p>
+                  <p className="text-brand-sand text-xs font-medium">Battery</p>
                   <p className="text-white font-bold truncate">{form.battery_requirement || '---'}</p>
                 </div>
               </div>
               
               {/* Price Card */}
-              <div className="mt-5 rounded-2xl bg-gradient-to-r from-yellow-400 via-green-400 to-blue-400 p-4 text-gray-900 shadow-xl relative overflow-hidden">
+              <div className="mt-5 rounded-2xl bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan p-4 text-gray-900 shadow-xl relative overflow-hidden">
                 <div className="absolute inset-0 bg-white/20 animate-pulse" />
                 <div className="relative z-10">
                   <p className="text-sm font-medium text-gray-700">Estimated Price</p>
@@ -288,7 +288,7 @@ export function QuotationPage() {
                   <Clock className="h-5 w-5 text-yellow-400" />
                   <span className="text-sm">Est. Monthly Savings:</span>
                 </div>
-                <span className="text-lg font-bold text-yellow-300">{estimatedSavings}</span>
+                <span className="text-lg font-bold text-brand-sand">{estimatedSavings}</span>
               </div>
               
               {/* Action Buttons */}
@@ -316,7 +316,7 @@ export function QuotationPage() {
               </div>
               
               {/* Trust Badge */}
-              <div className="mt-4 flex items-center justify-center gap-4 text-xs text-green-300/70">
+              <div className="mt-4 flex items-center justify-center gap-4 text-xs text-brand-sand/80">
                 <span>✓ 25-Year Warranty</span>
                 <span>✓ Free Consultation</span>
                 <span>✓ Expert Installation</span>

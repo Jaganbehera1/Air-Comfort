@@ -58,11 +58,11 @@ export function OnlineAssistancePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-emerald-50 pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-brand-ice via-white to-brand-sand pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
           <section className="rounded-3xl bg-white shadow-xl border border-gray-100 p-8 md:p-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
+            <div className="inline-flex items-center gap-2 rounded-full bg-brand-ice px-3 py-1 text-sm font-semibold text-brand-blue">
               <Sparkles className="h-4 w-4" />
               Online Assistance
             </div>
@@ -80,7 +80,7 @@ export function OnlineAssistancePage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search for answers..."
-                  className="w-full rounded-full border border-gray-300 py-3 pl-10 pr-4 text-sm shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+                  className="w-full rounded-full border border-gray-300 py-3 pl-10 pr-4 text-sm shadow-sm focus:border-brand-cyan focus:outline-none focus:ring-2 focus:ring-brand-ice"
                 />
               </div>
               <div className="rounded-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
@@ -95,7 +95,7 @@ export function OnlineAssistancePage() {
                   onClick={() => setCategory(value)}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                     category === value
-                      ? 'bg-green-600 text-white shadow'
+                      ? 'bg-gradient-to-r from-brand-blue to-brand-cyan text-white shadow'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -105,7 +105,7 @@ export function OnlineAssistancePage() {
             </div>
           </section>
 
-          <aside className="rounded-3xl border border-green-100 bg-green-900 p-8 text-white shadow-xl">
+          <aside className="rounded-3xl border border-brand-cyan/20 bg-gradient-to-br from-brand-blue to-brand-navy p-8 text-white shadow-xl">
             <div className="flex items-center gap-2 text-green-200">
               <Headphones className="h-5 w-5" />
               <span className="font-semibold">Popular Questions</span>
@@ -123,7 +123,7 @@ export function OnlineAssistancePage() {
                   </button>
                 ))
               ) : (
-                <p className="text-sm text-green-100">No popular questions match your current filter.</p>
+                <p className="text-sm text-brand-sand">No popular questions match your current filter.</p>
               )}
             </div>
           </aside>

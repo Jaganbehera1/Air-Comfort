@@ -176,14 +176,14 @@ export function QuotationsPage() {
     printWindow.document.write(`
       <html>
         <head>
-          <title>Quotation - ${draft.customer_name || 'Green Leaf Energy'}</title>
+          <title>Quotation - ${draft.customer_name || 'Air Comfort'}</title>
           <style>${printStyles}</style>
         </head>
         <body>
           <div class="quotation-sheet">
             <div class="header">
               <div>
-                <h1>☀️ Green Leaf Energy</h1>
+                <h1>☀️ Air Comfort</h1>
                 <p class="sub">Professional Solar Quotation</p>
               </div>
               <div style="text-align: right;">
@@ -235,7 +235,7 @@ export function QuotationsPage() {
             </div>
 
             <div class="footer">
-              <span>Green Leaf Energy - Powering Tomorrow</span>
+              <span>Air Comfort - Powering Tomorrow</span>
               <span>Generated: ${new Date().toLocaleString()}</span>
             </div>
           </div>

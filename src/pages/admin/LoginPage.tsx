@@ -220,7 +220,7 @@ export function LoginPage() {
                 </span>
               </p>
               <p className="text-xs text-white/30 mt-1">
-                v2.0.1 • Green Leaf Energy Admin
+                v2.0.1 • Air Comfort Admin
               </p>
             </div>
           </div>
@@ -230,7 +230,7 @@ export function LoginPage() {
         <div className="mt-6 text-center text-white/30 text-xs">
           <span className="inline-flex items-center gap-2">
             <span className="w-8 h-px bg-white/20"></span>
-            Powered by Green Leaf Energy
+            Powered by Air Comfort
             <span className="w-8 h-px bg-white/20"></span>
           </span>
         </div>

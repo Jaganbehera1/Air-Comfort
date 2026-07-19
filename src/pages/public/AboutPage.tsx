@@ -1,5 +1,5 @@
 import { Users, Award, Target, Heart, Leaf, Sun, Shield, Zap, CheckCircle, ArrowRight } from 'lucide-react';
-import kaashvi2 from '../../images/Greenleaflogo.png';
+import kaashvi2 from '../../images/logo_air_comfort.jpg';
 import bgVideo from '../../images/background2.mp4';
 
 export function AboutPage() {
@@ -20,7 +20,7 @@ export function AboutPage() {
           aria-hidden="true"
         />
         {/* Overlay with gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-green-800/50 to-blue-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/70 via-brand-blue/50 to-brand-cyan/60" />
         
         {/* Animated floating elements */}
         <div className="absolute top-20 right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl animate-pulse" />
@@ -34,8 +34,8 @@ export function AboutPage() {
                 🌱 About Us
               </span>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
-                Green Leaf <br />
-                <span className="bg-gradient-to-r from-yellow-300 via-green-300 to-blue-300 bg-clip-text text-transparent">Energy</span>
+                Air <br />
+                <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Comfort</span>
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
                 Powering a Sustainable Future, One Home at a Time
@@ -57,14 +57,14 @@ export function AboutPage() {
       </section>
 
       {/* ================= COMPANY INTRODUCTION ================= */}
-      <section className="bg-gradient-to-br from-green-600 via-teal-600 to-blue-600 text-white py-8 md:py-12 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-brand-blue via-brand-cyan to-brand-orange text-white py-8 md:py-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mb-32" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-3">
               <Leaf className="w-6 h-6 text-yellow-300 animate-pulse" />
-              <span className="text-sm font-semibold text-yellow-200 uppercase tracking-wider">About Green Leaf Energy</span>
+              <span className="text-sm font-semibold text-yellow-200 uppercase tracking-wider">About Air Comfort</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto text-left">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300">
@@ -109,7 +109,7 @@ export function AboutPage() {
               </h2>
               <div className="space-y-4 text-gray-600 text-base md:text-lg leading-relaxed">
                 <p className="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-green-500 hover:shadow-md transition-all duration-300">
-                  Founded with a vision to transform how homes consume energy, <span className="font-semibold text-green-700">Green Leaf Energy</span> has been at the forefront of the renewable energy revolution for over a decade.
+                  Founded with a vision to transform how homes consume energy, <span className="font-semibold text-green-700">Air Comfort</span> has been at the forefront of the renewable energy revolution for over a decade.
                 </p>
                 <p className="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-yellow-500 hover:shadow-md transition-all duration-300">
                   We started with a simple belief: <span className="font-semibold text-yellow-700">every home deserves access to clean, affordable, and reliable solar energy.</span> Today, we've helped thousands of families reduce their carbon footprint while significantly lowering their energy costs.
@@ -135,11 +135,11 @@ export function AboutPage() {
             </div>
             <div className="order-1 md:order-2">
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-green-500 to-blue-500 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
                 <div className="relative h-80 sm:h-96 rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center border-4 border-white">
                   <img
                     src={kaashvi2}
-                    alt="Green Leaf Energy Logo"
+                    alt="Air Comfort Logo"
                     className="max-w-full max-h-full object-contain p-4 transform group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
@@ -253,7 +253,7 @@ export function AboutPage() {
           <div className="relative">
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-yellow-200/30 rounded-full blur-2xl" />
             <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-green-200/30 rounded-full blur-2xl" />
-            <div className="relative bg-gradient-to-br from-green-600 via-teal-600 to-blue-600 rounded-3xl p-8 sm:p-16 text-white text-center overflow-hidden shadow-2xl transform hover:scale-[1.01] transition-all duration-500">
+            <div className="relative bg-gradient-to-br from-brand-blue via-brand-cyan to-brand-orange rounded-3xl p-8 sm:p-16 text-white text-center overflow-hidden shadow-2xl transform hover:scale-[1.01] transition-all duration-500">
               <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48 animate-pulse" />
               <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full -ml-48 -mb-48 animate-pulse delay-700" />
               <div className="relative z-10">
@@ -295,7 +295,7 @@ export function AboutPage() {
               ⭐ Why Choose Us
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Why <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Green Leaf Energy</span>
+              Why <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Air Comfort</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
               We make going solar simple, affordable, and hassle-free

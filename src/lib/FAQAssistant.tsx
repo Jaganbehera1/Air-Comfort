@@ -39,7 +39,7 @@ export function FAQAssistant() {
     {
       id: 'welcome',
       type: 'assistant',
-      content: '👋 Welcome to Green Leaf Energy Assistance!\n\nI can help you with:\n• Solar installation queries\n• Maintenance & support\n• Pricing & quotations\n• Subsidy information\n• System design & products\n\nFeel free to ask me anything about solar energy!',
+      content: '👋 Welcome to Air Comfort Assistance!\n\nI can help you with:\n• Solar installation queries\n• Maintenance & support\n• Pricing & quotations\n• Subsidy information\n• System design & products\n\nFeel free to ask me anything about solar energy!',
       timestamp: new Date(),
     }
   ]);

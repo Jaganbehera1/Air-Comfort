@@ -6,7 +6,7 @@ import { AssistanceWidget } from '../../components/public/AssistanceWidget';
 import { useState } from 'react';
 
 // HERO IMAGES
-import modiImg from '../../images/modi.png';
+import modiImg from '../../images/logo_air_comfort.jpg';
 import sliderGif from '../../images/slider2.gif';
 
 // SERVICE IMAGES
@@ -30,7 +30,7 @@ import indiamart from '../../images/affiliations/Indiamart.png';
 import googleRating from '../../images/affiliations/google-rating.png';
 import iitLogo from '../../images/affiliations/iit-bhubneswar-01.jpg';
 
-import workImg from '../../images/work/Greenleaf.png';
+import workImg from '../../images/work/Air_Comfort.png';
 
 // Inverter Images
 import stringInverterImg from '../../images/inverters/string-inverter.webp';
@@ -89,7 +89,7 @@ export function HomePage() {
     <div className="bg-white">
 
       {/* ================= HERO SECTION ================= */}
-      <section className="w-full bg-gradient-to-br from-yellow-50 via-green-50 to-blue-50 py-12 md:py-20">
+      <section className="w-full bg-gradient-to-br from-brand-sand via-brand-ice to-brand-sand py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 items-center">
 
@@ -105,34 +105,34 @@ export function HomePage() {
             {/* CENTER – TEXT */}
             <div className="space-y-5 text-center md:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">Solar</span>
+                <span className="bg-gradient-to-r from-brand-orange via-brand-red to-brand-cyan bg-clip-text text-transparent">Solar</span>
                 <span className="text-gray-800"> Energy</span><br />
-                <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">for Every Home</span>
+                <span className="bg-gradient-to-r from-brand-blue to-brand-cyan bg-clip-text text-transparent">for Every Home</span>
               </h1>
 
               <ul className="text-base sm:text-lg text-gray-700 space-y-2">
                 <li className="flex items-center gap-2 justify-center md:justify-start">
-                  <span className="text-green-500 text-xl">✓</span> {t('hero_bullet_1')}
+                  <span className="text-brand-blue text-xl">✓</span> {t('hero_bullet_1')}
                 </li>
                 <li className="flex items-center gap-2 justify-center md:justify-start">
-                  <span className="text-green-500 text-xl">✓</span> {t('hero_bullet_2')}
+                  <span className="text-brand-orange text-xl">✓</span> {t('hero_bullet_2')}
                 </li>
                 <li className="flex items-center gap-2 justify-center md:justify-start">
-                  <span className="text-green-500 text-xl">✓</span> {t('hero_bullet_3')}
+                  <span className="text-brand-cyan text-xl">✓</span> {t('hero_bullet_3')}
                 </li>
               </ul>
 
               <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
                 <Link
                   to="/contact"
-                  className="bg-gradient-to-r from-yellow-400 via-green-500 to-blue-500 text-white px-8 py-3 rounded-xl font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 shadow-md flex items-center gap-2"
+                  className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 shadow-md flex items-center gap-2"
                 >
                   <span>📞</span> {t('book_consult')}
                 </Link>
 
                 <Link
                   to="/gallery"
-                  className="border-2 border-gray-300 text-gray-800 px-8 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-50 hover:to-blue-50 transition-all duration-300 flex items-center gap-2"
+                  className="border-2 border-brand-cyan/30 text-gray-800 px-8 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-brand-ice hover:to-brand-sand transition-all duration-300 flex items-center gap-2"
                 >
                   <span>🖼️</span> {t('view_projects')}
                 </Link>
@@ -141,9 +141,9 @@ export function HomePage() {
 
             {/* RIGHT – PM SURYA GHAR CARD */}
             <div className="flex justify-center md:justify-end">
-              <div className="bg-white border-2 border-yellow-200 rounded-3xl shadow-2xl p-6 w-full max-w-[380px] hover:shadow-3xl transition-all duration-300 hover:scale-105">
+              <div className="bg-white border-2 border-brand-orange/30 rounded-3xl shadow-2xl p-6 w-full max-w-[380px] hover:shadow-3xl transition-all duration-300 hover:scale-105">
 
-                <div className="bg-gradient-to-r from-yellow-400 via-orange-300 to-yellow-200 rounded-2xl p-2 text-center mb-4">
+                <div className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan rounded-2xl p-2 text-center mb-4">
                   <span className="text-sm font-bold text-gray-800 tracking-widest">🇮🇳 PM SURYA GHAR YOJANA</span>
                 </div>
 
@@ -154,7 +154,7 @@ export function HomePage() {
                 />
 
                 <div className="mt-3 text-center">
-                  <span className="inline-block bg-gradient-to-r from-green-100 to-blue-100 text-green-800 px-4 py-1 rounded-full text-sm font-bold">
+                  <span className="inline-block bg-gradient-to-r from-brand-ice to-brand-sand text-brand-blue px-4 py-1 rounded-full text-sm font-bold">
                     💰 Subsidy up to 40%
                   </span>
                 </div>
@@ -166,10 +166,10 @@ export function HomePage() {
       </section>
 
       {/* ================= RESIDENTIAL SECTION ================= */}
-      <section className="bg-gradient-to-r from-yellow-50 via-green-50 to-blue-50 py-12 sm:py-16 border-t-4 border-gradient-to-r from-yellow-400 via-green-500 to-blue-500">
+      <section className="bg-gradient-to-r from-brand-sand via-brand-ice to-brand-sand py-12 sm:py-16 border-t-4 border-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
-            <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">🏡 Residential</span>
+            <span className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan bg-clip-text text-transparent">🏡 Residential</span>
             <span className="text-gray-800"> Solar Installation</span>
           </h2>
           <p className="mt-4 text-lg sm:text-xl text-gray-700">
@@ -178,13 +178,13 @@ export function HomePage() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/contact"
-              className="bg-gradient-to-r from-yellow-400 via-green-500 to-blue-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
+              className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
             >
               <span>📅</span> Book a Free Consultation
             </Link>
             <Link
               to="/gallery"
-              className="bg-gray-100 text-gray-900 px-8 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-yellow-50 hover:to-green-50 transition-all duration-300 flex items-center gap-2"
+              className="bg-gray-100 text-gray-900 px-8 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-brand-sand hover:to-brand-ice transition-all duration-300 flex items-center gap-2"
             >
               <span>📁</span> View Our Projects
             </Link>
@@ -193,11 +193,11 @@ export function HomePage() {
       </section>
 
       {/* ================= WHAT IS SOLAR ENERGY ================= */}
-      <section className="py-16 bg-gradient-to-b from-green-50 via-blue-50 to-white">
+      <section className="py-16 bg-gradient-to-b from-brand-ice via-brand-sand to-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold">
-              <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">☀️ What is Solar Energy?</span>
+              <span className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan bg-clip-text text-transparent">☀️ What is Solar Energy?</span>
             </h2>
             <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
               Solar energy is electricity generated from sunlight. It is clean, renewable, pollution-free, and helps reduce electricity bills while offering a long-term investment.
@@ -205,15 +205,15 @@ export function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 text-lg">
-            <div className="rounded-3xl border-2 border-green-200 bg-gradient-to-br from-green-50 via-yellow-50 to-white p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="rounded-3xl border-2 border-brand-cyan/20 bg-gradient-to-br from-brand-ice via-brand-sand to-white p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="text-4xl mb-3">☀️</div>
               <p>Solar energy is electricity generated from sunlight.</p>
-              <p className="mt-4 text-green-700 font-semibold">🌿 It is clean, renewable, and pollution-free.</p>
+              <p className="mt-4 text-brand-blue font-semibold">🌿 It is clean, renewable, and pollution-free.</p>
             </div>
-            <div className="rounded-3xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 via-green-50 to-white p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="rounded-3xl border-2 border-brand-orange/20 bg-gradient-to-br from-brand-sand via-brand-ice to-white p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="text-4xl mb-3">💰</div>
               <p>It helps reduce electricity bills.</p>
-              <p className="mt-4 text-blue-700 font-semibold">📈 It is a long-term investment for your home or business.</p>
+              <p className="mt-4 text-brand-cyan font-semibold">📈 It is a long-term investment for your home or business.</p>
             </div>
           </div>
         </div>

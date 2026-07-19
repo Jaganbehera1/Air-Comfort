@@ -349,7 +349,7 @@ export function EngineerPortalPage() {
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs text-gray-400">
             <span className="flex items-center gap-1">
               <Sun className="h-3 w-3 text-yellow-500" />
-              Green Leaf Energy
+              Air Comfort
             </span>
             <span className="w-px h-3 bg-gray-200"></span>
             <span>v2.0.1</span>

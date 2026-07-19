@@ -16,7 +16,8 @@ import {
   User,
   PlusCircle,
   FileText,
-  Home
+  Home,
+  Mail
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { countPendingSiteVisits } from '../../lib/siteVisitStats';
@@ -58,6 +59,7 @@ export function AdminNavbar() {
           icon: <ClipboardCheck className="h-5 w-5" />,
           badge: pendingCount 
         },
+        { to: '/admin/contact-requests', label: 'Contact Requests', icon: <Mail className="h-5 w-5" /> },
         { to: '/admin/gallery', label: 'Gallery', icon: <Image className="h-5 w-5" /> },
         { to: '/admin/engineer-portal', label: 'Engineers', icon: <Users className="h-5 w-5" /> },
         { to: '/admin/settings', label: 'Settings', icon: <Settings className="h-5 w-5" /> },

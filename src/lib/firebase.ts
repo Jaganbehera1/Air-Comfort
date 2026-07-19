@@ -54,3 +54,14 @@ export interface ContactInfo {
   whatsapp_number: string;
   updated_at: string;
 }
+
+export interface ContactRequest {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status?: string;
+  created_at?: string;
+}

@@ -44,7 +44,7 @@ export function AssistanceWidget() {
       {
         id: 'welcome',
         role: 'assistant',
-        text: '👋 Welcome to Green Leaf Energy!\n\nI can help you with:\n• Solar installation queries\n• Maintenance & support\n• Pricing & quotations\n• Subsidy information\n• System design & products\n\nFeel free to ask me anything about solar energy!',
+        text: '👋 Welcome to Air Comfort!\n\nI can help you with:\n• Solar installation queries\n• Maintenance & support\n• Pricing & quotations\n• Subsidy information\n• System design & products\n\nFeel free to ask me anything about solar energy!',
         timestamp: new Date(),
       },
     ]);
@@ -155,16 +155,16 @@ export function AssistanceWidget() {
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center gap-2 rounded-full bg-gradient-to-r from-green-600 to-blue-600 px-5 py-3.5 text-white shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+          className="flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan px-5 py-3.5 text-white shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-105 group"
         >
           <MessageCircleMore className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
           <span className="text-sm font-semibold">Need Help?</span>
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+          <span className="absolute -top-1 -right-1 w-3 h-3 bg-brand-red rounded-full animate-pulse" />
         </button>
       ) : (
-        <div className="w-[380px] max-w-[92vw] overflow-hidden rounded-2xl border border-green-100 bg-white shadow-2xl animate-slideUp">
+        <div className="w-[380px] max-w-[92vw] overflow-hidden rounded-2xl border border-brand-ice bg-white shadow-2xl animate-slideUp">
           {/* Header */}
-          <div className="bg-gradient-to-r from-green-600 via-teal-600 to-blue-600 px-4 py-3.5 text-white">
+          <div className="bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange px-4 py-3.5 text-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="bg-white/20 p-1.5 rounded-full">
@@ -198,7 +198,7 @@ export function AssistanceWidget() {
                   <div 
                     className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                       message.role === 'user' 
-                        ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900' 
+                        ? 'bg-gradient-to-r from-brand-orange to-brand-red text-white' 
                         : 'bg-white text-gray-800 shadow-sm border border-gray-100'
                     }`}
                   >
@@ -253,7 +253,7 @@ export function AssistanceWidget() {
                     <button
                       key={faq.id}
                       onClick={() => handleQuickQuestion(faq.question)}
-                      className="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs hover:bg-green-50 hover:border-green-300 transition-all duration-300 hover:scale-105 shadow-sm"
+                      className="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs hover:bg-brand-ice hover:border-brand-cyan transition-all duration-300 hover:scale-105 shadow-sm"
                     >
                       {faq.question.length > 30 ? faq.question.slice(0, 30) + '...' : faq.question}
                     </button>
@@ -278,7 +278,7 @@ export function AssistanceWidget() {
                   disabled={!input.trim()}
                   className={`rounded-full p-2 transition-all duration-300 ${
                     input.trim()
-                      ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white hover:shadow-lg hover:scale-105'
+                      ? 'bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white hover:shadow-lg hover:scale-105'
                       : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   }`}
                 >

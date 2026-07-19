@@ -52,7 +52,7 @@ export function ServicesPage() {
           loop
           playsInline
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-green-900/50 to-blue-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/70 via-brand-blue/50 to-brand-cyan/60" />
         
         {/* Animated floating elements */}
         <div className="absolute top-20 right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl animate-pulse" />
@@ -65,7 +65,7 @@ export function ServicesPage() {
               ☀️ Our Services
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-yellow-300 via-green-300 to-blue-300 bg-clip-text text-transparent">Solar</span> Services
+              <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Solar</span> Services
             </h1>
             <p className="text-lg sm:text-xl max-w-3xl mx-auto text-white/90 leading-relaxed">
               Comprehensive solar solutions from consultation to installation and long-term maintenance.
@@ -283,13 +283,13 @@ export function ServicesPage() {
       </section>
 
       {/* ================= WHY CHOOSE US ================= */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-green-600 via-teal-600 to-blue-600 text-white relative overflow-hidden">
+      <section className="py-16 md:py-20 bg-gradient-to-br from-brand-blue via-brand-cyan to-brand-orange text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 animate-pulse" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mb-32 animate-pulse delay-700" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block px-4 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold mb-4 border border-white/30">
-              ⭐ Why Green Leaf Energy
+              ⭐ Why Air Comfort
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
               Why Choose <span className="text-yellow-300">Us</span>

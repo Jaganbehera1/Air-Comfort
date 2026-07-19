@@ -21,6 +21,7 @@ import { ReportsListPage } from './pages/admin/engineer/ReportsListPage';
 import { ReportViewPage } from './pages/admin/engineer/ReportViewPage';
 import { QuotationPage } from './pages/public/QuotationPage';
 import { QuotationsPage } from './pages/admin/QuotationsPage';
+import { ContactRequestsPage } from './pages/admin/ContactRequestsPage';
 
 function App() {
   return (
@@ -65,6 +66,14 @@ function App() {
               <Route path="site-visits" element={<SiteVisitsPage />} />
               <Route path="online-assistance" element={<AdminOnlineAssistancePage />} />
               <Route path="quotations" element={<QuotationsPage />} />
+              <Route
+                path="contact-requests"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <ContactRequestsPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="settings"
                 element={

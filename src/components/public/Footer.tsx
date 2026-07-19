@@ -45,12 +45,12 @@ export function Footer() {
 
   return (
     <>
-      <footer className="bg-gray-900 text-white py-12 pb-28 md:pb-12">
+      <footer className="bg-brand-navy text-white py-12 pb-28 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">Green Leaf Energy</h3>
+              <h3 className="text-xl font-bold mb-4">Air Comfort</h3>
               <p className="text-gray-400">
                 Leading provider of solar panel solutions for homes and businesses.
                 Powering a sustainable future.
@@ -60,11 +60,11 @@ export function Footer() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="/" className="hover:text-green-400 transition-colors">Home</a></li>
-                <li><a href="/about" className="hover:text-green-400 transition-colors">About Us</a></li>
-                <li><a href="/services" className="hover:text-green-400 transition-colors">Services</a></li>
-                <li><a href="/gallery" className="hover:text-green-400 transition-colors">Projects</a></li>
-                <li><a href="/contact" className="hover:text-green-400 transition-colors">Contact</a></li>
+                <li><a href="/" className="hover:text-brand-orange transition-colors">Home</a></li>
+                <li><a href="/about" className="hover:text-brand-orange transition-colors">About Us</a></li>
+                <li><a href="/services" className="hover:text-brand-orange transition-colors">Services</a></li>
+                <li><a href="/gallery" className="hover:text-brand-orange transition-colors">Projects</a></li>
+                <li><a href="/contact" className="hover:text-brand-orange transition-colors">Contact</a></li>
               </ul>
             </div>
 
@@ -90,7 +90,7 @@ export function Footer() {
           {/* Bottom Section - Visible on all screens */}
           <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400 space-y-2">
             <p>
-              &copy; {new Date().getFullYear()} Green Leaf Energy. All rights reserved.
+              &copy; {new Date().getFullYear()} Air Comfort. All rights reserved.
             </p>
 
             {/* Show on all screens - both mobile and desktop */}
@@ -114,7 +114,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-green-400 hover:text-green-300 font-semibold transition-colors"
                 >
-                  Mahavir Info Care
+                  XYNETRA TECHNOLOGY
                 </a>
               </p>
             </div>

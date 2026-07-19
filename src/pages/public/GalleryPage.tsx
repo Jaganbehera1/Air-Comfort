@@ -84,7 +84,7 @@ export function GalleryPage() {
           controls={false}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-green-900/50 to-blue-900/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-navy/70 via-brand-blue/50 to-brand-cyan/60" />
         
         {/* Animated floating elements */}
         <div className="absolute top-20 right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl animate-pulse" />
@@ -97,7 +97,7 @@ export function GalleryPage() {
               📸 Our Portfolio
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
-              <span className="bg-gradient-to-r from-yellow-300 via-green-300 to-blue-300 bg-clip-text text-transparent">Our</span> Projects
+              <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Our</span> Projects
             </h1>
             <p className="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
               Explore our portfolio of successful solar installations.
@@ -107,13 +107,13 @@ export function GalleryPage() {
             {/* Stats badges */}
             <div className="mt-6 flex flex-wrap gap-3 justify-center">
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm text-white border border-white/30 flex items-center gap-2">
-                <Grid className="w-4 h-4 text-yellow-300" /> {items.length} Total Projects
+                <Grid className="w-4 h-4 text-brand-orange" /> {items.length} Total Projects
               </span>
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm text-white border border-white/30 flex items-center gap-2">
-                <Image className="w-4 h-4 text-green-300" /> {imageCount} Images
+                <Image className="w-4 h-4 text-brand-cyan" /> {imageCount} Images
               </span>
               <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm text-white border border-white/30 flex items-center gap-2">
-                <Video className="w-4 h-4 text-blue-300" /> {videoCount} Videos
+                <Video className="w-4 h-4 text-brand-blue" /> {videoCount} Videos
               </span>
             </div>
           </div>
@@ -126,10 +126,10 @@ export function GalleryPage() {
       </section>
 
       {/* ================= FILTER SECTION ================= */}
-      <section className="py-12 md:py-16 bg-gradient-to-b from-gray-50 via-white to-yellow-50">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-gray-50 via-white to-brand-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-6">
-            <div className="inline-block px-4 py-1 bg-gradient-to-r from-yellow-100 to-green-100 rounded-full text-green-700 text-sm font-semibold">
+            <div className="inline-block px-4 py-1 bg-gradient-to-r from-brand-sand to-brand-ice rounded-full text-brand-blue text-sm font-semibold">
               🎯 Filter Projects
             </div>
             
@@ -138,7 +138,7 @@ export function GalleryPage() {
                 onClick={() => setFilter('all')}
                 className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                   filter === 'all'
-                    ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg scale-105'
+                    ? 'bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange text-white shadow-lg scale-105'
                     : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
                 }`}
               >
@@ -155,7 +155,7 @@ export function GalleryPage() {
                 onClick={() => setFilter('image')}
                 className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                   filter === 'image'
-                    ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg scale-105'
+                    ? 'bg-gradient-to-r from-brand-orange to-brand-red text-white shadow-lg scale-105'
                     : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
                 }`}
               >
@@ -172,7 +172,7 @@ export function GalleryPage() {
                 onClick={() => setFilter('video')}
                 className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
                   filter === 'video'
-                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg scale-105'
+                    ? 'bg-gradient-to-r from-brand-cyan to-brand-blue text-white shadow-lg scale-105'
                     : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
                 }`}
               >
@@ -195,7 +195,7 @@ export function GalleryPage() {
       </section>
 
       {/* ================= GALLERY GRID ================= */}
-      <section className="py-12 md:py-20 bg-gradient-to-b from-yellow-50 via-green-50 to-blue-50">
+      <section className="py-12 md:py-20 bg-gradient-to-b from-brand-sand via-brand-ice to-brand-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-32">

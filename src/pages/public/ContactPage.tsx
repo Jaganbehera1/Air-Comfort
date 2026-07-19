@@ -19,11 +19,21 @@ import {
 } from 'lucide-react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, ContactInfo } from '../../lib/firebase';
+import { saveContactRequest } from '../../lib/contactRequests';
 import { ChevronDown } from 'lucide-react';
 
 export function ContactPage() {
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
   const [isHovered, setIsHovered] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
 
   useEffect(() => {
     loadContactInfo();
@@ -62,6 +72,42 @@ export function ContactPage() {
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmitStatus('submitting');
+    setSubmitMessage('');
+
+    try {
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+        status: 'new',
+        created_at: new Date().toISOString(),
+      };
+
+      if (!payload.name || !payload.email || !payload.message) {
+        throw new Error('Please fill in your name, email, and message.');
+      }
+
+      await saveContactRequest(payload);
+      setSubmitStatus('success');
+      setSubmitMessage('Your enquiry has been sent successfully. We will reach out soon.');
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Error sending contact request:', error);
+      setSubmitStatus('error');
+      setSubmitMessage(error instanceof Error ? error.message : 'We could not send your enquiry. Please try again later.');
+    }
+  };
+
   // Split email into parts for better display
   const formatEmail = (email: string) => {
     if (!email) return 'Loading...';
@@ -80,7 +126,7 @@ export function ContactPage() {
       {/* ================= HERO SECTION - ATTRACTIVE & COLORFUL ================= */}
       <section className="relative overflow-hidden w-full min-h-[420px] md:min-h-[520px] flex items-center">
         {/* Animated Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 via-orange-400 to-green-500 animate-gradient-xy" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange via-brand-blue to-brand-cyan animate-gradient-xy" />
         
         {/* Additional gradient layers for depth */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
@@ -114,13 +160,13 @@ export function ContactPage() {
           <div className="text-center animate-fadeInDown">
             <div className="inline-block px-6 py-2 bg-white/20 backdrop-blur-md rounded-full text-sm font-semibold mb-6 border border-white/30 text-white shadow-lg hover:bg-white/30 transition-all duration-300">
               <span className="flex items-center gap-2">
-                <span className="text-yellow-300 text-lg">📞</span> Get in Touch
+                <span className="text-brand-sand text-lg">📞</span> Get in Touch
               </span>
             </div>
             
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
               <span className="drop-shadow-2xl">Contact</span>
-              <span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent drop-shadow-2xl"> Us</span>
+              <span className="bg-gradient-to-r from-brand-sand via-white to-brand-sand bg-clip-text text-transparent drop-shadow-2xl"> Us</span>
             </h1>
             
             <p className="text-lg sm:text-xl text-white/95 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium">
@@ -160,14 +206,14 @@ export function ContactPage() {
       </section>
 
       {/* ================= CONTACT CARDS ================= */}
-      <section className="py-12 md:py-20 bg-gradient-to-b from-white via-gray-50 to-yellow-50">
+      <section className="py-12 md:py-20 bg-gradient-to-b from-white via-brand-ice to-brand-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 md:mb-16">
-            <div className="inline-block px-4 py-1 bg-gradient-to-r from-yellow-100 to-green-100 rounded-full text-green-700 text-sm font-semibold mb-4">
+            <div className="inline-block px-4 py-1 bg-gradient-to-r from-brand-sand to-brand-ice rounded-full text-brand-blue text-sm font-semibold mb-4">
               📱 Connect With Us
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
-              <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">Choose</span> Your Channel
+              <span className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan bg-clip-text text-transparent">Choose</span> Your Channel
             </h2>
             <p className="text-gray-600 mt-3 text-lg">
               Reach out to us through your preferred method
@@ -258,9 +304,9 @@ export function ContactPage() {
           {/* ================= CONTACT INFO & WHY CHOOSE US ================= */}
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Contact Information */}
-            <div className="bg-gradient-to-br from-white to-gray-50 p-8 md:p-10 rounded-3xl shadow-xl border-2 border-gray-200 hover:border-yellow-300 transition-all duration-300">
+            <div className="bg-gradient-to-br from-white to-brand-ice p-8 md:p-10 rounded-3xl shadow-xl border-2 border-gray-200 hover:border-brand-orange transition-all duration-300">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-1 h-8 bg-gradient-to-b from-yellow-500 to-green-500 rounded-full" />
+                <div className="w-1 h-8 bg-gradient-to-b from-brand-orange to-brand-cyan rounded-full" />
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Contact Information</h3>
               </div>
 
@@ -309,7 +355,7 @@ export function ContactPage() {
             </div>
 
             {/* Why Choose Us */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-600 via-teal-600 to-blue-600 p-8 md:p-10 text-white shadow-2xl">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-blue via-brand-cyan to-brand-orange p-8 md:p-10 text-white shadow-2xl">
               <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-500/10 rounded-full -mr-32 -mt-32 animate-pulse" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full -ml-32 -mb-32 animate-pulse delay-700" />
               
@@ -343,6 +389,107 @@ export function ContactPage() {
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CUSTOMER INQUIRY FORM ================= */}
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl rounded-[2rem] border border-gray-200 bg-gradient-to-br from-white via-brand-ice to-white p-8 shadow-2xl md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand-sand/30 px-3 py-1 text-sm font-semibold text-brand-blue">
+                <Mail className="h-4 w-4" />
+                Send us a message
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Tell us about your project</h2>
+              <p className="mt-4 text-lg leading-8 text-gray-600">
+                Share your details and our team will get back to you with the right guidance for your solar needs.
+              </p>
+              <div className="mt-6 space-y-3 text-sm text-gray-700">
+                <div className="rounded-2xl bg-blue-50 p-4">We typically respond within one business day.</div>
+                <div className="rounded-2xl bg-green-50 p-4">Your request is stored securely for the admin team to review.</div>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4 rounded-[1.5rem] border border-gray-200 bg-white p-6 shadow-lg">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-gray-700">Full name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-gray-700">Email address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+                    placeholder="you@example.com"
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-gray-700">Phone</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+                    placeholder="Phone number"
+                  />
+                </div>
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-gray-700">Subject</label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+                    placeholder="How can we help?"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-gray-700">Message</label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  rows={5}
+                  className="w-full rounded-2xl border border-gray-300 px-4 py-3 outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+                  placeholder="Please describe your requirement..."
+                />
+              </div>
+
+              {submitMessage ? (
+                <div className={`rounded-2xl px-4 py-3 text-sm ${submitStatus === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                  {submitMessage}
+                </div>
+              ) : null}
+
+              <button
+                type="submit"
+                disabled={submitStatus === 'submitting'}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-blue px-6 py-3 font-semibold text-white transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                <Send className="h-5 w-5" />
+                {submitStatus === 'submitting' ? 'Sending...' : 'Send enquiry'}
+              </button>
+            </form>
           </div>
         </div>
       </section>

@@ -522,7 +522,7 @@ const sampleFaqs: FAQItem[] = [
   {
     id: 'faq_48',
     question: 'What is your address?',
-    answer: '📍 Visit us at:\n\nGreen Leaf Energy\nSahajpur, Pipili\nPuri, Odisha\nIndia\n\n📞 Phone: 8260660327\n✉️ Email: info@greenleafenergy.com\n\n🕐 Visiting Hours:\n• Monday-Saturday: 8:00 AM - 8:00 PM\n• Sunday: 8:00 AM - 2:00 PM\n\nWe recommend calling before visiting!',
+    answer: '📍 Visit us at:\n\nAir Comfort\nSahajpur, Pipili\nPuri, Odisha\nIndia\n\n📞 Phone: 8260660327\n✉️ Email: info@greenleafenergy.com\n\n🕐 Visiting Hours:\n• Monday-Saturday: 8:00 AM - 8:00 PM\n• Sunday: 8:00 AM - 2:00 PM\n\nWe recommend calling before visiting!',
     category: 'Contact',
     popular: false,
     keywords: ['address', 'location', 'visit', 'office', 'Odisha', 'Pipili', 'Puri', 'Sahajpur'],
