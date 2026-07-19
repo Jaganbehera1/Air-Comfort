@@ -94,12 +94,26 @@ export function HomePage() {
           <div className="grid md:grid-cols-3 gap-8 items-center">
 
             {/* LEFT – MODI IMAGE */}
-            <div className="flex justify-center md:justify-start">
-              <img
-                src={modiImg}
-                alt="PM Surya Ghar Yojana"
-                className="max-h-[220px] md:max-h-[280px] object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
-              />
+
+            <div className="flex justify-center md:justify-end">
+              <div className="bg-white border-2 border-brand-orange/30 rounded-3xl shadow-2xl p-6 w-full max-w-[380px] hover:shadow-3xl transition-all duration-300 hover:scale-105">
+
+                <div className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan rounded-2xl p-2 text-center mb-4">
+                  <span className="text-sm font-bold text-gray-800 tracking-widest">🇮🇳 PM SURYA GHAR YOJANA</span>
+                </div>
+
+                <img
+                  src={sliderGif}
+                  alt="PM Surya Ghar Solar Scheme"
+                  className="w-full h-auto max-h-[280px] object-contain mx-auto rounded-xl"
+                />
+
+                <div className="mt-3 text-center">
+                  <span className="inline-block bg-gradient-to-r from-brand-ice to-brand-sand text-brand-blue px-4 py-1 rounded-full text-sm font-bold">
+                    💰 Subsidy up to 40%
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* CENTER – TEXT */}
@@ -140,25 +154,12 @@ export function HomePage() {
             </div>
 
             {/* RIGHT – PM SURYA GHAR CARD */}
-            <div className="flex justify-center md:justify-end">
-              <div className="bg-white border-2 border-brand-orange/30 rounded-3xl shadow-2xl p-6 w-full max-w-[380px] hover:shadow-3xl transition-all duration-300 hover:scale-105">
-
-                <div className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan rounded-2xl p-2 text-center mb-4">
-                  <span className="text-sm font-bold text-gray-800 tracking-widest">🇮🇳 PM SURYA GHAR YOJANA</span>
-                </div>
-
-                <img
-                  src={sliderGif}
-                  alt="PM Surya Ghar Solar Scheme"
-                  className="w-full h-auto max-h-[280px] object-contain mx-auto rounded-xl"
-                />
-
-                <div className="mt-3 text-center">
-                  <span className="inline-block bg-gradient-to-r from-brand-ice to-brand-sand text-brand-blue px-4 py-1 rounded-full text-sm font-bold">
-                    💰 Subsidy up to 40%
-                  </span>
-                </div>
-              </div>
+            <div className="flex justify-center md:justify-start">
+              <img
+                src={modiImg}
+                alt="PM Surya Ghar Yojana"
+                className="max-h-[220px] md:max-h-[280px] object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
+              />
             </div>
 
           </div>
