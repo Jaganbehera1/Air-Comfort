@@ -71,25 +71,25 @@ export function AboutPage() {
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-yellow-300 flex-shrink-0 mt-1" />
-                  <p className="text-sm md:text-base leading-relaxed">ପିପିଲି, ପୁରୀ ଓ ଓଡିଶାର ବିଶ୍ୱସନୀୟ ସୋଲାର ପ୍ରଦାନକାରୀ</p>
+                  <p className="text-sm md:text-base leading-relaxed">Your Trusted Solar Partner in Bhubaneswar, and Across Odisha.</p>
                 </div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-yellow-300 flex-shrink-0 mt-1" />
-                  <p className="text-sm md:text-base leading-relaxed">ଘର ଓ ବ୍ୟବସାୟ ପାଇଁ ଶୁଭ ସୋଲାର ସମାଧାନ</p>
+                  <p className="text-sm md:text-base leading-relaxed">Smart Solar Solutions for Homes and Businesses.</p>
                 </div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-yellow-300 flex-shrink-0 mt-1" />
-                  <p className="text-sm md:text-base leading-relaxed">ବିଦ୍ୟୁତ୍ ବିଲ୍ କମେଇବାରେ ସହାୟକ</p>
+                  <p className="text-sm md:text-base leading-relaxed">Helps Reduce Electricity Bills.</p>
                 </div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-yellow-300 flex-shrink-0 mt-1" />
-                  <p className="text-sm md:text-base leading-relaxed">ପ୍ରବୀଣ ସ୍ଥାପନା ଓ ସହାୟତା • ପରିବେଶ-ମେଳା ଦୀର୍ଘ ସେବା</p>
+                  <p className="text-sm md:text-base leading-relaxed">Professional Installation and Support • Long-term Service</p>
                 </div>
               </div>
             </div>
