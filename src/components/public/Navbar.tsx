@@ -69,7 +69,7 @@ export function Navbar() {
             ))}
             
             {/* Language Toggle Button */}
-            <button
+            {/* <button
               onClick={toggleLanguage}
               className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 ml-2"
               aria-label="Toggle language"
@@ -78,7 +78,7 @@ export function Navbar() {
               <span className="text-sm font-medium">
                 {lang === 'od' ? t('language_short_en') || 'EN' : t('language_short_od') || 'OD'}
               </span>
-            </button>
+            </button> */}
           </div>
 
           {/* Mobile language toggle + Menu button */}
@@ -90,7 +90,7 @@ export function Navbar() {
               aria-label="Toggle language"
             >
               <Globe className="w-3.5 h-3.5" />
-              <span>{lang === 'od' ? t('language_short_en') || 'EN' : t('language_short_od') || 'OD'}</span>
+              {/* <span>{lang === 'od' ? t('language_short_en') || 'EN' : t('language_short_od') || 'OD'}</span> */}
             </button>
             
             {/* Hamburger menu button */}

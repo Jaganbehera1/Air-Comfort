@@ -170,7 +170,7 @@ export function HomePage() {
       <section className="bg-gradient-to-r from-brand-sand via-brand-ice to-brand-sand py-12 sm:py-16 border-t-4 border-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
-            <span className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan bg-clip-text text-transparent">🏡 Residential</span>
+            <span className="bg-gradient-to-r from-brand-blue via-brand-blue to-brand-cyan bg-clip-text text-transparent">🏡 Residential</span>
             <span className="text-gray-800"> Solar Installation</span>
           </h2>
           <p className="mt-4 text-lg sm:text-xl text-gray-700">
