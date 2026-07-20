@@ -171,7 +171,7 @@ export function HomePage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold flex items-center gap-3">
             <span className="text-5xl">🏡</span>
-            <span className="bg-gradient-to-r from-brand-white via-brand-blue to-brand-cyan bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-green via-brand-blue to-brand-cyan bg-clip-text text-transparent">
               Residential
             </span>
             <span className="text-gray-800">Solar Installation</span>
