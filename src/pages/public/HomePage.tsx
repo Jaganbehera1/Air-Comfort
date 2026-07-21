@@ -201,7 +201,7 @@ export function HomePage() {
               to="/contact#enquiry-form"
               className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
             >
-              <span>📁</span> Apply Now
+              <span>📋</span> Apply Now
             </Link>
           </div>
         </div>
