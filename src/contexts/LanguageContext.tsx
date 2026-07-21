@@ -543,15 +543,15 @@ const LanguageContext = createContext<{
   lang: Lang;
   setLang: (l: Lang) => void;
   t: (key: string) => string;
-}>({ lang: 'od', setLang: () => {}, t: (k) => k });
+}>({ lang: 'en', setLang: () => {}, t: (k) => k });
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLang] = useState<Lang>(() => {
     try {
       const stored = localStorage.getItem('kse_lang');
-      return (stored as Lang) || 'od';
+      return (stored as Lang) || 'en';
     } catch {
-      return 'od';
+      return 'en';
     }
   });
 

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import KSELogo from '../../images/logo_air_comfort.jpg';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { t, lang, setLang } = useLanguage();
+  const { t } = useLanguage();
 
   const links = [
     { to: '/', label: t('nav_home') },
@@ -19,10 +19,6 @@ export function Navbar() {
   ];
 
   const isActive = (path: string) => location.pathname === path;
-
-  const toggleLanguage = () => {
-    setLang(lang === 'od' ? 'en' : 'od');
-  };
 
   return (
     <nav className="bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange shadow-lg fixed top-0 left-0 w-full z-50 border-b-4 border-brand-red">
@@ -42,8 +38,8 @@ export function Navbar() {
               </div>
               <div>
                 <span className="text-sm md:text-2xl font-extrabold text-white tracking-wide drop-shadow-md">
-                  <span className="text-white">Air</span>
-                  <span className="text-brand-sand"> Comfort</span>
+                  <span className="text-white">AIR</span>
+                  <span className="text-brand-sand"> COMFORT</span>
                 </span>
                 <p className="text-[8px] md:text-[10px] text-brand-ice leading-none hidden sm:block">
                   {t('nav_powering_tomorrow') || 'Powering Tomorrow'}
@@ -67,33 +63,10 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            
-            {/* Language Toggle Button */}
-            {/* <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 ml-2"
-              aria-label="Toggle language"
-            >
-              <Globe className="w-4 h-4" />
-              <span className="text-sm font-medium">
-                {lang === 'od' ? t('language_short_en') || 'EN' : t('language_short_od') || 'OD'}
-              </span>
-            </button> */}
           </div>
 
-          {/* Mobile language toggle + Menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            {/* Language toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-medium border border-white/20 transition-all duration-300"
-              aria-label="Toggle language"
-            >
-              <Globe className="w-3.5 h-3.5" />
-              {/* <span>{lang === 'od' ? t('language_short_en') || 'EN' : t('language_short_od') || 'OD'}</span> */}
-            </button>
-            
-            {/* Hamburger menu button */}
+          {/* Hamburger menu button - mobile only */}
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white focus:outline-none p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
@@ -128,22 +101,6 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            
-            {/* Mobile Language Toggle (Full width) */}
-            <button
-              onClick={() => {
-                toggleLanguage();
-                setIsOpen(false);
-              }}
-              className="w-full flex items-center justify-center gap-2 mt-3 px-4 py-3 rounded-lg bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white font-bold hover:shadow-xl transition-all duration-300"
-            >
-              <Globe className="w-4 h-4" />
-              <span>
-                {lang === 'od' 
-                  ? t('language_en') || 'Switch to English' 
-                  : t('language_od') || 'ଓଡ଼ିଆକୁ ବଦଳାନ୍ତୁ'}
-              </span>
-            </button>
           </div>
         </div>
       )}

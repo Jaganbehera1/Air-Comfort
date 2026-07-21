@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import { db, GalleryItem } from '../lib/firebase';
 import { GalleryCard } from './GalleryCard';
-import { X } from 'lucide-react';
+import { X, Building2, Sparkles } from 'lucide-react';
 
 // Helper to extract YouTube video ID
 function extractYoutubeId(url: string): string | null {
@@ -29,10 +30,22 @@ function extractYoutubeId(url: string): string | null {
   return null;
 }
 
+function resolveCompany(item: GalleryItem) {
+  return item.company || 'air-comfort';
+}
+
+function matchesCompany(item: GalleryItem, selectedCompany: 'all' | 'air-comfort' | 'sc-mohanty') {
+  if (selectedCompany === 'all') return true;
+  const company = resolveCompany(item);
+  if (company === 'both') return true;
+  return company === selectedCompany;
+}
+
 export function ProjectsSection({ limit }: { limit?: number }) {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [activePlayingId, setActivePlayingId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [selectedCompany, setSelectedCompany] = useState<'all' | 'air-comfort' | 'sc-mohanty'>('all');
 
   useEffect(() => {
     load();
@@ -51,36 +64,105 @@ export function ProjectsSection({ limit }: { limit?: number }) {
 
   if (!items || items.length === 0) return null;
 
+  const filteredItems = items.filter((item) => matchesCompany(item, selectedCompany));
+  const companySections = [
+    {
+      id: 'air-comfort' as const,
+      title: 'Air Comfort Projects',
+      subtitle: 'Premium rooftop and energy solutions by Air Comfort',
+      accent: 'from-orange-500 to-amber-500',
+      badge: 'Air Comfort',
+    },
+    {
+      id: 'sc-mohanty' as const,
+      title: 'S.C. Mohanty Projects',
+      subtitle: 'Trusted installations and service work by S.C. Mohanty',
+      accent: 'from-blue-600 to-cyan-500',
+      badge: 'S.C. Mohanty',
+    },
+  ];
+
+  const sectionsToRender = selectedCompany === 'all'
+    ? companySections.filter((company) => filteredItems.some((item) => resolveCompany(item) === company.id || resolveCompany(item) === 'both'))
+    : companySections.filter((company) => company.id === selectedCompany);
+
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900">Our Projects</h2>
-          <p className="text-gray-600 mt-3">A selection of recent installations and works</p>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm border border-gray-200 text-sm font-semibold text-gray-700">
+            <Sparkles className="h-4 w-4 text-green-600" />
+            Our Portfolio
+          </div>
+          <h2 className="mt-4 text-4xl font-bold text-gray-900">Our Projects</h2>
+          <p className="mt-3 text-lg text-gray-600">A curated collection of work delivered by both companies</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item) => (
-            <GalleryCard
-              key={item.id}
-              item={item}
-              activePlayingId={activePlayingId}
-              onPlayRequest={(id) => setActivePlayingId(id)}
-              onClick={() => {
-                setActivePlayingId(null);
-                setSelectedItem(item);
-              }}
-            />
+        <div className="mb-10 flex flex-wrap justify-center gap-3">
+          {[
+            { id: 'all', label: 'All Projects' },
+            { id: 'air-comfort', label: 'Air Comfort' },
+            { id: 'sc-mohanty', label: 'S.C. Mohanty' },
+          ].map((filter) => (
+            <button
+              key={filter.id}
+              onClick={() => setSelectedCompany(filter.id as 'all' | 'air-comfort' | 'sc-mohanty')}
+              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${selectedCompany === filter.id ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg' : 'bg-white text-gray-700 border border-gray-200 hover:border-green-400 hover:text-green-700'}`}
+            >
+              {filter.label}
+            </button>
           ))}
         </div>
 
+        {sectionsToRender.map((company) => {
+          const itemsForCompany = filteredItems.filter((item) => {
+            const resolved = resolveCompany(item);
+            return resolved === company.id || resolved === 'both';
+          });
+
+          if (itemsForCompany.length === 0) return null;
+
+          return (
+            <div key={company.id} className="mb-10 rounded-[2rem] border border-gray-200 bg-white/90 p-6 shadow-sm sm:p-8">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <div className={`inline-flex items-center gap-2 rounded-full bg-gradient-to-r ${company.accent} px-3 py-1 text-sm font-semibold text-white`}>
+                    <Building2 className="h-4 w-4" />
+                    {company.badge}
+                  </div>
+                  <h3 className="mt-3 text-2xl font-bold text-gray-900">{company.title}</h3>
+                  <p className="mt-1 text-gray-600">{company.subtitle}</p>
+                </div>
+                <div className="rounded-2xl bg-gray-50 px-4 py-3 text-sm font-medium text-gray-600">
+                  {itemsForCompany.length} project{itemsForCompany.length === 1 ? '' : 's'}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {itemsForCompany.map((item) => (
+                  <GalleryCard
+                    key={item.id}
+                    item={item}
+                    activePlayingId={activePlayingId}
+                    onPlayRequest={(id) => setActivePlayingId(id)}
+                    onClick={() => {
+                      setActivePlayingId(null);
+                      setSelectedItem(item);
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
         <div className="mt-8 text-center">
-          <button
-            onClick={() => setSelectedItem(null)}
-            className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
+          <Link
+            to="/gallery"
+            className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
           >
             View All Projects
-          </button>
+          </Link>
         </div>
       </div>
 

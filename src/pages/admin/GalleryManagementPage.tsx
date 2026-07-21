@@ -75,6 +75,7 @@ export function GalleryManagementPage() {
   const [url, setUrl] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [type, setType] = useState<'image' | 'video'>('image');
+  const [company, setCompany] = useState<'air-comfort' | 'sc-mohanty' | 'both'>('air-comfort');
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'video'>('all');
@@ -144,6 +145,7 @@ export function GalleryManagementPage() {
         url: downloadUrl,
         title: title.trim(),
         description: description.trim(),
+        company,
         admin_id: user.uid,
         order_index: items.length,
         created_at: new Date().toISOString(),
@@ -154,6 +156,7 @@ export function GalleryManagementPage() {
       setFile(null);
       setTitle('');
       setDescription('');
+      setCompany('air-comfort');
       setShowUploadForm(false);
       await loadGallery();
     } catch (error) {
@@ -356,6 +359,21 @@ export function GalleryManagementPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Company
+                </label>
+                <select
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value as 'air-comfort' | 'sc-mohanty' | 'both')}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 outline-none bg-gray-50/50"
+                >
+                  <option value="air-comfort">Air Comfort</option>
+                  <option value="sc-mohanty">S.C. Mohanty</option>
+                  <option value="both">Both Companies</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Description
                 </label>
                 <textarea
@@ -545,6 +563,9 @@ export function GalleryManagementPage() {
                     <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
                       <Calendar className="h-3 w-3" />
                       <span>{new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <div className="mt-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold text-gray-700">
+                      {item.company === 'sc-mohanty' ? 'S.C. Mohanty' : item.company === 'both' ? 'Both Companies' : 'Air Comfort'}
                     </div>
                     <div className="flex items-center gap-2 mt-3">
                       <a

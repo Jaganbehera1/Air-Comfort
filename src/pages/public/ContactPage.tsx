@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   MapPin, 
   Clock, 
@@ -23,6 +24,7 @@ import { saveContactRequest } from '../../lib/contactRequests';
 import { ChevronDown } from 'lucide-react';
 
 export function ContactPage() {
+  const location = useLocation();
   const [contactInfo, setContactInfo] = useState<ContactInfo | null>(null);
   const [isHovered, setIsHovered] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -38,6 +40,17 @@ export function ContactPage() {
   useEffect(() => {
     loadContactInfo();
   }, []);
+
+  useEffect(() => {
+    if (location.hash === '#enquiry-form') {
+      const formSection = document.getElementById('enquiry-form');
+      if (formSection) {
+        setTimeout(() => {
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }
+    }
+  }, [location.hash]);
 
   const loadContactInfo = async () => {
     try {
@@ -394,7 +407,7 @@ export function ContactPage() {
       </section>
 
       {/* ================= CUSTOMER INQUIRY FORM ================= */}
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section id="enquiry-form" className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-gray-200 bg-gradient-to-br from-white via-brand-ice to-white p-8 shadow-2xl md:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
@@ -487,7 +500,7 @@ export function ContactPage() {
                 className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-blue px-6 py-3 font-semibold text-white transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Send className="h-5 w-5" />
-                {submitStatus === 'submitting' ? 'Sending...' : 'Send enquiry'}
+                {submitStatus === 'submitting' ? 'Sending...' : 'Send'}
               </button>
             </form>
           </div>

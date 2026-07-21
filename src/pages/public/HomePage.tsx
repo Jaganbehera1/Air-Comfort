@@ -6,7 +6,7 @@ import { AssistanceWidget } from '../../components/public/AssistanceWidget';
 import { useState } from 'react';
 
 // HERO IMAGES
-import modiImg from '../../images/logo_air_comfort.jpg';
+import modiImg from '../../images/scm.png';
 import sliderGif from '../../images/slider2.gif';
 
 // SERVICE IMAGES
@@ -94,7 +94,7 @@ export function HomePage() {
           <div className="grid md:grid-cols-3 gap-8 items-center">
 
             {/* LEFT – MODI IMAGE */}
-
+    
             <div className="flex justify-center md:justify-end">
               <div className="bg-white border-2 border-brand-orange/30 rounded-3xl shadow-2xl p-6 w-full max-w-[380px] hover:shadow-3xl transition-all duration-300 hover:scale-105">
 
@@ -138,7 +138,7 @@ export function HomePage() {
 
               <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
                 <Link
-                  to="/contact"
+                  to="/contact#enquiry-form"
                   className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 shadow-md flex items-center gap-2"
                 >
                   <span>📞</span> {t('book_consult')}
@@ -169,19 +169,24 @@ export function HomePage() {
       {/* ================= RESIDENTIAL SECTION ================= */}
       <section className="bg-gradient-to-r from-brand-sand via-brand-ice to-brand-sand py-12 sm:py-16 border-t-4 border-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold flex items-center gap-3">
-            <span className="text-5xl">🏡</span>
-            <span className="bg-gradient-to-r from-brand-green via-brand-blue to-brand-cyan bg-clip-text text-transparent">
-              Residential
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-2">
+              <span className="text-4xl sm:text-5xl">🏡</span>
+              <span className="bg-gradient-to-r from-brand-green via-brand-blue to-brand-cyan bg-clip-text text-transparent">
+                Residential
+              </span>
+            </div>
+
+            <span className="text-gray-800">
+              Solar Installation
             </span>
-            <span className="text-gray-800">Solar Installation</span>
           </h2>
           <p className="mt-4 text-lg sm:text-xl text-gray-700">
             High-efficiency panels and professional installation tailored to your home.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <Link
-              to="/contact"
+              to="/contact#enquiry-form"
               className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
             >
               <span>📅</span> Book a Free Consultation
@@ -196,7 +201,36 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ================= WHAT IS SOLAR ENERGY ================= */}
+      {/* ================= REQUIRED DOCUMENTS ================= */}
+      <section className="py-16 bg-gradient-to-b from-yellow-50 via-green-50 to-blue-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold">
+              <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">📋 Required Documents</span>
+            </h2>
+            <p className="mt-4 text-gray-600">
+              Keep these documents ready when you book your solar site visit.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { name: 'Aadhaar Card', icon: '🪪' },
+              { name: 'PAN Card', icon: '💳' },
+              { name: 'Electricity Bill', icon: '📄' },
+              { name: 'Bank Passbook', icon: '📕' },
+              { name: 'Mobile Number', icon: '📱' },
+            ].map((item) => (
+              <div key={item.name} className="rounded-3xl border-2 border-green-200 bg-gradient-to-br from-white to-green-50 p-6 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-yellow-400 flex items-center gap-4">
+                <div className="text-3xl">{item.icon}</div>
+                <span className="text-gray-700 font-semibold text-lg">{item.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= WHAT IS SOLAR ENERGY =================
       <section className="py-16 bg-gradient-to-b from-brand-ice via-brand-sand to-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -221,7 +255,7 @@ export function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ================= WHY CHOOSE SOLAR ================= */}
       <section className="py-16 bg-gradient-to-br from-yellow-50 via-green-50 to-blue-50">
@@ -573,35 +607,6 @@ export function HomePage() {
                 <div className="text-3xl mb-3">{item.icon}</div>
                 <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
                 <p className="mt-3 text-gray-600">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= REQUIRED DOCUMENTS ================= */}
-      <section className="py-16 bg-gradient-to-b from-yellow-50 via-green-50 to-blue-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold">
-              <span className="bg-gradient-to-r from-yellow-500 via-green-500 to-blue-500 bg-clip-text text-transparent">📋 Required Documents</span>
-            </h2>
-            <p className="mt-4 text-gray-600">
-              Keep these documents ready when you book your solar site visit.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { name: 'Aadhaar Card', icon: '🪪' },
-              { name: 'PAN Card', icon: '💳' },
-              { name: 'Electricity Bill', icon: '📄' },
-              { name: 'Bank Passbook', icon: '📕' },
-              { name: 'Mobile Number', icon: '📱' },
-            ].map((item) => (
-              <div key={item.name} className="rounded-3xl border-2 border-green-200 bg-gradient-to-br from-white to-green-50 p-6 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-yellow-400 flex items-center gap-4">
-                <div className="text-3xl">{item.icon}</div>
-                <span className="text-gray-700 font-semibold text-lg">{item.name}</span>
               </div>
             ))}
           </div>
