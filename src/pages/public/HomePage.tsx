@@ -146,7 +146,7 @@ export function HomePage() {
 
                 <Link
                   to="/gallery"
-                  className="border-2 border-brand-cyan/30 text-gray-800 px-8 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-brand-ice hover:to-brand-sand transition-all duration-300 flex items-center gap-2"
+                  className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
                 >
                   <span>🖼️</span> {t('view_projects')}
                 </Link>
@@ -193,9 +193,15 @@ export function HomePage() {
             </Link>
             <Link
               to="/gallery"
-              className="bg-gray-100 text-gray-900 px-8 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-brand-sand hover:to-brand-ice transition-all duration-300 flex items-center gap-2"
+              className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
             >
               <span>📁</span> View Our Projects
+            </Link>
+            <Link
+              to="/contact#enquiry-form"
+              className="bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
+            >
+              <span>📁</span> Apply Now
             </Link>
           </div>
         </div>
