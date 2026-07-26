@@ -7,26 +7,10 @@ import {
   Plus, 
   X, 
   Search,
-  Filter,
   Grid,
   List,
-  Eye,
-  Edit,
-  Check,
-  AlertCircle,
   Calendar,
-  User,
-  Link as LinkIcon,
   File,
-  Download,
-  Share2,
-  Star,
-  Heart,
-  MessageSquare,
-  MoreVertical,
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
   RefreshCw
 } from 'lucide-react';
 import {
@@ -37,10 +21,9 @@ import {
   getDocs,
   deleteDoc,
   doc,
-  updateDoc,
 } from 'firebase/firestore';
 import { db, GalleryItem } from '../../lib/firebase';
-import { supabase, GALLERY_BUCKET } from '../../lib/supabase';
+import { uploadMediaToCloudinary } from '../../lib/cloudinary';
 import { useAuth } from '../../contexts/AuthContext';
 
 // Helper function to detect if URL is a YouTube link
@@ -80,14 +63,18 @@ export function GalleryManagementPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'video'>('all');
   const [showUploadForm, setShowUploadForm] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
-  const [showPreview, setShowPreview] = useState(false);
-  const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
     loadGallery();
   }, []);
+
+  const handleUrlChange = (value: string) => {
+    setUrl(value);
+    if (value.trim()) {
+      setFile(null);
+    }
+  };
 
   const loadGallery = async () => {
     setLoading(true);
@@ -118,22 +105,7 @@ export function GalleryManagementPage() {
       let downloadUrl = url.trim();
 
       if (file) {
-        const fileExt = file.name.split('.').pop();
-        const filename = `${user.uid}/${Date.now()}.${fileExt}`;
-        
-        const { error: uploadError } = await supabase.storage
-          .from(GALLERY_BUCKET)
-          .upload(filename, file, { upsert: false });
-
-        if (uploadError) {
-          throw new Error(`Upload failed: ${uploadError.message}`);
-        }
-
-        const { data: publicData } = supabase.storage
-          .from(GALLERY_BUCKET)
-          .getPublicUrl(filename);
-
-        downloadUrl = publicData.publicUrl;
+        downloadUrl = await uploadMediaToCloudinary(file, type);
       }
 
       if (!downloadUrl) {

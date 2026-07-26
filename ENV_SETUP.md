@@ -23,6 +23,16 @@ VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 ```
 
+### Step 3: Add your Cloudinary media upload settings
+
+```env
+VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
+VITE_CLOUDINARY_FOLDER=aircomfort/gallery
+```
+
+You can create an unsigned upload preset in your Cloudinary dashboard and use it here.
+
 You can find these values in your Firebase Console:
 1. Go to [Firebase Console](https://console.firebase.google.com/)
 2. Select your project
@@ -30,7 +40,7 @@ You can find these values in your Firebase Console:
 4. Scroll down to "Your apps" section
 5. Click on your web app to see the Firebase config
 
-### Step 3: Never commit `.env.local`
+### Step 4: Never commit `.env.local`
 
 The `.env.local` file is automatically ignored by git (see `.gitignore`). 
 
@@ -41,7 +51,7 @@ The `.env.local` file is automatically ignored by git (see `.gitignore`).
 Other developers should:
 1. Clone the repository
 2. Copy `.env.example` to `.env.local`
-3. Fill in their own Firebase credentials (or use shared credentials from team lead)
+3. Fill in their own Firebase credentials and Cloudinary settings (or use shared credentials from team lead)
 4. Start the development server
 
 ## Development Server

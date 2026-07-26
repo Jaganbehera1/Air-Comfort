@@ -35,8 +35,7 @@ export function AboutPage() {
               </span>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
                 <br />
-                Air <br />
-                <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Comfort</span>
+                <span className="bg-gradient-to-r from-brand-orange via-brand-green to-brand-red bg-clip-text text-transparent">Air Comfort</span>
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
                 Powering a Sustainable Future, One Home at a Time

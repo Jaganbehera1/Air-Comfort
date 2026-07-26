@@ -27,6 +27,15 @@ import {
   HardDrive
 } from 'lucide-react';
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function renderStatusBadge(status: SiteVisitReport['status']) {
   const base = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300';
   switch (status) {
@@ -97,8 +106,11 @@ export function SiteVisitsPage() {
       }
     } catch (error) {
       console.error('❌ Error loading site visits:', error);
-      setToast({ message: 'Failed to load site visits', type: 'error' });
-      setTimeout(() => setToast(null), 3000);
+      setItems([]);
+      setFilteredItems([]);
+      setDataSource('📝 Using local fallback data');
+      setToast({ message: 'Using local fallback data while Firestore rules are being updated.', type: 'error' });
+      setTimeout(() => setToast(null), 5000);
     } finally {
       setLoading(false);
     }
@@ -118,6 +130,68 @@ export function SiteVisitsPage() {
       filtered = filtered.filter(item => item.status === filterStatus);
     }
     setFilteredItems(filtered);
+  };
+
+  const handleExportReport = (report: SiteVisitReport) => {
+    const printWindow = window.open('', '_blank', 'width=900,height=800');
+    if (!printWindow) {
+      setToast({ message: 'Popup blocked. Please allow popups to export reports.', type: 'error' });
+      setTimeout(() => setToast(null), 4000);
+      return;
+    }
+
+    const rows = [
+      ['Customer Name', report.customer_name || 'N/A'],
+      ['Phone Number', report.phone_number || 'N/A'],
+      ['Address', report.address || 'N/A'],
+      ['GPS Location', report.gps_location || 'N/A'],
+      ['Installation Type', report.installation_type || 'N/A'],
+      ['Roof Type', report.roof_type || 'N/A'],
+      ['Roof Material', report.roof_material || 'N/A'],
+      ['Shadow Analysis', report.shadow_analysis || 'N/A'],
+      ['Electricity Bill', report.electricity_bill || 'N/A'],
+      ['Recommended Capacity', report.recommended_capacity || 'N/A'],
+      ['Inverter Recommendation', report.inverter_recommendation || 'N/A'],
+      ['Panel Recommendation', report.panel_recommendation || 'N/A'],
+      ['Remarks', report.remarks || 'No remarks provided'],
+      ['Status', report.status || 'draft'],
+      ['Admin Comment', report.admin_comment || 'N/A'],
+      ['Attachments', (report.attachments || []).map((item) => item.name).join(', ') || 'No attachments'],
+    ];
+
+    const content = rows
+      .map(([label, value]) => {
+        const safeValue = escapeHtml(String(value)).replace(/\n/g, '<br/>');
+        return `<div class="row"><div class="label">${escapeHtml(String(label))}</div><div class="value">${safeValue}</div></div>`;
+      })
+      .join('');
+
+    printWindow.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          <title>Site Visit Report - ${escapeHtml(report.customer_name || 'Untitled Report')}</title>
+          <style>
+            body { font-family: Arial, sans-serif; color: #111827; padding: 24px; }
+            .header { border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px; }
+            .title { font-size: 24px; font-weight: 700; margin: 0; }
+            .meta { color: #6b7280; font-size: 13px; margin-top: 6px; }
+            .row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+            .label { min-width: 180px; font-weight: 700; color: #374151; }
+            .value { flex: 1; white-space: pre-wrap; }
+            @media print { body { padding: 0; } .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 class="title">Site Visit Report</h1>
+            <div class="meta">Customer: ${escapeHtml(report.customer_name || 'N/A')} • Status: ${escapeHtml(report.status || 'draft')} • Updated: ${escapeHtml(new Date(report.updated_at || report.created_at).toLocaleString())}</div>
+          </div>
+          ${content}
+          <script>window.onload = () => window.print();</script>
+        </body>
+      </html>`);
+    printWindow.document.close();
+    printWindow.focus();
   };
 
   const handleDelete = async (id: string) => {
@@ -400,6 +474,14 @@ export function SiteVisitsPage() {
                       <Eye className="h-4 w-4" />
                       View
                     </Link>
+
+                    <button
+                      onClick={() => handleExportReport(r)}
+                      className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-50 to-violet-50 text-purple-700 font-medium hover:from-purple-100 hover:to-violet-100 transition-all duration-300 text-sm"
+                    >
+                      <FileText className="h-4 w-4" />
+                      Print / PDF
+                    </button>
 
                     {r.status === 'submitted' && (
                       <>

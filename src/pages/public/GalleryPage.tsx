@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
-import { X, Image, Video, Grid, Filter, Sparkles, ChevronDown } from 'lucide-react';
+import { X, Image, Video, Grid, Sparkles, ChevronDown } from 'lucide-react';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import { db, GalleryItem } from '../../lib/firebase';
 import { GalleryCard } from '../../components/GalleryCard';
 import bgVideo from '../../images/background4.mp4';
+function resolveCompany(item: GalleryItem) {
+  return item.company || 'air-comfort';
+}
 
+function matchesCompany(item: GalleryItem, selectedCompany: 'all' | 'air-comfort' | 'sc-mohanty') {
+  if (selectedCompany === 'all') return true;
+  const company = resolveCompany(item);
+  if (company === 'both') return true;
+  return company === selectedCompany;
+}
 // Helper function to extract YouTube video ID
 function extractYoutubeId(url: string): string | null {
   try {
@@ -33,6 +42,7 @@ function extractYoutubeId(url: string): string | null {
 export function GalleryPage() {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [filter, setFilter] = useState<'all' | 'image' | 'video'>('all');
+  const [selectedCompany, setSelectedCompany] = useState<'all' | 'air-comfort' | 'sc-mohanty'>('all');
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [activePlayingId, setActivePlayingId] = useState<string | null>(null);
@@ -60,13 +70,14 @@ export function GalleryPage() {
     setLoading(false);
   };
 
-  const filteredItems = items.filter(item =>
+  const companyFilteredItems = items.filter((item) => matchesCompany(item, selectedCompany));
+  const filteredItems = companyFilteredItems.filter((item) =>
     filter === 'all' ? true : item.type === filter
   );
 
-  // Count items by type
-  const imageCount = items.filter(item => item.type === 'image').length;
-  const videoCount = items.filter(item => item.type === 'video').length;
+  // Count items by type for the selected company filter
+  const imageCount = companyFilteredItems.filter(item => item.type === 'image').length;
+  const videoCount = companyFilteredItems.filter(item => item.type === 'video').length;
 
   return (
     <div className="bg-white min-h-screen pb-24">
@@ -97,7 +108,7 @@ export function GalleryPage() {
               📸 Our Portfolio
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
-              <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Our</span> Projects
+              <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-red bg-clip-text text-transparent">Our Projects</span> 
             </h1>
             <p className="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
               Explore our portfolio of successful solar installations.
@@ -133,62 +144,84 @@ export function GalleryPage() {
               🎯 Filter Projects
             </div>
             
-            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-              <button
-                onClick={() => setFilter('all')}
-                className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
-                  filter === 'all'
-                    ? 'bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
-                }`}
-              >
-                <Grid className={`w-4 h-4 ${filter === 'all' ? 'text-white' : 'text-gray-500'}`} />
-                All Projects
-                <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
-                  filter === 'all' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
-                }`}>
-                  {items.length}
-                </span>
-              </button>
-              
-              <button
-                onClick={() => setFilter('image')}
-                className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
-                  filter === 'image'
-                    ? 'bg-gradient-to-r from-brand-orange to-brand-red text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
-                }`}
-              >
-                <Image className={`w-4 h-4 ${filter === 'image' ? 'text-white' : 'text-gray-500'}`} />
-                Images
-                <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
-                  filter === 'image' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
-                }`}>
-                  {imageCount}
-                </span>
-              </button>
-              
-              <button
-                onClick={() => setFilter('video')}
-                className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
-                  filter === 'video'
-                    ? 'bg-gradient-to-r from-brand-cyan to-brand-blue text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
-                }`}
-              >
-                <Video className={`w-4 h-4 ${filter === 'video' ? 'text-white' : 'text-gray-500'}`} />
-                Videos
-                <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
-                  filter === 'video' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
-                }`}>
-                  {videoCount}
-                </span>
-              </button>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                {[
+                  { id: 'all', label: 'All Companies' },
+                  { id: 'air-comfort', label: 'Air Comfort' },
+                  { id: 'sc-mohanty', label: 'S.C. Mohanty' },
+                ].map((company) => (
+                  <button
+                    key={company.id}
+                    onClick={() => setSelectedCompany(company.id as 'all' | 'air-comfort' | 'sc-mohanty')}
+                    className={`group px-5 md:px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${
+                      selectedCompany === company.id
+                        ? 'bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange text-white shadow-lg scale-105'
+                        : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
+                    }`}
+                  >
+                    {company.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                <button
+                  onClick={() => setFilter('all')}
+                  className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                    filter === 'all'
+                      ? 'bg-gradient-to-r from-brand-blue via-brand-cyan to-brand-orange text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
+                  }`}
+                >
+                  <Grid className={`w-4 h-4 ${filter === 'all' ? 'text-white' : 'text-gray-500'}`} />
+                  All Projects
+                  <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
+                    filter === 'all' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    {companyFilteredItems.length}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setFilter('image')}
+                  className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                    filter === 'image'
+                      ? 'bg-gradient-to-r from-brand-orange to-brand-red text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
+                  }`}
+                >
+                  <Image className={`w-4 h-4 ${filter === 'image' ? 'text-white' : 'text-gray-500'}`} />
+                  Images
+                  <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
+                    filter === 'image' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    {imageCount}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setFilter('video')}
+                  className={`group px-6 md:px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-2 ${
+                    filter === 'video'
+                      ? 'bg-gradient-to-r from-brand-cyan to-brand-blue text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow-md border-2 border-gray-200'
+                  }`}
+                >
+                  <Video className={`w-4 h-4 ${filter === 'video' ? 'text-white' : 'text-gray-500'}`} />
+                  Videos
+                  <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
+                    filter === 'video' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    {videoCount}
+                  </span>
+                </button>
+              </div>
             </div>
-            
+
             {/* Active filter indicator */}
             <div className="text-sm text-gray-500">
-              Showing {filteredItems.length} {filter === 'all' ? 'projects' : filter === 'image' ? 'images' : 'videos'}
+              Showing {filteredItems.length} {filter === 'all' ? 'projects' : filter === 'image' ? 'images' : 'videos'} for {selectedCompany === 'all' ? 'all companies' : selectedCompany === 'air-comfort' ? 'Air Comfort' : 'S.C. Mohanty'}
             </div>
           </div>
         </div>

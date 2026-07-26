@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 import { GalleryItem } from '../lib/firebase';
 
@@ -40,13 +40,35 @@ function extractYoutubeId(url: string): string | null {
 export function GalleryCard({ item, onClick, activePlayingId, onPlayRequest }: GalleryCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [suppressClick, setSuppressClick] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const youtubeId = item.type === 'video' ? extractYoutubeId(item.url) : null;
   const isYoutube = !!youtubeId;
 
   const isPlaying = activePlayingId === item.id;
-  // Show autoplay on hover (desktop) or when this card is the active playing id
+  // Show autoplay on hover/focus for YouTube preview and local video preview
   const shouldShowYoutube = (isHovered || isPlaying) && isYoutube;
+  const showPlayOverlay = item.type === 'video'
+    ? isYoutube
+      ? !shouldShowYoutube
+      : !(isHovered || isPlaying)
+    : false;
+
+  useEffect(() => {
+    if (item.type !== 'video' || isYoutube) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isHovered || isPlaying) {
+      video.muted = true;
+      video.play().catch(() => {
+        // Ignore autoplay failures; click will still open the modal
+      });
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [isHovered, isPlaying, isYoutube, item.type]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     // Start touch-play. Suppress the immediate click that follows a touch
@@ -92,7 +114,7 @@ export function GalleryCard({ item, onClick, activePlayingId, onPlayRequest }: G
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           />
         ) : (
-          // Default video placeholder or non-YouTube video
+          // Default video placeholder or non-YouTube videos
           <>
             {isYoutube ? (
               // YouTube thumbnail placeholder
@@ -102,17 +124,22 @@ export function GalleryCard({ item, onClick, activePlayingId, onPlayRequest }: G
                 className="w-full h-full object-cover"
               />
             ) : (
-              // Fallback for non-YouTube videos
+              // Local or direct video preview
               <video
+                ref={videoRef}
                 src={item.url}
+                muted
                 className="w-full h-full object-cover"
+                playsInline
               />
             )}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/50 transition-colors">
-              <div className="bg-white bg-opacity-95 rounded-full p-6 group-hover:bg-opacity-100 group-hover:scale-110 transition-all duration-300">
-                <Play className="h-12 w-12 text-green-600" />
+            {showPlayOverlay && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/50 transition-colors">
+                <div className="bg-white bg-opacity-95 rounded-full p-6 group-hover:bg-opacity-100 group-hover:scale-110 transition-all duration-300">
+                  <Play className="h-12 w-12 text-green-600" />
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-300" />

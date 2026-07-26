@@ -14,6 +14,8 @@ export function Navbar() {
     { to: '/about', label: t('nav_about') },
     { to: '/services', label: t('nav_services') },
     { to: '/gallery', label: t('nav_projects') },
+    { to: '/scm', label: 'SCM' },
+    { to: '/learning', label: t('Learning') || 'Learn' },
     { to: '/quotation', label: t('nav_quotation') || 'Quotation' },
     { to: '/contact', label: t('nav_contact') },
   ];

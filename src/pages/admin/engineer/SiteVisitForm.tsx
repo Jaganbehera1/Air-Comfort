@@ -3,6 +3,8 @@ import { SiteVisitReport, getReport, createDraft, saveReport } from '../../../li
 import { saveSiteVisit } from '../../../lib/siteVisits';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../../../lib/firebase';
 import {
   ArrowLeft,
   User,
@@ -117,13 +119,26 @@ export function SiteVisitForm() {
     e.preventDefault();
     setIsSubmitting(true);
     
+    const engineerId = user?.uid ?? report.engineer_id ?? null;
     const updated: SiteVisitReport = {
       ...report,
       status: 'submitted',
       updated_at: new Date().toISOString(),
-      engineer_id: user?.uid ?? report.engineer_id,
+      engineer_id: engineerId,
     };
     saveReport(updated);
+
+    if (user) {
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          role: 'engineer',
+          email: user.email ?? '',
+          updated_at: new Date().toISOString(),
+        }, { merge: true });
+      } catch (roleError) {
+        console.warn('Unable to ensure engineer role document:', roleError);
+      }
+    }
     
     try {
       const res = await saveSiteVisit(updated);
