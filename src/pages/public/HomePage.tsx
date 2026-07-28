@@ -1,17 +1,93 @@
 import { Link } from 'react-router-dom';
+import { Zap } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ProjectsSection } from '../../components/ProjectsSection';
+import { AssistanceWidget } from '../../components/public/AssistanceWidget';
 import { SEO } from '../../components/SEO';
 import { buildBaseSchema } from '../../lib/seo';
+import { useState } from 'react';
 
 // HERO IMAGES
 import modiImg from '../../images/scm.png';
 import sliderGif from '../../images/slider2.gif';
 import modiImg1 from '../../images/modi.png';
+
+// SERVICE IMAGES
+import annualMaintenance from '../../images/services/AMS_ihsufv.jpg';
+import solarUpgradation from '../../images/services/Solar-Upgradation_zqb2mk.jpg';
+import panelCleaning from '../../images/services/Solar-Panel-Cleaning_psz0u9.jpg';
+import batteryMaintenance from '../../images/services/Battery-Maintenance_o9537u.jpg';
+import inverterUpgrade from '../../images/services/Inverter-Upgrade_yoycho.jpg';
+import installation from '../../images/services/Installation-solar_yly1qv.jpg';
+import irrigation from '../../images/services/Solar-Irrigation-Pumping_zxg3pu.jpg';
+import streetLight from '../../images/services/led-street-light-_m6bnnu.png';
+
+// AFFILIATION IMAGES
+import tpcodl from '../../images/affiliations/tpcodl.png';
+import tpwodl from '../../images/affiliations/TPWODL.jpg';
+import tpsodl from '../../images/affiliations/TPSODL-Logo-Eng.jpg';
+import tpnodl from '../../images/affiliations/tpnodl.jpg';
+import nsic from '../../images/affiliations/nsic-registration-services-550-x-366.jpg';
+import msme from '../../images/affiliations/MSME-Certificate-Service.jpg';
+import indiamart from '../../images/affiliations/Indiamart.png';
+import googleRating from '../../images/affiliations/google-rating.png';
+import iitLogo from '../../images/affiliations/iit-bhubneswar-01.jpg';
+
+import workImg from '../../images/work/Air_Comfort.png';
+
+// Inverter Images
+import stringInverterImg from '../../images/inverters/string-inverter.webp';
+import microInverterImg from '../../images/inverters/micro-inverter.jpg';
+import hybridInverterImg from '../../images/inverters/hybrid-inverter.jpg';
+import centralInverterImg from '../../images/inverters/central-inverter.webp';
+
+// Solar Panel Images
+import monocrystallineImg from '../../images/panels/monocrystalline.png';
+import polycrystallineImg from '../../images/panels/polycrystalline.webp';
+import thinFilmImg from '../../images/panels/thin-film.webp';
+import bifacialImg from '../../images/panels/bifacial.webp';
+
+// Rooftop System Images
+import onGridRooftopImg from '../../images/rooftop/on-grid.avif';
+import offGridRooftopImg from '../../images/rooftop/off-grid.gif';
+import hybridRooftopImg from '../../images/rooftop/hybrid.jpg';
 import bgVideo from '../../images/background3.mp4';
+
+// ICON MAP for better visuals
+const ICONS = {
+  'Save Electricity Bills': '💰',
+  'Eco Friendly': '🌱',
+  'Renewable Energy': '♻️',
+  'Low Maintenance': '🔋',
+  'Suitable for Homes & Businesses': '🏠',
+  'Increases Property Value': '📈',
+};
 
 export function HomePage() {
   const { t } = useLanguage();
+
+  // Calculator state
+  const [annualConsumption, setAnnualConsumption] = useState<number>(6000);
+  const [monthlyBill, setMonthlyBill] = useState<number>(2000);
+  const [location, setLocation] = useState<string>('Mumbai');
+  const [roofType, setRoofType] = useState<string>('Concrete Roof');
+  const [showResults, setShowResults] = useState<boolean>(false);
+
+  // Calculate estimates using the specified method
+  const calculateEstimate = () => {
+    setShowResults(true);
+  };
+
+  // Derived calculations using the specified method
+  const dailyUsage = annualConsumption / 12 / 30;
+  const systemSize = Math.ceil((dailyUsage / 4) * 10) / 10;
+  const recommendedSize = Math.ceil(systemSize);
+  
+  const baseCost = recommendedSize * 35000;
+  const costRange = `${(recommendedSize * 32000).toLocaleString()} - ${(recommendedSize * 38000).toLocaleString()}`;
+  const subsidy = recommendedSize * 15000;
+  const monthlySaving = Math.round((monthlyBill / 3000) * 70) + 20;
+  const paybackYears = Math.max(Math.round((baseCost - subsidy) / (monthlyBill * 12 * (monthlySaving / 100))), 2);
 
   return (
     <div className="bg-white">
