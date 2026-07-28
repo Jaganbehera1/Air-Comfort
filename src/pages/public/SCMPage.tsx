@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Building2, Sparkles, Hammer, Zap, Cog, AirVent, ClipboardCheck, ShieldCheck, ChevronRight } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 import scmImg from '../../images/scm.png';
-import workBuildingImg from '../../images/work/work1.jpeg';
+import workBuildingImg from '../../images/building.jpg';
 import powerSolutionImg from '../../images/services/Power-Solution_efs26w.jpg';
-import workMechanicalImg from '../../images/work/work2.jpeg';
-import workHVACImg from '../../images/work/work3.jpeg';
-import turnkeyProjectImg from '../../images/work/work5.jpeg';
-import installation from '../../images/adani.png';
-import batteryMaintenance from '../../images/consul.jpeg';
-import inverterUpgrade from '../../images/CRI.png';
+import workMechanicalImg from '../../images/mechanical.jpg';
+import workHVACImg from '../../images/hvac.jpg';
+import turnkeyProjectImg from '../../images/turnkey.png';
+import installation from '../../images/installation.jpg';
+import batteryMaintenance from '../../images/hvac.jpg';
+import inverterUpgrade from '../../images/inverterUpgrade.jpg';
 
 const services = [
   {
@@ -53,6 +54,7 @@ const partners = [
 export function SCMPage() {
   return (
     <div className="bg-white text-slate-900">
+      <SEO title="S.C. Mohanty Group Projects" description="Discover S.C. Mohanty Group engineering and turnkey project services for civil, electrical, mechanical, and HVAC work." keywords="scm group, turnkey projects odisha, civil electrical mechanical services" canonical="/scm" />
       <section className="relative overflow-hidden bg-red-700 text-white pt-20 pb-24">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-red-900 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -162,7 +164,7 @@ export function SCMPage() {
                 </div>
               </div>
               <div className="rounded-[32px] overflow-hidden border border-red-100 shadow-lg">
-                <img src={scmImg} alt="Turnkey projects" className="h-56 w-full object-cover" />
+                <img src={turnkeyProjectImg} alt="Turnkey projects" className="h-56 w-full object-cover" />
                 <div className="p-5 bg-white">
                   <h3 className="text-lg font-semibold text-slate-900">Turnkey Projects</h3>
                   <p className="mt-3 text-sm text-slate-600">From concept to completion, all services under one trusted umbrella.</p>

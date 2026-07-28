@@ -3,6 +3,7 @@ import { X, Image, Video, Grid, Sparkles, ChevronDown } from 'lucide-react';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import { db, GalleryItem } from '../../lib/firebase';
 import { GalleryCard } from '../../components/GalleryCard';
+import { SEO } from '../../components/SEO';
 import bgVideo from '../../images/background4.mp4';
 function resolveCompany(item: GalleryItem) {
   return item.company || 'air-comfort';
@@ -81,6 +82,7 @@ export function GalleryPage() {
 
   return (
     <div className="bg-white min-h-screen pb-24">
+      <SEO title="Our Solar Projects and Gallery" description="Browse Air Comfort Solar projects, completed installations, and portfolio work for homes and businesses across Odisha." keywords="solar projects odisha, solar gallery odisha, rooftop solar portfolio" canonical="/gallery" />
 
       {/* ================= HERO SECTION ================= */}
       <section className="relative overflow-hidden w-full min-h-[340px] sm:min-h-[400px] md:min-h-[480px] lg:min-h-[550px] flex items-center">

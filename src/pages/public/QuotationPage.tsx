@@ -18,6 +18,7 @@ import {
   Clock
 } from 'lucide-react';
 import { createQuotationDraft, saveQuotation } from '../../lib/quotations';
+import { SEO } from '../../components/SEO';
 
 const capacityOptions = ['2 kW', '3 kW', '5 kW', '7 kW', '10 kW'];
 const panelOptions = ['Tata Power Solar', 'Waaree', 'Adani Solar', 'Luminous', 'Vikram Solar', 'Jinko Solar'];
@@ -56,6 +57,7 @@ export function QuotationPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-brand-sand via-brand-ice to-brand-sand py-12 md:py-20">
+      <SEO title="Solar Quotation Generator" description="Generate a customized rooftop solar quotation for homes and businesses across Odisha with Air Comfort Solar." keywords="solar quotation odisha, rooftop solar quote, solar price estimate" canonical="/quotation" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* ================= HEADER ================= */}

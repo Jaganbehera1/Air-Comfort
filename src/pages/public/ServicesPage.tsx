@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 
 import bgVideo from '../../images/background3.mp4';
+import { SEO } from '../../components/SEO';
 
 // Service images
 import annualMaintenance from '../../images/services/AMS_ihsufv.jpg';
@@ -41,6 +42,7 @@ const serviceIcons = {
 export function ServicesPage() {
   return (
     <div className="bg-white">
+      <SEO title="Solar Services in Odisha" description="Explore residential, commercial, industrial, and maintenance solar services available from Air Comfort Solar across Odisha." keywords="solar services odisha, rooftop solar services, solar installation odisha" canonical="/services" />
 
       {/* ================= HERO SECTION ================= */}
       <section className="relative w-full min-h-[420px] flex items-center overflow-hidden">

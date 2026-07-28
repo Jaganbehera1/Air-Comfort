@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://aircomforts.netlify.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aircomforts.netlify.app/about</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://aircomforts.netlify.app/gallery</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/contact</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/quotation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aircomforts.netlify.app/learning</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aircomforts.netlify.app/scm</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/residential-solar-installation</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/commercial-solar-installation</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/industrial-solar</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/on-grid-solar</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/off-grid-solar</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/hybrid-solar</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/solar-maintenance</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/solar-amc</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/services/pm-surya-ghar</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/bhubaneswar</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/cuttack</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/puri</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/khordha</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/nayagarh</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/balasore</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/sambalpur</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/berhampur</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/rourkela</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/jajpur</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/kendrapara</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/jagatsinghpur</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/angul</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/dhenkanal</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/koraput</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/rayagada</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/nabarangpur</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/kalahandi</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify app/locations/bargarh</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://aircomforts.netlify.app/locations/jharsuguda</loc><changefreq>monthly</changefreq><priority>0.85</priority></json></url>
+</urlset>

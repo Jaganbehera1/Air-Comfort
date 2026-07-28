@@ -1,10 +1,12 @@
 import { Users, Award, Target, Heart, Leaf, Sun, Shield, Zap, CheckCircle, ArrowRight } from 'lucide-react';
 import kaashvi2 from '../../images/logo_air_comfort.jpg';
 import bgVideo from '../../images/background2.mp4';
+import { SEO } from '../../components/SEO';
 
 export function AboutPage() {
   return (
     <div className="bg-white">
+      <SEO title="About Air Comfort Solar" description="Learn about Air Comfort Solar, our mission, and our trusted rooftop solar services across Odisha." keywords="about air comfort solar, solar company odisha, rooftop solar company" canonical="/about" />
 
       {/* ================= HERO SECTION WITH VIDEO ================= */}
       <section className="relative overflow-hidden w-full min-h-[350px] sm:min-h-[420px] md:min-h-[500px] lg:min-h-[600px]">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 // Inverter Images
 import stringInverterImg from '../../images/inverters/string-inverter.webp';
@@ -23,6 +24,7 @@ export function LearningPage() {
 
   return (
     <div className="bg-white min-h-screen">
+      <SEO title="Solar Learning Center" description="Learn about solar panels, inverters, rooftop systems, and solar subsidies for Odisha homeowners and businesses." keywords="solar learning center odisha, solar panel guide, rooftop solar education" canonical="/learning" />
       {/* ================= HERO SECTION ================= */}
       <section className="relative overflow-hidden bg-gradient-to-br from-yellow-500 via-green-600 to-blue-700 py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">

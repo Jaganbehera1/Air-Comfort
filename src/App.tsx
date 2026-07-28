@@ -24,6 +24,11 @@ import { SCMPage } from './pages/public/SCMPage';
 import { QuotationsPage } from './pages/admin/QuotationsPage';
 import { ContactRequestsPage } from './pages/admin/ContactRequestsPage';
 import { LearningPage } from './pages/public/LearningPage';
+import { ServicePageTemplate } from './pages/public/ServicePageTemplate';
+import { LocationPageTemplate } from './pages/public/LocationPageTemplate';
+import { BlogPage } from './pages/public/BlogPage';
+import { BlogPostPage } from './pages/public/BlogPostPage';
+import { NotFoundPage } from './pages/public/NotFoundPage';
 
 function App() {
   return (
@@ -36,10 +41,14 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/services" element={<ServicesPage />} />
+              <Route path="/services/:slug" element={<ServicePageTemplate />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/quotation" element={<QuotationPage />} />
               <Route path="/learning" element={<LearningPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <Route path="/locations/:slug" element={<LocationPageTemplate />} />
               <Route path="/scm" element={<SCMPage />} />
             </Route>
 
@@ -89,7 +98,7 @@ function App() {
             </Route>
 
             {/* Catch all route */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </LanguageProvider>

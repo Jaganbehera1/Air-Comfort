@@ -22,6 +22,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db, ContactInfo } from '../../lib/firebase';
 import { saveContactRequest } from '../../lib/contactRequests';
 import { ChevronDown } from 'lucide-react';
+import { SEO } from '../../components/SEO';
+import { buildContactPageSchema } from '../../lib/seo';
 
 export function ContactPage() {
   const location = useLocation();
@@ -135,6 +137,8 @@ export function ContactPage() {
 
   return (
     <div className="bg-white min-h-screen pb-24">
+      <SEO title="Contact Air Comfort Solar" description="Book a free solar consultation, site visit, or quotation request with Air Comfort Solar in Odisha." keywords="contact solar company odisha, solar enquiry odisha, rooftop solar consultation" canonical="/contact" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildContactPageSchema()) }} />
 
       {/* ================= HERO SECTION - ATTRACTIVE & COLORFUL ================= */}
       <section className="relative overflow-hidden w-full min-h-[420px] md:min-h-[520px] flex items-center">
