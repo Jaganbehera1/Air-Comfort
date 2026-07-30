@@ -335,10 +335,11 @@ export function ContactPage() {
                   <div>
                     <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Our Location</h4>
                     <p className="text-gray-800 font-medium mt-1">
-                      Sahajpur, Pipili<br />
-                      Puri, Odisha <br />
-                      India,<br />
-                      GSTIN - 21BIYPP3700K1Z0
+                      House No. LB - 38<br />
+                      Brit Colony <br />
+                      Bhubaneswar, India,<br />
+                      751018 <br />
+                      GSTIN - 21ARWPM8355K2Z2
                     </p>
                   </div>
                 </div>

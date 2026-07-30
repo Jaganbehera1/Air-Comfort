@@ -35,6 +35,10 @@
   <url><loc>https://aircomforts.netlify.app/locations/rayagada</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://aircomforts.netlify.app/locations/nabarangpur</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://aircomforts.netlify.app/locations/kalahandi</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://aircomforts.netlify app/locations/bargarh</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://aircomforts.netlify.app/locations/jharsuguda</loc><changefreq>monthly</changefreq><priority>0.85</priority></json></url>
+  <url><loc>https://aircomforts.netlify.app/locations/bargarh</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url>
+  <loc>https://aircomforts.netlify.app/locations/jharsuguda</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
 </urlset>
