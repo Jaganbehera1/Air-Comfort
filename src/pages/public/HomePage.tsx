@@ -207,25 +207,25 @@ export function HomePage() {
             </div>
         
             {/* Subsidy Banner - Enhanced */}
-            <div className="mt-8 flex justify-center flex-shrink-0">
-              <div className="relative overflow-hidden flex items-center rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 px-10 py-8 border-2 border-yellow-300 shadow-2xl shadow-yellow-500/50 animate-pulse hover:scale-105 transition-all duration-300 w-full max-w-3xl">
+            <div className="mt-8 flex justify-center flex-shrink-0 px-4 sm:px-0">
+              <div className="relative overflow-hidden flex flex-col sm:flex-row items-center rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 px-6 sm:px-10 py-6 sm:py-8 border-2 border-yellow-300 shadow-2xl shadow-yellow-500/50 animate-pulse hover:scale-105 transition-all duration-300 w-full max-w-3xl">
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shine_2.5s_linear_infinite]" />
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-red-400/20 blur-xl"></div>
-
+              
                 <div className="relative z-10 flex-shrink-0">
                   <div className="absolute inset-0 rounded-full bg-yellow-400/50 blur-md animate-pulse"></div>
                   <img
                     src={modiImg1}
                     alt="PM Modi"
-                    className="relative w-28 h-28 rounded-full object-cover border-4 border-white bg-white shadow-2xl"
+                    className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white bg-white shadow-2xl"
                   />
                 </div>
-
-                <div className="relative z-10 ml-8 flex-1">
-                  <p className="text-white text-xl font-bold uppercase tracking-wider drop-shadow-lg">
+              
+                <div className="relative z-10 ml-0 sm:ml-8 mt-4 sm:mt-0 flex-1 text-center sm:text-left">
+                  <p className="text-white text-base sm:text-xl font-bold uppercase tracking-wider drop-shadow-lg">
                     💰 Subsidy up to
                   </p>
-                  <div className="mt-3 inline-block bg-white text-red-600 px-10 py-3 rounded-full text-4xl font-extrabold shadow-xl hover:scale-110 transition-transform duration-300">
+                  <div className="mt-2 sm:mt-3 inline-block bg-white text-red-600 px-6 sm:px-10 py-2 sm:py-3 rounded-full text-2xl sm:text-4xl font-extrabold shadow-xl hover:scale-110 transition-transform duration-300">
                     ₹1,38,000
                   </div>
                 </div>
