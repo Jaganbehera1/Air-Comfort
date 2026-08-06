@@ -67,7 +67,7 @@ export function ServicesPage() {
               ☀️ Our Services
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Solar</span> Services
+              <span className="bg-gradient-to-r from-brand-orange via-brand-cyan to-brand-blue bg-clip-text text-transparent">Solar Services</span> 
             </h1>
             <p className="text-lg sm:text-xl max-w-3xl mx-auto text-white/90 leading-relaxed">
               Comprehensive solar solutions from consultation to installation and long-term maintenance.

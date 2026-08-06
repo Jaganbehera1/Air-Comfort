@@ -1,5 +1,5 @@
 import { Users, Award, Target, Heart, Leaf, Sun, Shield, Zap, CheckCircle, ArrowRight } from 'lucide-react';
-import kaashvi2 from '../../images/logo_air_comfort.jpg';
+import kaashvi2 from '../../images/logo_air_comfort.png';
 import bgVideo from '../../images/background2.mp4';
 import { SEO } from '../../components/SEO';
 
@@ -138,7 +138,7 @@ export function AboutPage() {
             <div className="order-1 md:order-2">
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-brand-orange via-brand-blue to-brand-cyan rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-                <div className="relative h-80 sm:h-96 rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center border-4 border-white">
+                <div className="relative h-100 sm:h-110 rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center border-4 border-white">
                   <img
                     src={kaashvi2}
                     alt="Air Comfort Logo"

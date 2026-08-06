@@ -6,6 +6,7 @@ import { AssistanceWidget } from '../../components/public/AssistanceWidget';
 import { SEO } from '../../components/SEO';
 import { buildBaseSchema } from '../../lib/seo';
 import { useState } from 'react';
+import { SolarCostCalculator } from './SolarCostCalculator';
 
 // HERO IMAGES
 import modiImg from '../../images/scm.png';
@@ -35,22 +36,10 @@ import iitLogo from '../../images/affiliations/iit-bhubneswar-01.jpg';
 
 import workImg from '../../images/work/Air_Comfort.png';
 
-// Inverter Images
-import stringInverterImg from '../../images/inverters/string-inverter.webp';
-import microInverterImg from '../../images/inverters/micro-inverter.jpg';
-import hybridInverterImg from '../../images/inverters/hybrid-inverter.jpg';
-import centralInverterImg from '../../images/inverters/central-inverter.webp';
-
-// Solar Panel Images
-import monocrystallineImg from '../../images/panels/monocrystalline.png';
-import polycrystallineImg from '../../images/panels/polycrystalline.webp';
-import thinFilmImg from '../../images/panels/thin-film.webp';
-import bifacialImg from '../../images/panels/bifacial.webp';
-
 // Rooftop System Images
-import onGridRooftopImg from '../../images/rooftop/on-grid.avif';
+import onGridRooftopImg from '../../images/On-Grid.gif';
 import offGridRooftopImg from '../../images/rooftop/off-grid.gif';
-import hybridRooftopImg from '../../images/rooftop/hybrid.jpg';
+import hybridRooftopImg from '../../images/hybrid-solar-system.gif';
 import bgVideo from '../../images/background3.mp4';
 
 // ICON MAP for better visuals
@@ -67,11 +56,9 @@ export function HomePage() {
   const { t } = useLanguage();
 
   // Calculator state
-  const [annualConsumption, setAnnualConsumption] = useState<number>(6000);
-  const [monthlyBill, setMonthlyBill] = useState<number>(2000);
-  const [location, setLocation] = useState<string>('Mumbai');
-  const [roofType, setRoofType] = useState<string>('Concrete Roof');
-  const [showResults, setShowResults] = useState<boolean>(false);
+  const [annualConsumption] = useState<number>(6000);
+  const [monthlyBill] = useState<number>(2000);
+  const [setShowResults] = useState<boolean>(false);
 
   // Calculate estimates using the specified method
   const calculateEstimate = () => {
@@ -195,142 +182,176 @@ export function HomePage() {
   <div className="relative max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
     {/* Left Column - Main Card */}
-    <div className="w-full max-w-lg mx-auto lg:mx-0 rounded-[32px] border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] p-8 transition-all duration-500 hover:scale-105 hover:border-yellow-400">
-
-      {/* Header */}
-      <div className="inline-flex items-center justify-center w-full mb-6">
-        <div className="px-8 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-300 shadow-lg">
-
-          <h2 className="text-lg font-extrabold tracking-wider text-gray-900">
-            🇮🇳 PM SURYA GHAR YOJANA
-          </h2>
-
-        </div>
-      </div>
-
-      {/* GIF */}
-      <div className="bg-white rounded-2xl p-4 flex justify-center">
-        <img
-          src={sliderGif}
-          alt="PM Surya Ghar Solar Scheme"
-          className="w-full max-h-[320px] object-contain drop-shadow-2xl"
-        />
-      </div>
-
-      {/* Subsidy Banner */}
-      <div className="mt-8 flex justify-center">
-
-        <div className="relative overflow-hidden flex items-center rounded-full bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 px-3 py-2 border-2 border-yellow-300 shadow-2xl animate-pulse">
-
-          {/* Shine */}
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shine_2.5s_linear_infinite]" />
-
-          {/* Modi Image */}
-          <div className="relative z-10 flex-shrink-0">
-            <img
-              src={modiImg1}
-              alt="PM Modi"
-              className="w-16 h-16 rounded-full object-cover border-2 border-white bg-white shadow-lg"
-            />
-          </div>
-
-          {/* Text */}
-          <div className="relative z-10 ml-4">
-
-            <p className="text-white text-sm font-semibold uppercase tracking-wide">
-              💰 Subsidy up to
-            </p>
-
-            <div className="mt-1 inline-block bg-white text-red-600 px-5 py-1 rounded-full text-2xl font-extrabold shadow-lg">
-              ₹1,38,000
+    <div className="w-full rounded-[32px] border border-white/20 bg-gradient-to-br from-yellow-500/20 via-orange-500/10 to-red-500/20 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] p-8 transition-all duration-500 hover:scale-105 hover:border-yellow-400 hover:shadow-[0_20px_80px_rgba(255,200,0,0.3)] group flex flex-col h-full">
+        
+            {/* Header with Glow */}
+            <div className="inline-flex items-center justify-center w-full mb-6">
+              <div className="relative px-8 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 shadow-lg shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/50 via-orange-400/50 to-red-400/50 blur-xl animate-pulse"></div>
+                <h2 className="relative text-lg font-extrabold tracking-wider text-gray-900">
+                  🇮🇳 PM SURYA GHAR YOJANA
+                </h2>
+              </div>
             </div>
+        
+            {/* GIF with Glow Ring */}
+            <div className="relative bg-gradient-to-br from-yellow-500/20 via-orange-500/20 to-red-500/20 rounded-2xl p-1 flex-shrink-0">
+              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-2xl blur-lg opacity-75 animate-pulse"></div>
+              <div className="relative bg-white rounded-2xl p-4 flex justify-center">
+                <img
+                  src={sliderGif}
+                  alt="PM Surya Ghar Solar Scheme"
+                  className="w-full max-h-[280px] object-contain drop-shadow-2xl"
+                />
+              </div>
+            </div>
+        
+            {/* Subsidy Banner - Enhanced */}
+            <div className="mt-8 flex justify-center flex-shrink-0">
+              <div className="relative overflow-hidden flex items-center rounded-2xl bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 px-10 py-8 border-2 border-yellow-300 shadow-2xl shadow-yellow-500/50 animate-pulse hover:scale-105 transition-all duration-300 w-full max-w-3xl">
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shine_2.5s_linear_infinite]" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-red-400/20 blur-xl"></div>
 
+                <div className="relative z-10 flex-shrink-0">
+                  <div className="absolute inset-0 rounded-full bg-yellow-400/50 blur-md animate-pulse"></div>
+                  <img
+                    src={modiImg1}
+                    alt="PM Modi"
+                    className="relative w-28 h-28 rounded-full object-cover border-4 border-white bg-white shadow-2xl"
+                  />
+                </div>
+
+                <div className="relative z-10 ml-8 flex-1">
+                  <p className="text-white text-xl font-bold uppercase tracking-wider drop-shadow-lg">
+                    💰 Subsidy up to
+                  </p>
+                  <div className="mt-3 inline-block bg-white text-red-600 px-10 py-3 rounded-full text-4xl font-extrabold shadow-xl hover:scale-110 transition-transform duration-300">
+                    ₹1,38,000
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+            {/* Bottom Text with Gradient - flex-grow to push to bottom */}
+            <div className="mt-8 text-center flex-grow flex flex-col justify-end">
+              <p className="text-gray-200 text-lg drop-shadow-lg">
+                Government Subsidy Available under
+              </p>
+              <h3 className="mt-2 text-2xl font-bold bg-gradient-to-r from-yellow-300 via-orange-300 to-red-300 bg-clip-text text-transparent animate-pulse">
+                PM Surya Ghar Muft Bijli Yojana
+              </h3>
+              <div className="mt-3 flex items-center justify-center gap-4 text-sm text-yellow-200/70">
+                <span className="flex items-center gap-1">
+                  <span className="text-yellow-400">✦</span> 25-Year Warranty
+                </span>
+                <span className="w-px h-4 bg-yellow-500/30"></span>
+                <span className="flex items-center gap-1">
+                  <span className="text-yellow-400">✦</span> Free Installation
+                </span>
+              </div>
+            </div>
+        
           </div>
 
-        </div>
-
-      </div>
-
-      {/* Bottom Text */}
-      <div className="mt-8 text-center">
-
-        <p className="text-gray-200 text-lg">
-          Government Subsidy Available under
-        </p>
-
-        <h3 className="mt-2 text-2xl font-bold bg-gradient-to-r from-yellow-300 via-green-300 to-cyan-300 bg-clip-text text-transparent">
-          PM Surya Ghar Muft Yojana
-        </h3>
-
-      </div>
-
-    </div>
-
-    {/* Right Column - SCM Partnership Card */}
-    <div className="w-full max-w-lg mx-auto lg:mx-0 rounded-[32px] border border-white/20 bg-white/10 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] p-8 transition-all duration-500 hover:scale-105 hover:border-cyan-400">
-
-      {/* Header */}
+    {/* ==================== RIGHT COLUMN - SCM PARTNERSHIP ==================== */}
+    <div className="w-full rounded-[32px] border-2 border-cyan-400/30 bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,200,255,0.3)] p-8 transition-all duration-500 hover:scale-105 hover:border-cyan-400 hover:shadow-[0_20px_80px_rgba(0,200,255,0.4)] group flex flex-col h-full">
+            
+      {/* Header with Glowing Effect */}
       <div className="inline-flex items-center justify-center w-full mb-6">
-        <div className="px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 shadow-lg">
-
-          <h2 className="text-lg font-extrabold tracking-wider text-gray-900">
+        <div className="relative px-8 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 shadow-lg shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/50 via-orange-400/50 to-red-400/50 blur-xl animate-pulse"></div>
+            <h2 className="relative text-lg font-extrabold tracking-wider text-gray-900">
             🤝 PARTNERSHIP WITH SCM
           </h2>
-
         </div>
       </div>
 
-      {/* Company Image */}
-      <div className="bg-white rounded-2xl p-4 flex justify-center">
-        <img
-          src={modiImg}
-          alt="S.C. Mohanty Company"
-          className="w-full max-h-[320px] object-contain drop-shadow-2xl"
-        />
+      {/* Company Image - Pure White Background */}
+      <div className="relative bg-white rounded-2xl p-1 flex-shrink-0 shadow-lg shadow-cyan-500/20">
+        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 rounded-2xl blur-lg opacity-75 animate-pulse"></div>
+        <div className="relative bg-white rounded-2xl p-6 flex justify-center items-center min-h-[120px]">
+          <img
+            src={modiImg}
+            alt="S.C. Mohanty Company"
+            className="w-full max-h-[320px] object-contain drop-shadow-2xl transform hover:scale-110 transition-transform duration-300"
+          />
+        </div>
       </div>
 
-      {/* Company Details Banner */}
-      <div className="mt-8 flex justify-center">
+      {/* Company Details Banner - Cyan/Blue Theme */}
+      <div className="mt-8 flex justify-center flex-shrink-0">
+        <div className="relative overflow-hidden flex flex-col items-center rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 px-6 py-5 border-2 border-cyan-300 shadow-2xl shadow-cyan-500/50 w-full animate-pulse hover:scale-105 transition-all duration-300">
 
-        <div className="relative overflow-hidden flex flex-col items-center rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-400 px-4 py-4 border-2 border-cyan-300 shadow-2xl w-full">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-400/20 to-purple-400/20 blur-xl animate-pulse"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shine_3s_linear_infinite]"></div>
 
-          {/* Shine */}
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shine_2.5s_linear_infinite]" />
+          <div className="absolute top-2 right-4 text-cyan-300 text-xl animate-pulse">✨</div>
+          <div className="absolute bottom-2 left-4 text-cyan-300 text-xl animate-pulse animation-delay-1000">✨</div>
+          <div className="absolute top-1/2 left-2 text-cyan-300/50 text-lg animate-pulse animation-delay-2000">✦</div>
+          <div className="absolute top-1/2 right-2 text-cyan-300/50 text-lg animate-pulse animation-delay-1500">✦</div>
 
-          {/* Content */}
-          <div className="relative z-10 text-center">
-
-            <p className="text-white text-sm font-semibold uppercase tracking-wide">
+          <div className="relative z-10 text-center w-full">
+            <p className="text-black font-bold text-sm uppercase tracking-wider drop-shadow-lg">
               🏢 Trusted Solar Partner
             </p>
 
-            <Link
-              to="/scm"
-              className="mt-2 inline-block rounded-full bg-white px-5 py-2 text-lg font-extrabold text-blue-600 shadow-lg transition hover:text-blue-900"
-            >
-              S.C. Mohanty Group
-            </Link>
+            <div className="mt-3 flex items-center justify-center gap-3 flex-wrap">
+              <span className="text-black font-bold text-base drop-shadow-lg">Company</span>
+              <div className="relative inline-block bg-white/30 backdrop-blur-sm px-5 py-2 rounded-full border-2 border-cyan-300/50 shadow-lg">
+                <div className="absolute inset-0 rounded-full bg-white/10 blur-sm animate-pulse"></div>
+                <span className="relative text-2xl md:text-3xl font-extrabold text-black drop-shadow-[0_0_20px_rgba(0,200,255,0.3)]">
+                  S.C. Mohanty
+                </span>
+              </div>
+            </div>
 
+            <div className="mt-4 flex items-center justify-center gap-3 flex-wrap">
+              <span className="text-black font-bold text-xs bg-cyan-200/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-cyan-400 shadow-lg">
+                ✅ Certified Partner
+              </span>
+              <span className="text-black font-bold text-xs bg-cyan-200/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-cyan-400 shadow-lg">
+                ✅ Quality Solutions
+              </span>
+              <span className="text-black font-bold text-xs bg-gradient-to-r from-cyan-400/80 to-blue-400/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-cyan-300 shadow-lg animate-pulse">
+                ⚡ 10+ Years Experience
+              </span>
+            </div>
           </div>
-
         </div>
-
       </div>
 
-      {/* Bottom Text */}
-      <div className="mt-8 text-center">
-
-        <p className="text-gray-200 text-lg">
-          Certified Partner for Quality Solar Solutions
-        </p>
-
-        <h3 className="mt-2 text-2xl font-bold bg-gradient-to-r from-cyan-300 via-blue-300 to-cyan-300 bg-clip-text text-transparent">
-          Experience & Excellence
-        </h3>
-
+      {/* Bottom Text with Features - Cyan/Blue Theme */}
+      <div className="mt-8 text-center flex-grow flex flex-col justify-end">
+        
+        {/* Button added at bottom */}
+        <div className="mt-6 flex justify-center">
+          <Link
+            to="/scm"
+            className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 text-black font-extrabold text-lg shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/70 transition-all duration-300 hover:scale-105"
+          >
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/50 via-blue-400/50 to-cyan-400/50 blur-xl animate-pulse"></div>
+            <span className="relative">Learn More →</span>
+          </Link>
+        </div>
       </div>
 
     </div>
+
+{/* Custom Animations */}
+<style>{`
+  @keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+    50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+  }
+  .animation-delay-1000 { animation-delay: 1000ms; }
+  .animation-delay-1500 { animation-delay: 1500ms; }
+  .animation-delay-2000 { animation-delay: 2000ms; }
+  .animation-delay-2500 { animation-delay: 2500ms; }
+`}</style>
 
   </div>
 
@@ -608,14 +629,6 @@ export function HomePage() {
                 best: "💡 Best for Urban Areas",
               },
               {
-                name: "Off-Grid System",
-                img: offGridRooftopImg,
-                color: "from-green-500 to-emerald-400",
-                desc:
-                  "Works independently using battery storage. Perfect for villages and remote locations without grid access.",
-                best: "🔋 Best for Remote Areas",
-              },
-              {
                 name: "Hybrid System",
                 img: hybridRooftopImg,
                 color: "from-purple-500 to-pink-400",
@@ -623,6 +636,15 @@ export function HomePage() {
                   "Combines grid connection with battery backup. Ideal where frequent power cuts occur.",
                 best: "⚡ Best for Backup Power",
               },
+              {
+                name: "Off-Grid System",
+                img: offGridRooftopImg,
+                color: "from-green-500 to-emerald-400",
+                desc:
+                  "Works independently using battery storage. Perfect for villages and remote locations without grid access.",
+                best: "🔋 Best for Remote Areas",
+              },
+              
             ].map((item) => (
               <div
                 key={item.name}
@@ -680,6 +702,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ================= SOLAR COST CALCULATOR ================= */}
+      <SolarCostCalculator />
 
       {/* ================= WHAT WE OFFER ================= */}
       <section className="py-16 bg-gradient-to-b from-white via-yellow-50 to-green-50">
@@ -838,7 +863,7 @@ export function HomePage() {
       </section>
 
       {/* ================= CTA ================= */}
-      <section className="py-16 bg-gradient-to-br from-yellow-500 via-green-600 to-blue-700 text-white">
+      <section className="py-16 bg-gradient-to-br from-yellow-500 via-blue-600 to-red-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
 
           <div>

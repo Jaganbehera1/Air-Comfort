@@ -15,18 +15,18 @@ import thinFilmImg from '../../images/panels/thin-film.webp';
 import bifacialImg from '../../images/panels/bifacial.webp';
 
 // Rooftop System Images
-import onGridRooftopImg from '../../images/rooftop/on-grid.avif';
+import onGridRooftopImg from '../../images/On-Grid.gif';
 import offGridRooftopImg from '../../images/rooftop/off-grid.gif';
-import hybridRooftopImg from '../../images/rooftop/hybrid.jpg';
+import hybridRooftopImg from '../../images/hybrid-solar-system.gif';
 
 export function LearningPage() {
-  const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   return (
     <div className="bg-white min-h-screen">
       <SEO title="Solar Learning Center" description="Learn about solar panels, inverters, rooftop systems, and solar subsidies for Odisha homeowners and businesses." keywords="solar learning center odisha, solar panel guide, rooftop solar education" canonical="/learning" />
       {/* ================= HERO SECTION ================= */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-yellow-500 via-green-600 to-blue-700 py-20 md:py-28">
+      <section className="relative overflow-hidden bg-gradient-to-br from-yellow-500 via-blue-600 to-red-700 py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-semibold mb-4 border border-white/30">
             📚 Solar Learning Center
@@ -184,8 +184,8 @@ export function LearningPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { name: 'On-Grid System', desc: 'Connected to utility grid, low cost, no battery needed. Best for areas with stable grid.', img: onGridRooftopImg, color: 'from-blue-500 to-blue-300', best: '💡 Best for: Urban areas, no power cuts' },
-              { name: 'Off-Grid System', desc: 'Independent system with batteries, works without grid. Best for remote areas.', img: offGridRooftopImg, color: 'from-green-500 to-green-300', best: '🔋 Best for: Rural areas, remote locations' },
               { name: 'Hybrid System', desc: 'Combines on-grid & off-grid features, battery backup, grid connectivity. Best for power cuts.', img: hybridRooftopImg, color: 'from-purple-500 to-purple-300', best: '⚡ Best for: Frequent power cuts, backup needed' },
+              { name: 'Off-Grid System', desc: 'Independent system with batteries, works without grid. Best for remote areas.', img: offGridRooftopImg, color: 'from-green-500 to-green-300', best: '🔋 Best for: Rural areas, remote locations' },
             ].map((system) => (
               <div key={system.name} className={`rounded-3xl border-2 border-gray-200 bg-gradient-to-br ${system.color} p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-yellow-300 text-white text-center`}>
                 <img
