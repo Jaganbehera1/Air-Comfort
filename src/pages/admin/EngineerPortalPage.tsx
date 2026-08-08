@@ -2,34 +2,16 @@ import { Link, Outlet } from 'react-router-dom';
 import { 
   ClipboardList, 
   HardHat, 
-  MessageSquare, 
   Wrench, 
   ArrowRight,
   User,
-  Zap,
   Calendar,
-  Clock,
   CheckCircle,
-  AlertCircle,
-  TrendingUp,
-  Users,
-  FileText,
-  Settings,
   Home,
   Sun,
-  Shield,
-  Bell,
-  ChevronRight,
-  Star,
-  Award,
-  PieChart,
-  Activity,
-  BarChart3,
   Eye,
-  Upload,
   Plus,
   List,
-  Grid
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -112,11 +94,6 @@ export function EngineerPortalPage() {
     },
   ];
 
-  const recentActivities = [
-    { id: 1, action: 'Site visit report submitted', time: '2 hours ago', type: 'submission' },
-    { id: 2, action: 'New project assigned', time: '5 hours ago', type: 'assignment' },
-    { id: 3, action: 'Maintenance scheduled', time: '1 day ago', type: 'maintenance' },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50/50 py-8 md:py-12">
@@ -216,132 +193,6 @@ export function EngineerPortalPage() {
               <p className={`text-sm font-semibold ${link.textColor}`}>{link.title}</p>
             </Link>
           ))}
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-6 mb-8">
-          
-          {/* Overview Section - Left 2 columns */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-blue-500" />
-                  Recent Activity
-                </h3>
-                <Link to="/admin/engineer-portal/activity" className="text-xs text-green-600 hover:text-green-700 font-medium flex items-center gap-1">
-                  View All
-                  <ChevronRight className="h-3 w-3" />
-                </Link>
-              </div>
-              <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      activity.type === 'submission' ? 'bg-green-100 text-green-600' :
-                      activity.type === 'assignment' ? 'bg-blue-100 text-blue-600' :
-                      'bg-yellow-100 text-yellow-600'
-                    }`}>
-                      {activity.type === 'submission' && <FileText className="h-4 w-4" />}
-                      {activity.type === 'assignment' && <User className="h-4 w-4" />}
-                      {activity.type === 'maintenance' && <Wrench className="h-4 w-4" />}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-700">{activity.action}</p>
-                      <p className="text-xs text-gray-400 flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {activity.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Stats - Right column */}
-          <div className="space-y-4">
-            <div className="bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-2xl p-6 shadow-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <Zap className="h-5 w-5 text-yellow-300" />
-                <h4 className="font-semibold">Quick Stats</h4>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                  <span className="text-white/80 text-sm">Total Projects</span>
-                  <span className="font-bold">24</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                  <span className="text-white/80 text-sm">Completion Rate</span>
-                  <span className="font-bold">92%</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/80 text-sm">Avg. Rating</span>
-                  <span className="font-bold flex items-center gap-1">⭐ 4.9</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-6 shadow-lg">
-              <div className="flex items-center gap-2 mb-3">
-                <Bell className="h-5 w-5 text-blue-200" />
-                <h4 className="font-semibold">Notifications</h4>
-              </div>
-              <div className="space-y-2">
-                <div className="bg-white/10 rounded-lg p-2 text-sm">
-                  <p className="font-medium">3 new reports</p>
-                  <p className="text-white/70 text-xs">Pending review</p>
-                </div>
-                <div className="bg-white/10 rounded-lg p-2 text-sm">
-                  <p className="font-medium">2 maintenance tasks</p>
-                  <p className="text-white/70 text-xs">Due this week</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Support Sections */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl flex items-center justify-center">
-                <MessageSquare className="h-6 w-6 text-purple-600" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-800">Support Requests</h3>
-                <p className="text-sm text-gray-500">Customer inquiries</p>
-              </div>
-            </div>
-            <p className="text-gray-600 text-sm">Customer requests and on-site coordination are ready for review.</p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-2xl font-bold text-purple-600">3</span>
-              <span className="text-sm text-gray-400">pending requests</span>
-              <Link to="/admin/engineer-portal/support" className="ml-auto text-purple-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all">
-                View <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-red-50 to-rose-50 rounded-2xl flex items-center justify-center">
-                <AlertCircle className="h-6 w-6 text-red-600" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-gray-800">Urgent Follow-ups</h3>
-                <p className="text-sm text-gray-500">High priority issues</p>
-              </div>
-            </div>
-            <p className="text-gray-600 text-sm">Flag high-priority service issues for immediate attention.</p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-2xl font-bold text-red-600">2</span>
-              <span className="text-sm text-gray-400">urgent tasks</span>
-              <Link to="/admin/engineer-portal/urgent" className="ml-auto text-red-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all">
-                View <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
         </div>
 
         {/* Footer */}

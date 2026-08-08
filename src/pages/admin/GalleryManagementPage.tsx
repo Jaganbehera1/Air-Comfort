@@ -7,10 +7,26 @@ import {
   Plus, 
   X, 
   Search,
+  Filter,
   Grid,
   List,
+  Eye,
+  Edit,
+  Check,
+  AlertCircle,
   Calendar,
+  User,
+  Link as LinkIcon,
   File,
+  Download,
+  Share2,
+  Star,
+  Heart,
+  MessageSquare,
+  MoreVertical,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
   RefreshCw
 } from 'lucide-react';
 import {
@@ -21,9 +37,10 @@ import {
   getDocs,
   deleteDoc,
   doc,
+  updateDoc,
 } from 'firebase/firestore';
 import { db, GalleryItem } from '../../lib/firebase';
-import { uploadMediaToCloudinary } from '../../lib/cloudinary';
+import { deleteFileFromCloudinary, uploadFileToCloudinary } from '../../lib/cloudinary';
 import { useAuth } from '../../contexts/AuthContext';
 
 // Helper function to detect if URL is a YouTube link
@@ -58,23 +75,18 @@ export function GalleryManagementPage() {
   const [url, setUrl] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [type, setType] = useState<'image' | 'video'>('image');
-  const [company, setCompany] = useState<'air-comfort' | 'sc-mohanty' | 'both'>('air-comfort');
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'video'>('all');
   const [showUploadForm, setShowUploadForm] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
     loadGallery();
   }, []);
-
-  const handleUrlChange = (value: string) => {
-    setUrl(value);
-    if (value.trim()) {
-      setFile(null);
-    }
-  };
 
   const loadGallery = async () => {
     setLoading(true);
@@ -104,8 +116,12 @@ export function GalleryManagementPage() {
     try {
       let downloadUrl = url.trim();
 
+      let publicId: string | undefined;
+
       if (file) {
-        downloadUrl = await uploadMediaToCloudinary(file, type);
+        const uploadResult = await uploadFileToCloudinary(file, type);
+        downloadUrl = uploadResult.url;
+        publicId = uploadResult.publicId;
       }
 
       if (!downloadUrl) {
@@ -117,18 +133,17 @@ export function GalleryManagementPage() {
         url: downloadUrl,
         title: title.trim(),
         description: description.trim(),
-        company,
         admin_id: user.uid,
         order_index: items.length,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
+        cloudinary_public_id: publicId,
       });
 
       setUrl('');
       setFile(null);
       setTitle('');
       setDescription('');
-      setCompany('air-comfort');
       setShowUploadForm(false);
       await loadGallery();
     } catch (error) {
@@ -139,14 +154,19 @@ export function GalleryManagementPage() {
     setUploading(false);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
+  const handleDelete = async (item: GalleryItem) => {
+    if (!confirm('Are you sure you want to delete this item from the gallery and remove its stored media reference?')) return;
 
     try {
-      await deleteDoc(doc(db, 'gallery_items', id));
+      if (item.cloudinary_public_id) {
+        await deleteFileFromCloudinary(item.cloudinary_public_id, item.type);
+      }
+
+      await deleteDoc(doc(db, 'gallery_items', item.id));
       await loadGallery();
     } catch (error) {
       console.error('Error deleting item:', error);
+      alert('Delete failed. Please try again.');
     }
   };
 
@@ -331,21 +351,6 @@ export function GalleryManagementPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Company
-                </label>
-                <select
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value as 'air-comfort' | 'sc-mohanty' | 'both')}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 outline-none bg-gray-50/50"
-                >
-                  <option value="air-comfort">Air Comfort</option>
-                  <option value="sc-mohanty">S.C. Mohanty</option>
-                  <option value="both">Both Companies</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Description
                 </label>
                 <textarea
@@ -514,8 +519,13 @@ export function GalleryManagementPage() {
                       </span>
                     </div>
                     <button
-                      onClick={() => handleDelete(item.id)}
-                      className="absolute top-2 right-2 p-2 bg-red-500/80 hover:bg-red-600 rounded-lg text-white opacity-0 group-hover:opacity-100 transition-all duration-300"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDelete(item);
+                      }}
+                      className="absolute top-2 right-2 p-2 bg-red-500/80 hover:bg-red-600 rounded-lg text-white shadow-sm transition-all duration-300"
+                      title="Delete item"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -536,9 +546,6 @@ export function GalleryManagementPage() {
                       <Calendar className="h-3 w-3" />
                       <span>{new Date(item.created_at).toLocaleDateString()}</span>
                     </div>
-                    <div className="mt-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold text-gray-700">
-                      {item.company === 'sc-mohanty' ? 'S.C. Mohanty' : item.company === 'both' ? 'Both Companies' : 'Air Comfort'}
-                    </div>
                     <div className="flex items-center gap-2 mt-3">
                       <a
                         href={item.url}
@@ -548,6 +555,13 @@ export function GalleryManagementPage() {
                       >
                         View
                       </a>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item)}
+                        className="flex-1 text-center text-red-600 hover:text-red-700 font-medium text-sm py-1.5 px-3 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-300"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </div>

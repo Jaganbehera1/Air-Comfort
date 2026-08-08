@@ -42,10 +42,11 @@ export interface GalleryItem {
   url: string;
   title: string;
   description: string;
-  company?: 'air-comfort' | 'sc-mohanty' | 'both';
+  company?: 'Air-Comfort';
   order_index: number;
   created_at: string;
   admin_id: string;
+  cloudinary_public_id?: string;
 }
 
 export interface ContactInfo {

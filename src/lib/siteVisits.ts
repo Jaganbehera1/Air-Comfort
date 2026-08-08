@@ -13,17 +13,11 @@ function permissionDenied(error: any) {
 
 export async function saveSiteVisitToFirestore(report: SiteVisitReport) {
   try {
-    const data = {
-      ...report,
-      created_at: report.created_at ? report.created_at : new Date().toISOString(),
-    };
+    const data = { ...report, created_at: report.created_at ? report.created_at : new Date().toISOString() };
     const ref = doc(db, COLL, report.id);
     await setDoc(ref, data as any, { merge: true });
     return { id: report.id };
-  } catch (err: any) {
-    if (permissionDenied(err)) {
-      throw new Error('Firestore permission denied for site visit write.');
-    }
+  } catch (err) {
     console.error('saveSiteVisitToFirestore error', err);
     throw err;
   }

@@ -1,35 +1,66 @@
-const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-const CLOUDINARY_FOLDER = import.meta.env.VITE_CLOUDINARY_FOLDER || 'aircomfort/gallery';
+type MediaType = 'image' | 'video';
 
-export async function uploadMediaToCloudinary(
-  file: File,
-  type: 'image' | 'video' = 'image',
-  folder: string = CLOUDINARY_FOLDER
-): Promise<string> {
-  if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
-    throw new Error('Cloudinary environment variables are not configured.');
+const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+const cloudinaryApiKey = import.meta.env.VITE_CLOUDINARY_API_KEY;
+const cloudinaryApiSecret = import.meta.env.VITE_CLOUDINARY_API_SECRET;
+
+export interface CloudinaryUploadResult {
+  url: string;
+  publicId: string;
+}
+
+export async function uploadFileToCloudinary(file: File, type: MediaType): Promise<CloudinaryUploadResult> {
+  if (!cloudName || !uploadPreset) {
+    throw new Error('Cloudinary is not configured. Set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET.');
   }
 
   const resourceType = type === 'video' ? 'video' : 'image';
   const formData = new FormData();
+
   formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  formData.append('folder', folder);
+  formData.append('upload_preset', uploadPreset);
+  formData.append('folder', 'greenleaf-gallery');
+  formData.append('resource_type', resourceType);
 
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
-    {
-      method: 'POST',
-      body: formData,
-    }
-  );
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
+    method: 'POST',
+    body: formData,
+  });
 
-  const result = await response.json();
+  const payload = await response.json();
 
-  if (!response.ok || !result.secure_url) {
-    throw new Error(result.error?.message || 'Cloudinary upload failed.');
+  if (!response.ok || payload.error) {
+    throw new Error(payload.error?.message || 'Cloudinary upload failed.');
   }
 
-  return result.secure_url as string;
+  return {
+    url: payload.secure_url as string,
+    publicId: payload.public_id as string,
+  };
+}
+
+export async function deleteFileFromCloudinary(publicId: string, type: MediaType): Promise<boolean> {
+  if (!cloudName || !cloudinaryApiKey || !cloudinaryApiSecret || !publicId) {
+    return false;
+  }
+
+  const resourceType = type === 'video' ? 'video' : 'image';
+  const params = new URLSearchParams({
+    public_id: publicId,
+    api_key: cloudinaryApiKey,
+    api_secret: cloudinaryApiSecret,
+    resource_type: resourceType,
+  });
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/destroy`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params.toString(),
+  });
+
+  const payload = await response.json();
+  return response.ok && payload.result === 'ok';
 }

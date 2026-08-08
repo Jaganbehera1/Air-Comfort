@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { listSiteVisits, updateSiteVisitStatus, deleteSiteVisit } from '../../lib/siteVisits';
+import { listSiteVisits, listSiteVisitsByEngineer, updateSiteVisitStatus, deleteSiteVisit } from '../../lib/siteVisits';
 import { SiteVisitReport } from '../../lib/engineerReports';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -16,25 +16,14 @@ import {
   Trash2,
   RefreshCw,
   Search,
-  Filter,
-  FileText,
   Users,
   Grid,
   List,
-  Check,
-  X,
   Database,
-  HardDrive
+  Download,
+  Loader2,
 } from 'lucide-react';
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import jsPDF from 'jspdf';
 
 function renderStatusBadge(status: SiteVisitReport['status']) {
   const base = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300';
@@ -71,7 +60,7 @@ function renderStatusBadge(status: SiteVisitReport['status']) {
 }
 
 export function SiteVisitsPage() {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const [items, setItems] = useState<SiteVisitReport[]>([]);
   const [filteredItems, setFilteredItems] = useState<SiteVisitReport[]>([]);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -81,6 +70,8 @@ export function SiteVisitsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [dataSource, setDataSource] = useState<string>('');
+  const [downloading, setDownloading] = useState(false);
+  const [downloadingReport, setDownloadingReport] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -93,8 +84,12 @@ export function SiteVisitsPage() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await listSiteVisits();
-      console.log('📊 Loaded site visits:', data);
+      let data: SiteVisitReport[];
+      if (role === 'engineer' && user?.uid) {
+        data = await listSiteVisitsByEngineer(user.uid);
+      } else {
+        data = await listSiteVisits();
+      }
       setItems(data);
       setDataSource(data.length > 0 ? '✅ Data loaded successfully' : '📭 No data found');
       if (data.length === 0) {
@@ -106,11 +101,8 @@ export function SiteVisitsPage() {
       }
     } catch (error) {
       console.error('❌ Error loading site visits:', error);
-      setItems([]);
-      setFilteredItems([]);
-      setDataSource('📝 Using local fallback data');
-      setToast({ message: 'Using local fallback data while Firestore rules are being updated.', type: 'error' });
-      setTimeout(() => setToast(null), 5000);
+      setToast({ message: 'Failed to load site visits', type: 'error' });
+      setTimeout(() => setToast(null), 3000);
     } finally {
       setLoading(false);
     }
@@ -132,71 +124,8 @@ export function SiteVisitsPage() {
     setFilteredItems(filtered);
   };
 
-  const handleExportReport = (report: SiteVisitReport) => {
-    const printWindow = window.open('', '_blank', 'width=900,height=800');
-    if (!printWindow) {
-      setToast({ message: 'Popup blocked. Please allow popups to export reports.', type: 'error' });
-      setTimeout(() => setToast(null), 4000);
-      return;
-    }
-
-    const rows = [
-      ['Customer Name', report.customer_name || 'N/A'],
-      ['Phone Number', report.phone_number || 'N/A'],
-      ['Address', report.address || 'N/A'],
-      ['GPS Location', report.gps_location || 'N/A'],
-      ['Installation Type', report.installation_type || 'N/A'],
-      ['Roof Type', report.roof_type || 'N/A'],
-      ['Roof Material', report.roof_material || 'N/A'],
-      ['Shadow Analysis', report.shadow_analysis || 'N/A'],
-      ['Electricity Bill', report.electricity_bill || 'N/A'],
-      ['Recommended Capacity', report.recommended_capacity || 'N/A'],
-      ['Inverter Recommendation', report.inverter_recommendation || 'N/A'],
-      ['Panel Recommendation', report.panel_recommendation || 'N/A'],
-      ['Remarks', report.remarks || 'No remarks provided'],
-      ['Status', report.status || 'draft'],
-      ['Admin Comment', report.admin_comment || 'N/A'],
-      ['Attachments', (report.attachments || []).map((item) => item.name).join(', ') || 'No attachments'],
-    ];
-
-    const content = rows
-      .map(([label, value]) => {
-        const safeValue = escapeHtml(String(value)).replace(/\n/g, '<br/>');
-        return `<div class="row"><div class="label">${escapeHtml(String(label))}</div><div class="value">${safeValue}</div></div>`;
-      })
-      .join('');
-
-    printWindow.document.write(`<!DOCTYPE html>
-      <html>
-        <head>
-          <title>Site Visit Report - ${escapeHtml(report.customer_name || 'Untitled Report')}</title>
-          <style>
-            body { font-family: Arial, sans-serif; color: #111827; padding: 24px; }
-            .header { border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px; }
-            .title { font-size: 24px; font-weight: 700; margin: 0; }
-            .meta { color: #6b7280; font-size: 13px; margin-top: 6px; }
-            .row { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
-            .label { min-width: 180px; font-weight: 700; color: #374151; }
-            .value { flex: 1; white-space: pre-wrap; }
-            @media print { body { padding: 0; } .no-print { display: none; } }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1 class="title">Site Visit Report</h1>
-            <div class="meta">Customer: ${escapeHtml(report.customer_name || 'N/A')} • Status: ${escapeHtml(report.status || 'draft')} • Updated: ${escapeHtml(new Date(report.updated_at || report.created_at).toLocaleString())}</div>
-          </div>
-          ${content}
-          <script>window.onload = () => window.print();</script>
-        </body>
-      </html>`);
-    printWindow.document.close();
-    printWindow.focus();
-  };
-
   const handleDelete = async (id: string) => {
     try {
-      console.log('🗑️ Deleting site visit:', id);
       await deleteSiteVisit(id);
       setItems((prev) => prev.filter((item) => item.id !== id));
       setToast({ message: 'Report deleted successfully', type: 'success' });
@@ -234,6 +163,443 @@ export function SiteVisitsPage() {
       console.error('❌ Review update failed:', error);
       setToast({ message: `Failed to ${status} report: ${error?.message || error}`, type: 'error' });
       setTimeout(() => setToast(null), 3000);
+    }
+  };
+
+  // Helper function to draw table in PDF
+  const drawTable = (doc: jsPDF, headers: string[], data: any[][], startY: number, pageWidth: number) => {
+    const colWidths = headers.map((_, i) => {
+      const widths = [20, 50, 35, 30, 45];
+      return widths[i] || 30;
+    });
+    
+    let yPos = startY;
+    const rowHeight = 8;
+    const margin = 15;
+    const tableWidth = pageWidth - (margin * 2);
+    
+    // Draw header
+    doc.setFillColor(59, 130, 246);
+    doc.rect(margin, yPos - 4, tableWidth, rowHeight, 'F');
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    
+    let xPos = margin;
+    headers.forEach((header, i) => {
+      doc.text(header, xPos + 2, yPos + 2);
+      xPos += colWidths[i];
+    });
+    
+    yPos += rowHeight;
+    
+    // Draw rows
+    doc.setFontSize(8);
+    doc.setTextColor(50, 50, 50);
+    
+    data.forEach((row, rowIndex) => {
+      if (yPos > doc.internal.pageSize.getHeight() - 20) {
+        doc.addPage();
+        yPos = 20;
+        // Redraw header on new page
+        doc.setFillColor(59, 130, 246);
+        doc.rect(margin, yPos - 4, tableWidth, rowHeight, 'F');
+        doc.setFontSize(9);
+        doc.setTextColor(255, 255, 255);
+        xPos = margin;
+        headers.forEach((header, i) => {
+          doc.text(header, xPos + 2, yPos + 2);
+          xPos += colWidths[i];
+        });
+        yPos += rowHeight;
+      }
+      
+      // Draw row background
+      if (rowIndex % 2 === 0) {
+        doc.setFillColor(245, 245, 245);
+        doc.rect(margin, yPos - 3, tableWidth, rowHeight - 1, 'F');
+      }
+      
+      xPos = margin;
+      row.forEach((cell, i) => {
+        const cellStr = String(cell);
+        const maxWidth = colWidths[i] - 4;
+        const text = doc.splitTextToSize(cellStr, maxWidth);
+        doc.text(text, xPos + 2, yPos + 2);
+        xPos += colWidths[i];
+      });
+      yPos += rowHeight;
+    });
+    
+    return yPos;
+  };
+
+  // Generate PDF for a single report
+  const generateSingleReportPDF = (report: SiteVisitReport) => {
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    let yPos = 20;
+
+    // Header
+    doc.setFillColor(16, 185, 129);
+    doc.rect(0, 0, pageWidth, 15, 'F');
+    
+    doc.setFontSize(18);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Site Visit Report', pageWidth / 2, 10, { align: 'center' });
+
+    // Report ID and Status
+    yPos = 25;
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Report ID: ${report.id}`, 20, yPos);
+    doc.text(`Status: ${report.status.toUpperCase()}`, pageWidth - 20, yPos, { align: 'right' });
+
+    // Customer Information Section
+    yPos += 10;
+    doc.setFillColor(240, 249, 255);
+    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(37, 99, 235);
+    doc.text('Customer Information', 20, yPos);
+
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50, 50, 50);
+    
+    const customerData = [
+      ['Customer Name', report.customer_name || 'N/A'],
+      ['Phone Number', report.phone_number || 'N/A'],
+      ['Address', report.address || 'N/A'],
+      ['Engineer Name', report.engineer_name || 'N/A'],
+      ['Engineer Mobile', report.engineer_mobile || 'N/A'],
+      ['GPS Location', report.gps_location || 'N/A'],
+      ['Installation Type', report.installation_type || 'N/A'],
+    ];
+
+    customerData.forEach(([label, value]) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      const lines = doc.splitTextToSize(String(value), pageWidth - 90);
+      doc.text(lines, 70, yPos);
+      yPos += 6 + (lines.length - 1) * 4;
+    });
+
+    // Roof Details
+    yPos += 2;
+    doc.setFillColor(240, 249, 255);
+    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(37, 99, 235);
+    doc.text('Roof Details', 20, yPos);
+
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50, 50, 50);
+    const roofData = [
+      ['Roof Type', report.roof_type || 'N/A'],
+      ['Roof Material', report.roof_material || 'N/A'],
+    ];
+
+    roofData.forEach(([label, value]) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), 70, yPos);
+      yPos += 6;
+    });
+
+    // System Specifications
+    yPos += 2;
+    doc.setFillColor(240, 249, 255);
+    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(37, 99, 235);
+    doc.text('System Specifications', 20, yPos);
+
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50, 50, 50);
+    const systemData = [
+      ['System Capacity', report.system_capacity || 'N/A'],
+      ['Cables in meters', report.cables_in_meters || 'N/A'],
+      ['Cable Type', report.cable_type || 'N/A'],
+      ['Recommended Capacity', report.recommended_capacity || 'N/A'],
+      ['Panel Brand', report.panel_brand || 'N/A'],
+      ['Panel Type', report.panel_type || 'N/A'],
+      ['Inverter Type', report.inverter_type || 'N/A'],
+      ['Inverter Brand', report.inverter_brand || 'N/A'],
+      ['Battery Type', report.battery_type || 'N/A'],
+      ['Battery Power', report.battery_power || 'N/A'],
+    ];
+
+    systemData.forEach(([label, value]) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), 70, yPos);
+      yPos += 6;
+    });
+
+    // Structure Measurements
+    yPos += 2;
+    doc.setFillColor(240, 249, 255);
+    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(37, 99, 235);
+    doc.text('Structure Measurements', 20, yPos);
+
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50, 50, 50);
+    const structureData = [
+      ['Structure Height (Low)', report.structure_height_low || 'N/A'],
+      ['Structure Height (High)', report.structure_height_high || 'N/A'],
+      ['North/South Distance', report.north_south_distance || 'N/A'],
+      ['East/West Distance', report.east_west_distance || 'N/A'],
+    ];
+
+    structureData.forEach(([label, value]) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), 70, yPos);
+      yPos += 6;
+    });
+
+    // Solar Analysis
+    yPos += 2;
+    doc.setFillColor(240, 249, 255);
+    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(37, 99, 235);
+    doc.text('Solar Analysis', 20, yPos);
+
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50, 50, 50);
+    
+    if (report.shadow_analysis) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('Shadow Analysis:', 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      const lines = doc.splitTextToSize(report.shadow_analysis, pageWidth - 90);
+      doc.text(lines, 70, yPos);
+      yPos += lines.length * 5 + 2;
+    }
+
+    const solarData = [
+      ['Electricity Bill', report.electricity_bill || 'N/A'],
+    ];
+
+    solarData.forEach(([label, value]) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), 70, yPos);
+      yPos += 6;
+    });
+
+    // Recommendations
+    yPos += 2;
+    doc.setFillColor(240, 249, 255);
+    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(37, 99, 235);
+    doc.text('Recommendations', 20, yPos);
+
+    yPos += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(50, 50, 50);
+    const recommendationData = [
+      ['Inverter Recommendation', report.inverter_recommendation || 'N/A'],
+      ['Panel Recommendation', report.panel_recommendation || 'N/A'],
+    ];
+
+    recommendationData.forEach(([label, value]) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${label}:`, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), 70, yPos);
+      yPos += 6;
+    });
+
+    // Remarks
+    if (report.remarks) {
+      yPos += 2;
+      doc.setFillColor(240, 249, 255);
+      doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+      doc.setFontSize(12);
+      doc.setTextColor(37, 99, 235);
+      doc.text('Remarks', 20, yPos);
+
+      yPos += 8;
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      const remarksLines = doc.splitTextToSize(report.remarks, pageWidth - 40);
+      doc.text(remarksLines, 20, yPos);
+      yPos += remarksLines.length * 5 + 2;
+    }
+
+    if (report.attachments && report.attachments.length > 0) {
+      yPos += 2;
+      doc.setFillColor(240, 249, 255);
+      doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
+      doc.setFontSize(12);
+      doc.setTextColor(37, 99, 235);
+      doc.text('Attachments', 20, yPos);
+
+      yPos += 8;
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      const imageAttachments = report.attachments.filter((file) => file.type?.startsWith('image/'));
+
+      if (imageAttachments.length > 0) {
+        const imageWidth = 80;
+        const imageHeight = 60;
+        const columns = 2;
+        imageAttachments.forEach((file, index) => {
+          if (yPos > pageHeight - 60) {
+            doc.addPage();
+            yPos = 20;
+          }
+          const data = (file as { data?: string }).data;
+          if (!data) return;
+          try {
+            const x = 20 + (index % columns) * 90;
+            const y = yPos + Math.floor(index / columns) * 70;
+            doc.addImage(data, 'JPEG', x, y, imageWidth, imageHeight);
+            doc.text(file.name, x, y + imageHeight + 5);
+          } catch (error) {
+            console.warn('Could not embed attachment image in PDF:', error);
+          }
+        });
+      }
+    }
+
+    // Footer
+    if (yPos > pageHeight - 20) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setDrawColor(200, 200, 200);
+    doc.line(15, pageHeight - 15, pageWidth - 15, pageHeight - 15);
+    doc.setFontSize(8);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`Generated on ${new Date().toLocaleString()}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+    doc.text(`Report ID: ${report.id}`, pageWidth / 2, pageHeight - 3, { align: 'center' });
+
+    return doc;
+  };
+
+  // Download single report
+  const downloadSingleReportPDF = async (report: SiteVisitReport) => {
+    setDownloadingReport(report.id);
+    try {
+      const doc = generateSingleReportPDF(report);
+      doc.save(`report_${report.id}_${new Date().toISOString().split('T')[0]}.pdf`);
+      
+      setToast({ message: 'Report downloaded successfully!', type: 'success' });
+      setTimeout(() => setToast(null), 3000);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      setToast({ message: 'Failed to generate PDF', type: 'error' });
+      setTimeout(() => setToast(null), 3000);
+    } finally {
+      setDownloadingReport(null);
+    }
+  };
+
+  // Download all reports
+  const downloadAllReportsPDF = async () => {
+    if (filteredItems.length === 0) {
+      setToast({ message: 'No reports to download', type: 'error' });
+      setTimeout(() => setToast(null), 3000);
+      return;
+    }
+
+    setDownloading(true);
+    try {
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      let yPos = 20;
+
+      // Header
+      doc.setFillColor(59, 130, 246);
+      doc.rect(0, 0, pageWidth, 20, 'F');
+      
+      doc.setFontSize(22);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Site Visits Report', pageWidth / 2, 12, { align: 'center' });
+
+      yPos = 30;
+      doc.setFontSize(12);
+      doc.setTextColor(50, 50, 50);
+      doc.text(`Total Reports: ${filteredItems.length}`, 20, yPos);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, 20, yPos + 6);
+
+      yPos += 18;
+
+      // Table headers
+      const headers = ['#', 'Customer', 'Phone', 'Status', 'Address'];
+      const data = filteredItems.map((report, index) => [
+        (index + 1).toString(),
+        report.customer_name || 'N/A',
+        report.phone_number || 'N/A',
+        report.status || 'N/A',
+        report.address ? (report.address.length > 30 ? report.address.substring(0, 30) + '...' : report.address) : 'N/A'
+      ]);
+
+      // Draw table
+      yPos = drawTable(doc, headers, data, yPos, pageWidth);
+
+      // Footer
+      const internalDoc = doc.internal as any;
+      const pageCount = typeof internalDoc.getNumberOfPages === 'function' ? internalDoc.getNumberOfPages() : 1;
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(`Page ${i} of ${pageCount}`, pageWidth / 2, doc.internal.pageSize.getHeight() - 8, { align: 'center' });
+        doc.text('Generated from Site Visits Dashboard', pageWidth / 2, doc.internal.pageSize.getHeight() - 3, { align: 'center' });
+      }
+
+      doc.save(`all_reports_${new Date().toISOString().split('T')[0]}.pdf`);
+      
+      setToast({ message: 'All reports downloaded successfully!', type: 'success' });
+      setTimeout(() => setToast(null), 3000);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      setToast({ message: 'Failed to generate PDF', type: 'error' });
+      setTimeout(() => setToast(null), 3000);
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -280,11 +646,24 @@ export function SiteVisitsPage() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl shadow-sm border border-gray-100">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-gray-500">{items.length} Reports</span>
-            </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={downloadAllReportsPDF}
+              disabled={downloading || filteredItems.length === 0}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:scale-105 transition-all duration-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {downloading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" />
+                  Download All
+                </>
+              )}
+            </button>
             <button
               onClick={loadData}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-105 transition-all duration-300 text-sm"
@@ -399,14 +778,8 @@ export function SiteVisitsPage() {
             <p className="text-gray-400 mt-1 max-w-md text-center">
               {searchTerm || filterStatus !== 'all' 
                 ? 'Try adjusting your filters' 
-                : 'No reports available. Reports are stored in the "engineer_reports" collection.'}
+                : 'No reports available.'}
             </p>
-            <div className="mt-4 p-4 bg-yellow-50 rounded-xl border border-yellow-200 max-w-md">
-              <p className="text-sm text-yellow-700">
-                <strong>💡 Tip:</strong> Make sure there are site visits submitted by engineers. 
-                Check the <Link to="/admin/engineer-portal/reports" className="text-blue-600 underline font-medium">Engineer Reports</Link> page to see all reports.
-              </p>
-            </div>
             <button
               onClick={loadData}
               className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-500/20 hover:shadow-xl hover:scale-105 transition-all duration-300"
@@ -475,12 +848,18 @@ export function SiteVisitsPage() {
                       View
                     </Link>
 
+                    {/* Download Individual Report */}
                     <button
-                      onClick={() => handleExportReport(r)}
-                      className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-50 to-violet-50 text-purple-700 font-medium hover:from-purple-100 hover:to-violet-100 transition-all duration-300 text-sm"
+                      onClick={() => downloadSingleReportPDF(r)}
+                      disabled={downloadingReport === r.id}
+                      className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 font-medium hover:from-green-100 hover:to-emerald-100 transition-all duration-300 text-sm disabled:opacity-50"
                     >
-                      <FileText className="h-4 w-4" />
-                      Print / PDF
+                      {downloadingReport === r.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Download className="h-4 w-4" />
+                      )}
+                      PDF
                     </button>
 
                     {r.status === 'submitted' && (
