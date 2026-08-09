@@ -10,7 +10,7 @@ export interface Quotation {
   inverter_brand: string;
   battery_requirement: string;
   estimated_price: string;
-  status: 'draft' | 'submitted' | 'approved' | 'rejected';
+  status: 'draft' | 'submitted' | 'approved' | 'rejected' | 'pending';
   created_at: string;
   updated_at: string;
   notes?: string;

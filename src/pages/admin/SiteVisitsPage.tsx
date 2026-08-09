@@ -24,6 +24,8 @@ import {
   Loader2,
 } from 'lucide-react';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import greenLeafLogo from '../../images/GreenLeaf.jpeg';
 
 function renderStatusBadge(status: SiteVisitReport['status']) {
   const base = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300';
@@ -58,6 +60,766 @@ function renderStatusBadge(status: SiteVisitReport['status']) {
       );
   }
 }
+
+// Helper function to generate a single report PDF with full design
+const generateSingleReportHTML = (report: SiteVisitReport) => {
+  const safeValue = (value?: string | null) =>
+    typeof value === 'string' && value.trim() ? value.trim() : 'N/A';
+
+  const getCableSummary = () => {
+    const entries = [
+      { label: 'Earthing', type: report.cable_type_earthing || 'Earthing', measurement: report.cable_measurement_earthing },
+      { label: 'DC', type: report.cable_type_dc || 'DC', measurement: report.cable_measurement_dc },
+      { label: 'AC', type: report.cable_type_ac || 'AC', measurement: report.cable_measurement_ac },
+    ];
+
+    const nonEmpty = entries.filter((entry) => {
+      const type = entry.type?.trim();
+      const measurement = entry.measurement?.trim();
+      return Boolean(type || measurement);
+    });
+
+    if (!nonEmpty.length) return 'N/A';
+
+    return nonEmpty
+      .map((entry) => `${entry.label}: ${entry.measurement ? `${entry.measurement} m` : (entry.type || 'N/A')}`)
+      .join(' | ');
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch {
+      return dateString;
+    }
+  };
+
+  const statusColors = {
+    approved: { text: 'text-green-700', bg: 'bg-green-50', border: 'border-green-200' },
+    rejected: { text: 'text-red-700', bg: 'bg-red-50', border: 'border-red-200' },
+    submitted: { text: 'text-yellow-700', bg: 'bg-yellow-50', border: 'border-yellow-200' },
+    draft: { text: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-200' },
+  };
+
+  const statusColor = statusColors[report.status as keyof typeof statusColors] || statusColors.draft;
+
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Site Visit Report - ${safeValue(report.customer_name)}</title>
+        <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          html, body {
+            background: #ffffff;
+            color: #111827;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.6;
+            padding: 10px;
+          }
+          .report-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+          }
+          .status-bar {
+            height: 4px;
+            background: ${report.status === 'approved' ? 'linear-gradient(to right, #34D399, #059669)' : 
+                      report.status === 'rejected' ? 'linear-gradient(to right, #F87171, #DC2626)' :
+                      report.status === 'submitted' ? 'linear-gradient(to right, #FCD34D, #F59E0B)' :
+                      'linear-gradient(to right, #9CA3AF, #6B7280)'};
+          }
+          .content {
+            padding: 30px 35px;
+          }
+          .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 25px;
+          }
+          .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
+          .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #F0FDF4;
+            padding: 8px 16px 8px 12px;
+            border-radius: 12px;
+            border: 1px solid #D1FAE5;
+          }
+          .logo-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #D1FAE5;
+            background: white;
+            padding: 2px;
+          }
+          .logo-text {
+            font-size: 16px;
+            font-weight: 800;
+            color: #047857;
+          }
+          .logo-sub {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: #6B7280;
+          }
+          .customer-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+          }
+          .report-id {
+            font-size: 12px;
+            font-weight: 400;
+            color: #9CA3AF;
+            margin-left: 8px;
+          }
+          .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            background: ${statusColor.bg};
+            color: ${statusColor.text};
+            border: 1px solid ${statusColor.border};
+          }
+          .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 6px;
+          }
+          .grid-full {
+            grid-column: span 2;
+          }
+          .info-card {
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            background: #F9FAFB;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+          }
+          .info-card .icon {
+            flex-shrink: 0;
+            margin-top: 2px;
+          }
+          .info-card .label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6B7280;
+          }
+          .info-card .value {
+            font-weight: 500;
+            color: #111827;
+            margin-top: 2px;
+          }
+          .info-card .value-mono {
+            font-family: monospace;
+            font-size: 12px;
+          }
+          .bg-green { background: #F0FDF4; border-color: #D1FAE5; }
+          .bg-green .label { color: #059669; }
+          .bg-blue { background: #EFF6FF; border-color: #DBEAFE; }
+          .bg-blue .label { color: #2563EB; }
+          .bg-purple { background: #F5F3FF; border-color: #EDE9FE; }
+          .bg-purple .label { color: #7C3AED; }
+          .bg-slate { background: #F8FAFC; border-color: #E2E8F0; }
+          .bg-slate .label { color: #475569; }
+          .bg-indigo { background: #EEF2FF; border-color: #E0E7FF; }
+          .bg-indigo .label { color: #4F46E5; }
+          .bg-cyan { background: #ECFEFF; border-color: #CFFAFE; }
+          .bg-cyan .label { color: #0891B2; }
+          .bg-orange { background: #FFF7ED; border-color: #FFEDD5; }
+          .bg-orange .label { color: #EA580C; }
+          .bg-teal { background: #F0FDFA; border-color: #CCFBF1; }
+          .bg-teal .label { color: #0D9488; }
+          .bg-yellow { background: #FFFBEB; border-color: #FEF3C7; }
+          .bg-yellow .label { color: #D97706; }
+          .bg-red { background: #FEF2F2; border-color: #FECACA; }
+          .bg-red .label { color: #DC2626; }
+          .bg-amber { background: #FFFBEB; border-color: #FEF3C7; }
+          .bg-amber .label { color: #D97706; }
+          .bg-pink { background: #FDF2F8; border-color: #FCE7F3; }
+          .bg-pink .label { color: #DB2777; }
+          .bg-sky { background: #F0F9FF; border-color: #E0F2FE; }
+          .bg-sky .label { color: #0284C7; }
+          .bg-gray { background: #F9FAFB; border-color: #E5E7EB; }
+          .bg-gray .label { color: #4B5563; }
+          .bg-emerald { background: #ECFDF5; border-color: #D1FAE5; }
+          .bg-emerald .label { color: #059669; }
+
+          .admin-comment {
+            padding: 14px 18px;
+            background: #FEF2F2;
+            border-radius: 10px;
+            border: 1px solid #FECACA;
+            margin-top: 16px;
+          }
+          .admin-comment .label {
+            font-weight: 600;
+            color: #DC2626;
+          }
+          .admin-comment .text {
+            color: #991B1B;
+            margin-top: 2px;
+          }
+
+          .attachments-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+          }
+          .attachment-card {
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            padding: 12px;
+            background: white;
+          }
+          .attachment-card .name {
+            font-weight: 600;
+            color: #374151;
+            font-size: 12px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .attachment-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #F3F4F6;
+          }
+          .attachment-card .placeholder {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F9FAFB;
+            border-radius: 6px;
+            border: 1px dashed #D1D5DB;
+            color: #9CA3AF;
+          }
+
+          .footer-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 4px;
+          }
+          .footer-details span {
+            font-size: 12px;
+            color: #374151;
+          }
+          .footer-details .label {
+            font-weight: 600;
+          }
+
+          .full-width {
+            grid-column: span 2;
+          }
+
+          @media print {
+            html, body {
+              padding: 0;
+              background: white;
+            }
+            .report-container {
+              box-shadow: none;
+              border-radius: 0;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="report-container">
+          <div class="status-bar"></div>
+          <div class="content">
+            
+            <!-- Header -->
+            <div class="header">
+              <div class="header-left">
+                <div class="logo-section">
+                  <img src="${greenLeafLogo}" alt="GreenLeaf Logo" class="logo-img" />
+                  <div>
+                    <div class="logo-text">GreenLeaf Energy</div>
+                    <div class="logo-sub">Site Visit Report</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="customer-name">
+                    ${safeValue(report.customer_name)}
+                    <span class="report-id">#${report.id?.slice(0, 8) || 'N/A'}</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:12px; margin-top:4px;">
+                    <span class="status-badge">${report.status.toUpperCase()}</span>
+                    <span style="font-size:12px; color:#9CA3AF;">
+                      📅 ${formatDate(report.updated_at)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; padding:6px 14px; border-radius:10px; background:${statusColor.bg}; border:1px solid ${statusColor.border};">
+                <span style="font-weight:600; color:${statusColor.text}; font-size:13px;">
+                  ${report.status.toUpperCase()}
+                </span>
+              </div>
+            </div>
+
+            <!-- Admin Comment -->
+            ${report.admin_comment ? `
+              <div class="admin-comment">
+                <div class="label">⚠️ Admin Note</div>
+                <div class="text">${report.admin_comment}</div>
+              </div>
+            ` : ''}
+
+            <!-- Details Grid -->
+            <div class="grid-2">
+              
+              <!-- Customer Name -->
+              <div class="info-card bg-green">
+                <span class="icon">👤</span>
+                <div>
+                  <div class="label">Customer Name</div>
+                  <div class="value">${safeValue(report.customer_name)}</div>
+                </div>
+              </div>
+
+              <!-- Phone Number -->
+              <div class="info-card bg-blue">
+                <span class="icon">📱</span>
+                <div>
+                  <div class="label">Phone Number</div>
+                  <div class="value">${safeValue(report.phone_number)}</div>
+                </div>
+              </div>
+
+              <!-- Address -->
+              <div class="info-card bg-purple full-width">
+                <span class="icon">📍</span>
+                <div>
+                  <div class="label">Address</div>
+                  <div class="value">${safeValue(report.address)}</div>
+                </div>
+              </div>
+
+              <!-- Engineer Name -->
+              <div class="info-card bg-slate">
+                <span class="icon">👷</span>
+                <div>
+                  <div class="label">Engineer Name</div>
+                  <div class="value">${safeValue(report.engineer_name)}</div>
+                </div>
+              </div>
+
+              <!-- Engineer Mobile -->
+              <div class="info-card bg-slate">
+                <span class="icon">📱</span>
+                <div>
+                  <div class="label">Engineer Mobile</div>
+                  <div class="value">${safeValue(report.engineer_mobile)}</div>
+                </div>
+              </div>
+
+              <!-- GPS Location -->
+              <div class="info-card bg-indigo full-width">
+                <span class="icon">🧭</span>
+                <div>
+                  <div class="label">GPS Location</div>
+                  <div class="value value-mono">${safeValue(report.gps_location)}</div>
+                </div>
+              </div>
+
+              <!-- Installation Type -->
+              <div class="info-card bg-cyan">
+                <span class="icon">⛑️</span>
+                <div>
+                  <div class="label">Installation Type</div>
+                  <div class="value">${safeValue(report.installation_type)}</div>
+                </div>
+              </div>
+
+              <!-- Roof Details -->
+              <div class="info-card bg-orange">
+                <span class="icon">🏠</span>
+                <div>
+                  <div class="label">Roof Details</div>
+                  <div class="value">${safeValue(report.roof_type)} / ${safeValue(report.roof_material)}</div>
+                </div>
+              </div>
+
+              <!-- System Capacity -->
+              <div class="info-card bg-teal">
+                <span class="icon">⚡</span>
+                <div>
+                  <div class="label">System Capacity</div>
+                  <div class="value">${safeValue(report.system_capacity)} kW</div>
+                </div>
+              </div>
+
+              <!-- Phase Type -->
+              <div class="info-card bg-cyan">
+                <span class="icon">🔌</span>
+                <div>
+                  <div class="label">Phase Type</div>
+                  <div class="value">${safeValue(report.phase_type)}</div>
+                </div>
+              </div>
+
+              <!-- Panel Details -->
+              <div class="info-card bg-blue">
+                <span class="icon">🪫</span>
+                <div>
+                  <div class="label">Panel</div>
+                  <div class="value">${safeValue(report.panel_brand)} / ${safeValue(report.panel_type)}</div>
+                </div>
+              </div>
+
+              <!-- Inverter Details -->
+              <div class="info-card bg-yellow">
+                <span class="icon">⚡</span>
+                <div>
+                  <div class="label">Inverter</div>
+                  <div class="value">${safeValue(report.inverter_type)} / ${safeValue(report.inverter_brand)}</div>
+                </div>
+              </div>
+
+              <!-- Battery Details -->
+              <div class="info-card bg-purple">
+                <span class="icon">🔋</span>
+                <div>
+                  <div class="label">Battery</div>
+                  <div class="value">${safeValue(report.battery_type)} / ${safeValue(report.battery_power)} / Qty: ${safeValue(report.battery_quantity)}</div>
+                </div>
+              </div>
+
+              <!-- Structure Heights -->
+              <div class="info-card bg-slate">
+                <span class="icon">🏗️</span>
+                <div>
+                  <div class="label">Structure Heights</div>
+                  <div class="value">Low: ${safeValue(report.structure_height_low)} | High: ${safeValue(report.structure_height_high)}</div>
+                </div>
+              </div>
+
+              <!-- Distances -->
+              <div class="info-card bg-slate">
+                <span class="icon">📏</span>
+                <div>
+                  <div class="label">Distances</div>
+                  <div class="value">N/S: ${safeValue(report.north_south_distance)} | E/W: ${safeValue(report.east_west_distance)}</div>
+                </div>
+              </div>
+
+              <!-- Shadow Analysis -->
+              <div class="info-card bg-yellow">
+                <span class="icon">☀️</span>
+                <div>
+                  <div class="label">Shadow Analysis</div>
+                  <div class="value">${safeValue(report.shadow_analysis)}</div>
+                </div>
+              </div>
+
+              <!-- Electricity Bill -->
+              <div class="info-card bg-red">
+                <span class="icon">📄</span>
+                <div>
+                  <div class="label">Electricity Bill</div>
+                  <div class="value">${safeValue(report.electricity_bill)}</div>
+                </div>
+              </div>
+
+              <!-- Cable Summary -->
+              <div class="info-card bg-indigo full-width">
+                <span class="icon">🔌</span>
+                <div>
+                  <div class="label">Cable Details</div>
+                  <div class="value">${getCableSummary()}</div>
+                </div>
+              </div>
+
+              <!-- Cable Types -->
+              <div class="info-card bg-cyan">
+                <span class="icon">🔌</span>
+                <div>
+                  <div class="label">Cable Types</div>
+                  <div class="value">${safeValue(report.cable_type_earthing)} / ${safeValue(report.cable_type_dc)} / ${safeValue(report.cable_type_ac)}</div>
+                </div>
+              </div>
+
+              <!-- Recommended Capacity -->
+              <div class="info-card bg-emerald">
+                <span class="icon">📈</span>
+                <div>
+                  <div class="label">Recommended Capacity</div>
+                  <div class="value" style="font-size:18px; font-weight:700;">${safeValue(report.recommended_capacity)}</div>
+                </div>
+              </div>
+
+              <!-- Inverter Recommendation -->
+              <div class="info-card bg-indigo">
+                <span class="icon">⚡</span>
+                <div>
+                  <div class="label">Inverter Recommendation</div>
+                  <div class="value">${safeValue(report.inverter_recommendation)}</div>
+                </div>
+              </div>
+
+              <!-- Panel Recommendation -->
+              <div class="info-card bg-cyan">
+                <span class="icon">🪫</span>
+                <div>
+                  <div class="label">Panel Recommendation</div>
+                  <div class="value">${safeValue(report.panel_recommendation)}</div>
+                </div>
+              </div>
+
+              <!-- Remarks -->
+              <div class="info-card bg-gray full-width">
+                <span class="icon">✏️</span>
+                <div>
+                  <div class="label">Remarks</div>
+                  <div class="value">${safeValue(report.remarks) || 'No remarks provided'}</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Attachments -->
+            ${report.attachments && report.attachments.length > 0 ? `
+              <div style="margin-top:20px; padding:16px; background:#F9FAFB; border-radius:10px; border:1px solid #E5E7EB;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <span style="font-size:16px;">📎</span>
+                  <div style="flex:1;">
+                    <div style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:#6B7280;">Uploaded Images & Documents</div>
+                    <div class="attachments-grid">
+                      ${report.attachments.map((file) => {
+                        const isImage = file.type?.startsWith('image/');
+                        const fileData = (file as any).url || (file as any).data;
+                        return `
+                          <div class="attachment-card">
+                            <div class="name">${file.name}</div>
+                            ${isImage && fileData ? `
+                              <img src="${fileData}" alt="${file.name}" />
+                            ` : `
+                              <div class="placeholder">
+                                <div style="text-align:center;">
+                                  <div style="font-size:32px;">📄</div>
+                                  <div style="font-size:12px; color:#6B7280; margin-top:4px;">${file.name}</div>
+                                </div>
+                              </div>
+                            `}
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Footer Details -->
+            <div style="margin-top:24px; padding-top:20px; border-top:1px solid #E5E7EB;">
+              <div class="footer-details">
+                <span><span class="label">Created:</span> ${formatDate(report.created_at || report.updated_at)}</span>
+                <span><span class="label">Last Updated:</span> ${formatDate(report.updated_at)}</span>
+                <span><span class="label">Report ID:</span> <span style="font-family:monospace;">${report.id}</span></span>
+              </div>
+              <div style="margin-top:12px; text-align:center; font-size:10px; color:#9CA3AF; border-top:1px solid #F3F4F6; padding-top:12px;">
+                Generated from GreenLeaf Energy Site Visits Dashboard • ${new Date().toLocaleString()}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+};
+
+// Helper function to generate a summary table PDF for all reports
+const generateSummaryHTML = (reports: SiteVisitReport[]) => {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>All Site Visits Summary</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { 
+            background: white; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            padding: 20px;
+            font-size: 11px;
+          }
+          .container { max-width: 1100px; margin: 0 auto; }
+          .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #2563EB;
+            margin-bottom: 20px;
+          }
+          .header h1 { font-size: 22px; color: #1F2937; }
+          .header .sub { font-size: 12px; color: #6B7280; }
+          table { 
+            width: 100%; 
+            border-collapse: collapse;
+            margin-top: 12px;
+          }
+          th {
+            background: #2563EB;
+            color: white;
+            padding: 8px 10px;
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+          }
+          td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 11px;
+          }
+          tr:nth-child(even) { background: #F9FAFB; }
+          .status-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 600;
+          }
+          .status-approved { background: #D1FAE5; color: #065F46; }
+          .status-rejected { background: #FECACA; color: #991B1B; }
+          .status-submitted { background: #FEF3C7; color: #92400E; }
+          .status-draft { background: #F3F4F6; color: #4B5563; }
+          .footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #E5E7EB;
+            text-align: center;
+            font-size: 10px;
+            color: #9CA3AF;
+          }
+          .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: #F9FAFB;
+            border-radius: 8px;
+          }
+          .stats .item {
+            font-size: 12px;
+            color: #374151;
+          }
+          .stats .count {
+            font-weight: 700;
+            margin-right: 4px;
+          }
+          .stats .approved .count { color: #059669; }
+          .stats .rejected .count { color: #DC2626; }
+          .stats .submitted .count { color: #D97706; }
+          .stats .draft .count { color: #6B7280; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div>
+              <h1>📋 Site Visits Summary Report</h1>
+              <div class="sub">Complete list of all site visit reports</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:600; color:#1F2937;">${new Date().toLocaleDateString()}</div>
+              <div style="font-size:10px; color:#6B7280;">${new Date().toLocaleTimeString()}</div>
+            </div>
+          </div>
+
+          <div class="stats">
+            <span class="item"><span class="count">${reports.length}</span> Total</span>
+            <span class="item approved"><span class="count">${reports.filter(r => r.status === 'approved').length}</span> Approved</span>
+            <span class="item rejected"><span class="count">${reports.filter(r => r.status === 'rejected').length}</span> Rejected</span>
+            <span class="item submitted"><span class="count">${reports.filter(r => r.status === 'submitted').length}</span> Submitted</span>
+            <span class="item draft"><span class="count">${reports.filter(r => r.status === 'draft').length}</span> Draft</span>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Engineer</th>
+                <th>System Capacity</th>
+                <th>Status</th>
+                <th>Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${reports.map((r, i) => `
+                <tr>
+                  <td>${i + 1}</td>
+                  <td><strong>${r.customer_name || 'N/A'}</strong></td>
+                  <td>${r.phone_number || 'N/A'}</td>
+                  <td>${r.address ? (r.address.length > 30 ? r.address.substring(0, 30) + '...' : r.address) : 'N/A'}</td>
+                  <td>${r.engineer_name || 'N/A'}</td>
+                  <td>${r.system_capacity || 'N/A'}</td>
+                  <td><span class="status-badge status-${r.status}">${r.status.toUpperCase()}</span></td>
+                  <td>${r.updated_at ? new Date(r.updated_at).toLocaleDateString() : 'N/A'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div class="footer">
+            Generated from GreenLeaf Energy Site Visits Dashboard • ${new Date().toLocaleString()}
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+};
 
 export function SiteVisitsPage() {
   const { user, role } = useAuth();
@@ -166,365 +928,30 @@ export function SiteVisitsPage() {
     }
   };
 
-  // Helper function to draw table in PDF
-  const drawTable = (doc: jsPDF, headers: string[], data: any[][], startY: number, pageWidth: number) => {
-    const colWidths = headers.map((_, i) => {
-      const widths = [20, 50, 35, 30, 45];
-      return widths[i] || 30;
-    });
-    
-    let yPos = startY;
-    const rowHeight = 8;
-    const margin = 15;
-    const tableWidth = pageWidth - (margin * 2);
-    
-    // Draw header
-    doc.setFillColor(59, 130, 246);
-    doc.rect(margin, yPos - 4, tableWidth, rowHeight, 'F');
-    doc.setFontSize(9);
-    doc.setTextColor(255, 255, 255);
-    
-    let xPos = margin;
-    headers.forEach((header, i) => {
-      doc.text(header, xPos + 2, yPos + 2);
-      xPos += colWidths[i];
-    });
-    
-    yPos += rowHeight;
-    
-    // Draw rows
-    doc.setFontSize(8);
-    doc.setTextColor(50, 50, 50);
-    
-    data.forEach((row, rowIndex) => {
-      if (yPos > doc.internal.pageSize.getHeight() - 20) {
-        doc.addPage();
-        yPos = 20;
-        // Redraw header on new page
-        doc.setFillColor(59, 130, 246);
-        doc.rect(margin, yPos - 4, tableWidth, rowHeight, 'F');
-        doc.setFontSize(9);
-        doc.setTextColor(255, 255, 255);
-        xPos = margin;
-        headers.forEach((header, i) => {
-          doc.text(header, xPos + 2, yPos + 2);
-          xPos += colWidths[i];
-        });
-        yPos += rowHeight;
-      }
-      
-      // Draw row background
-      if (rowIndex % 2 === 0) {
-        doc.setFillColor(245, 245, 245);
-        doc.rect(margin, yPos - 3, tableWidth, rowHeight - 1, 'F');
-      }
-      
-      xPos = margin;
-      row.forEach((cell, i) => {
-        const cellStr = String(cell);
-        const maxWidth = colWidths[i] - 4;
-        const text = doc.splitTextToSize(cellStr, maxWidth);
-        doc.text(text, xPos + 2, yPos + 2);
-        xPos += colWidths[i];
-      });
-      yPos += rowHeight;
-    });
-    
-    return yPos;
-  };
-
-  // Generate PDF for a single report
-  const generateSingleReportPDF = (report: SiteVisitReport) => {
-    const doc = new jsPDF('p', 'mm', 'a4');
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    let yPos = 20;
-
-    // Header
-    doc.setFillColor(16, 185, 129);
-    doc.rect(0, 0, pageWidth, 15, 'F');
-    
-    doc.setFontSize(18);
-    doc.setTextColor(255, 255, 255);
-    doc.text('Site Visit Report', pageWidth / 2, 10, { align: 'center' });
-
-    // Report ID and Status
-    yPos = 25;
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Report ID: ${report.id}`, 20, yPos);
-    doc.text(`Status: ${report.status.toUpperCase()}`, pageWidth - 20, yPos, { align: 'right' });
-
-    // Customer Information Section
-    yPos += 10;
-    doc.setFillColor(240, 249, 255);
-    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(37, 99, 235);
-    doc.text('Customer Information', 20, yPos);
-
-    yPos += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    
-    const customerData = [
-      ['Customer Name', report.customer_name || 'N/A'],
-      ['Phone Number', report.phone_number || 'N/A'],
-      ['Address', report.address || 'N/A'],
-      ['Engineer Name', report.engineer_name || 'N/A'],
-      ['Engineer Mobile', report.engineer_mobile || 'N/A'],
-      ['GPS Location', report.gps_location || 'N/A'],
-      ['Installation Type', report.installation_type || 'N/A'],
-    ];
-
-    customerData.forEach(([label, value]) => {
-      if (yPos > pageHeight - 30) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${label}:`, 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      const lines = doc.splitTextToSize(String(value), pageWidth - 90);
-      doc.text(lines, 70, yPos);
-      yPos += 6 + (lines.length - 1) * 4;
-    });
-
-    // Roof Details
-    yPos += 2;
-    doc.setFillColor(240, 249, 255);
-    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(37, 99, 235);
-    doc.text('Roof Details', 20, yPos);
-
-    yPos += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    const roofData = [
-      ['Roof Type', report.roof_type || 'N/A'],
-      ['Roof Material', report.roof_material || 'N/A'],
-    ];
-
-    roofData.forEach(([label, value]) => {
-      if (yPos > pageHeight - 30) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${label}:`, 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(value), 70, yPos);
-      yPos += 6;
-    });
-
-    // System Specifications
-    yPos += 2;
-    doc.setFillColor(240, 249, 255);
-    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(37, 99, 235);
-    doc.text('System Specifications', 20, yPos);
-
-    yPos += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    const systemData = [
-      ['System Capacity', report.system_capacity || 'N/A'],
-      ['Cables in meters', report.cables_in_meters || 'N/A'],
-      ['Cable Type', report.cable_type || 'N/A'],
-      ['Recommended Capacity', report.recommended_capacity || 'N/A'],
-      ['Panel Brand', report.panel_brand || 'N/A'],
-      ['Panel Type', report.panel_type || 'N/A'],
-      ['Inverter Type', report.inverter_type || 'N/A'],
-      ['Inverter Brand', report.inverter_brand || 'N/A'],
-      ['Battery Type', report.battery_type || 'N/A'],
-      ['Battery Power', report.battery_power || 'N/A'],
-    ];
-
-    systemData.forEach(([label, value]) => {
-      if (yPos > pageHeight - 30) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${label}:`, 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(value), 70, yPos);
-      yPos += 6;
-    });
-
-    // Structure Measurements
-    yPos += 2;
-    doc.setFillColor(240, 249, 255);
-    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(37, 99, 235);
-    doc.text('Structure Measurements', 20, yPos);
-
-    yPos += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    const structureData = [
-      ['Structure Height (Low)', report.structure_height_low || 'N/A'],
-      ['Structure Height (High)', report.structure_height_high || 'N/A'],
-      ['North/South Distance', report.north_south_distance || 'N/A'],
-      ['East/West Distance', report.east_west_distance || 'N/A'],
-    ];
-
-    structureData.forEach(([label, value]) => {
-      if (yPos > pageHeight - 30) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${label}:`, 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(value), 70, yPos);
-      yPos += 6;
-    });
-
-    // Solar Analysis
-    yPos += 2;
-    doc.setFillColor(240, 249, 255);
-    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(37, 99, 235);
-    doc.text('Solar Analysis', 20, yPos);
-
-    yPos += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    
-    if (report.shadow_analysis) {
-      doc.setFont('helvetica', 'bold');
-      doc.text('Shadow Analysis:', 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      const lines = doc.splitTextToSize(report.shadow_analysis, pageWidth - 90);
-      doc.text(lines, 70, yPos);
-      yPos += lines.length * 5 + 2;
-    }
-
-    const solarData = [
-      ['Electricity Bill', report.electricity_bill || 'N/A'],
-    ];
-
-    solarData.forEach(([label, value]) => {
-      if (yPos > pageHeight - 30) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${label}:`, 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(value), 70, yPos);
-      yPos += 6;
-    });
-
-    // Recommendations
-    yPos += 2;
-    doc.setFillColor(240, 249, 255);
-    doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-    doc.setFontSize(12);
-    doc.setTextColor(37, 99, 235);
-    doc.text('Recommendations', 20, yPos);
-
-    yPos += 8;
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    const recommendationData = [
-      ['Inverter Recommendation', report.inverter_recommendation || 'N/A'],
-      ['Panel Recommendation', report.panel_recommendation || 'N/A'],
-    ];
-
-    recommendationData.forEach(([label, value]) => {
-      if (yPos > pageHeight - 30) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${label}:`, 20, yPos);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(value), 70, yPos);
-      yPos += 6;
-    });
-
-    // Remarks
-    if (report.remarks) {
-      yPos += 2;
-      doc.setFillColor(240, 249, 255);
-      doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-      doc.setFontSize(12);
-      doc.setTextColor(37, 99, 235);
-      doc.text('Remarks', 20, yPos);
-
-      yPos += 8;
-      doc.setFontSize(10);
-      doc.setTextColor(50, 50, 50);
-      const remarksLines = doc.splitTextToSize(report.remarks, pageWidth - 40);
-      doc.text(remarksLines, 20, yPos);
-      yPos += remarksLines.length * 5 + 2;
-    }
-
-    if (report.attachments && report.attachments.length > 0) {
-      yPos += 2;
-      doc.setFillColor(240, 249, 255);
-      doc.rect(15, yPos - 4, pageWidth - 30, 8, 'F');
-      doc.setFontSize(12);
-      doc.setTextColor(37, 99, 235);
-      doc.text('Attachments', 20, yPos);
-
-      yPos += 8;
-      doc.setFontSize(10);
-      doc.setTextColor(50, 50, 50);
-      const imageAttachments = report.attachments.filter((file) => file.type?.startsWith('image/'));
-
-      if (imageAttachments.length > 0) {
-        const imageWidth = 80;
-        const imageHeight = 60;
-        const columns = 2;
-        imageAttachments.forEach((file, index) => {
-          if (yPos > pageHeight - 60) {
-            doc.addPage();
-            yPos = 20;
-          }
-          const data = (file as { data?: string }).data;
-          if (!data) return;
-          try {
-            const x = 20 + (index % columns) * 90;
-            const y = yPos + Math.floor(index / columns) * 70;
-            doc.addImage(data, 'JPEG', x, y, imageWidth, imageHeight);
-            doc.text(file.name, x, y + imageHeight + 5);
-          } catch (error) {
-            console.warn('Could not embed attachment image in PDF:', error);
-          }
-        });
-      }
-    }
-
-    // Footer
-    if (yPos > pageHeight - 20) {
-      doc.addPage();
-      yPos = 20;
-    }
-
-    doc.setDrawColor(200, 200, 200);
-    doc.line(15, pageHeight - 15, pageWidth - 15, pageHeight - 15);
-    doc.setFontSize(8);
-    doc.setTextColor(150, 150, 150);
-    doc.text(`Generated on ${new Date().toLocaleString()}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
-    doc.text(`Report ID: ${report.id}`, pageWidth / 2, pageHeight - 3, { align: 'center' });
-
-    return doc;
-  };
-
-  // Download single report
+  // Download a single report with full design
   const downloadSingleReportPDF = async (report: SiteVisitReport) => {
     setDownloadingReport(report.id);
     try {
-      const doc = generateSingleReportPDF(report);
-      doc.save(`report_${report.id}_${new Date().toISOString().split('T')[0]}.pdf`);
-      
+      const html = generateSingleReportHTML(report);
+      const printWindow = window.open('', '_blank', 'width=1200,height=900');
+      if (!printWindow) {
+        setToast({ message: 'Please allow popups to download PDF', type: 'error' });
+        setTimeout(() => setToast(null), 3000);
+        setDownloadingReport(null);
+        return;
+      }
+
+      printWindow.document.write(html);
+      printWindow.document.close();
+      printWindow.focus();
+
+      setTimeout(() => {
+        printWindow.print();
+        setTimeout(() => {
+          printWindow.close();
+        }, 1000);
+      }, 1000);
+
       setToast({ message: 'Report downloaded successfully!', type: 'success' });
       setTimeout(() => setToast(null), 3000);
     } catch (error) {
@@ -536,7 +963,7 @@ export function SiteVisitsPage() {
     }
   };
 
-  // Download all reports
+  // Download all reports as a summary
   const downloadAllReportsPDF = async () => {
     if (filteredItems.length === 0) {
       setToast({ message: 'No reports to download', type: 'error' });
@@ -546,52 +973,26 @@ export function SiteVisitsPage() {
 
     setDownloading(true);
     try {
-      const doc = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = doc.internal.pageSize.getWidth();
-      let yPos = 20;
-
-      // Header
-      doc.setFillColor(59, 130, 246);
-      doc.rect(0, 0, pageWidth, 20, 'F');
-      
-      doc.setFontSize(22);
-      doc.setTextColor(255, 255, 255);
-      doc.text('Site Visits Report', pageWidth / 2, 12, { align: 'center' });
-
-      yPos = 30;
-      doc.setFontSize(12);
-      doc.setTextColor(50, 50, 50);
-      doc.text(`Total Reports: ${filteredItems.length}`, 20, yPos);
-      doc.text(`Generated: ${new Date().toLocaleString()}`, 20, yPos + 6);
-
-      yPos += 18;
-
-      // Table headers
-      const headers = ['#', 'Customer', 'Phone', 'Status', 'Address'];
-      const data = filteredItems.map((report, index) => [
-        (index + 1).toString(),
-        report.customer_name || 'N/A',
-        report.phone_number || 'N/A',
-        report.status || 'N/A',
-        report.address ? (report.address.length > 30 ? report.address.substring(0, 30) + '...' : report.address) : 'N/A'
-      ]);
-
-      // Draw table
-      yPos = drawTable(doc, headers, data, yPos, pageWidth);
-
-      // Footer
-      const internalDoc = doc.internal as any;
-      const pageCount = typeof internalDoc.getNumberOfPages === 'function' ? internalDoc.getNumberOfPages() : 1;
-      for (let i = 1; i <= pageCount; i++) {
-        doc.setPage(i);
-        doc.setFontSize(8);
-        doc.setTextColor(150, 150, 150);
-        doc.text(`Page ${i} of ${pageCount}`, pageWidth / 2, doc.internal.pageSize.getHeight() - 8, { align: 'center' });
-        doc.text('Generated from Site Visits Dashboard', pageWidth / 2, doc.internal.pageSize.getHeight() - 3, { align: 'center' });
+      const html = generateSummaryHTML(filteredItems);
+      const printWindow = window.open('', '_blank', 'width=1200,height=900');
+      if (!printWindow) {
+        setToast({ message: 'Please allow popups to download PDF', type: 'error' });
+        setTimeout(() => setToast(null), 3000);
+        setDownloading(false);
+        return;
       }
 
-      doc.save(`all_reports_${new Date().toISOString().split('T')[0]}.pdf`);
-      
+      printWindow.document.write(html);
+      printWindow.document.close();
+      printWindow.focus();
+
+      setTimeout(() => {
+        printWindow.print();
+        setTimeout(() => {
+          printWindow.close();
+        }, 1000);
+      }, 1000);
+
       setToast({ message: 'All reports downloaded successfully!', type: 'success' });
       setTimeout(() => setToast(null), 3000);
     } catch (error) {

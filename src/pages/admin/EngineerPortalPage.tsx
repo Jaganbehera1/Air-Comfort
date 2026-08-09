@@ -20,45 +20,6 @@ export function EngineerPortalPage() {
 
   const roleLabel = role === 'admin' ? 'Administrator' : role === 'engineer' ? 'Engineer' : 'Customer';
 
-  const stats = [
-    {
-      title: 'Active Projects',
-      value: '8',
-      icon: <HardHat className="h-6 w-6" />,
-      gradient: 'from-green-500 to-emerald-500',
-      bgGradient: 'from-green-50 to-emerald-50',
-      textColor: 'text-green-600',
-      subtitle: 'Ongoing installations'
-    },
-    {
-      title: 'Pending Reports',
-      value: '12',
-      icon: <ClipboardList className="h-6 w-6" />,
-      gradient: 'from-blue-500 to-blue-600',
-      bgGradient: 'from-blue-50 to-blue-100',
-      textColor: 'text-blue-600',
-      subtitle: 'Need review'
-    },
-    {
-      title: 'Scheduled Maintenance',
-      value: '5',
-      icon: <Wrench className="h-6 w-6" />,
-      gradient: 'from-yellow-500 to-amber-500',
-      bgGradient: 'from-yellow-50 to-amber-50',
-      textColor: 'text-yellow-600',
-      subtitle: 'Upcoming visits'
-    },
-    {
-      title: 'Completed Tasks',
-      value: '24',
-      icon: <CheckCircle className="h-6 w-6" />,
-      gradient: 'from-purple-500 to-purple-600',
-      bgGradient: 'from-purple-50 to-purple-100',
-      textColor: 'text-purple-600',
-      subtitle: 'This month'
-    },
-  ];
-
   const quickLinks = [
     {
       title: 'Create Report',
@@ -155,28 +116,6 @@ export function EngineerPortalPage() {
               </Link>
             </div>
           </div>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <div
-              key={stat.title}
-              className={`group bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeIn`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-gray-500">{stat.title}</span>
-                <div className={`w-11 h-11 bg-gradient-to-br ${stat.bgGradient} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <div className={stat.textColor}>{stat.icon}</div>
-                </div>
-              </div>
-              <p className={`text-2xl font-bold ${stat.textColor}`}>
-                {stat.value}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">{stat.subtitle}</p>
-            </div>
-          ))}
         </div>
 
         {/* Quick Links */}

@@ -41,6 +41,268 @@ import {
 } from 'lucide-react';
 import { deleteQuotation, getQuotation, listQuotations, saveQuotation, Quotation } from '../../lib/quotations';
 
+// ============================================
+// PRICE MASTER DATA - Derived from Excel
+// ============================================
+interface PriceEntry {
+  id: string;
+  capacity: string;
+  panelBrand: string;
+  inverterType: string;
+  battery: string;
+  price: number;
+}
+
+// Complete price data from Excel
+const PRICE_MASTER: PriceEntry[] = [
+  // ===== 1 KW Single Phase =====
+  { id: '1kw_sp_tata_ongrid_nobat', capacity: '1 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 119000 },
+  { id: '1kw_sp_adani_ongrid_nobat', capacity: '1 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 109000 },
+  { id: '1kw_sp_waaree_ongrid_nobat', capacity: '1 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 109000 },
+  { id: '1kw_sp_luminous_ongrid_nobat', capacity: '1 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 105000 },
+  { id: '1kw_sp_surya_ongrid_nobat', capacity: '1 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 99000 },
+  { id: '1kw_sp_jackson_ongrid_nobat', capacity: '1 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 99000 },
+  { id: '1kw_sp_goutam_ongrid_nobat', capacity: '1 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 99000 },
+  { id: '1kw_sp_utl_ongrid_nobat', capacity: '1 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 99000 },
+
+  // ===== 2 KW Single Phase =====
+  { id: '2kw_sp_tata_ongrid_nobat', capacity: '2 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 159000 },
+  { id: '2kw_sp_adani_ongrid_nobat', capacity: '2 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 149000 },
+  { id: '2kw_sp_waaree_ongrid_nobat', capacity: '2 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 149000 },
+  { id: '2kw_sp_luminous_ongrid_nobat', capacity: '2 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 139000 },
+  { id: '2kw_sp_surya_ongrid_nobat', capacity: '2 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 129000 },
+  { id: '2kw_sp_jackson_ongrid_nobat', capacity: '2 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 129000 },
+  { id: '2kw_sp_goutam_ongrid_nobat', capacity: '2 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 129000 },
+  { id: '2kw_sp_utl_ongrid_nobat', capacity: '2 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 129000 },
+
+  // ===== 3 KW Single Phase =====
+  // Ongrid
+  { id: '3kw_sp_tata_ongrid_nobat', capacity: '3 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 225000 },
+  { id: '3kw_sp_adani_ongrid_nobat', capacity: '3 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 219000 },
+  { id: '3kw_sp_waaree_ongrid_nobat', capacity: '3 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 219000 },
+  { id: '3kw_sp_luminous_ongrid_nobat', capacity: '3 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 209000 },
+  { id: '3kw_sp_surya_ongrid_nobat', capacity: '3 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 199000 },
+  { id: '3kw_sp_jackson_ongrid_nobat', capacity: '3 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 199000 },
+  { id: '3kw_sp_goutam_ongrid_nobat', capacity: '3 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 199000 },
+  { id: '3kw_sp_utl_ongrid_nobat', capacity: '3 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 199000 },
+  // Hybrid Without Battery
+  { id: '3kw_sp_tata_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: 'Without Battery', price: 269000 },
+  { id: '3kw_sp_adani_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: 'Without Battery', price: 259000 },
+  { id: '3kw_sp_waaree_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: 'Without Battery', price: 259000 },
+  { id: '3kw_sp_luminous_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: 'Without Battery', price: 249000 },
+  { id: '3kw_sp_surya_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: 'Without Battery', price: 239000 },
+  { id: '3kw_sp_jackson_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: 'Without Battery', price: 239000 },
+  { id: '3kw_sp_goutam_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: 'Without Battery', price: 239000 },
+  { id: '3kw_sp_utl_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: 'Without Battery', price: 239000 },
+  // Hybrid 2 Nos
+  { id: '3kw_sp_tata_hybrid_2nos', capacity: '3 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: '2 Nos', price: 309000 },
+  { id: '3kw_sp_adani_hybrid_2nos', capacity: '3 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: '2 Nos', price: 299000 },
+  { id: '3kw_sp_waaree_hybrid_2nos', capacity: '3 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: '2 Nos', price: 299000 },
+  { id: '3kw_sp_luminous_hybrid_2nos', capacity: '3 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: '2 Nos', price: 289000 },
+  { id: '3kw_sp_surya_hybrid_2nos', capacity: '3 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: '2 Nos', price: 279000 },
+  { id: '3kw_sp_jackson_hybrid_2nos', capacity: '3 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: '2 Nos', price: 279000 },
+  { id: '3kw_sp_goutam_hybrid_2nos', capacity: '3 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: '2 Nos', price: 279000 },
+  { id: '3kw_sp_utl_hybrid_2nos', capacity: '3 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: '2 Nos', price: 279000 },
+
+  // ===== 5 KW Single Phase =====
+  // Ongrid
+  { id: '5kw_sp_tata_ongrid_nobat', capacity: '5 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 319000 },
+  { id: '5kw_sp_adani_ongrid_nobat', capacity: '5 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 279000 },
+  { id: '5kw_sp_waaree_ongrid_nobat', capacity: '5 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 279000 },
+  { id: '5kw_sp_luminous_ongrid_nobat', capacity: '5 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 269000 },
+  { id: '5kw_sp_surya_ongrid_nobat', capacity: '5 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 249000 },
+  { id: '5kw_sp_jackson_ongrid_nobat', capacity: '5 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 249000 },
+  { id: '5kw_sp_goutam_ongrid_nobat', capacity: '5 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 249000 },
+  { id: '5kw_sp_utl_ongrid_nobat', capacity: '5 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 249000 },
+  // Hybrid Without Battery
+  { id: '5kw_sp_tata_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: 'Without Battery', price: 369000 },
+  { id: '5kw_sp_adani_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: 'Without Battery', price: 329000 },
+  { id: '5kw_sp_waaree_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: 'Without Battery', price: 329000 },
+  { id: '5kw_sp_luminous_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: 'Without Battery', price: 319000 },
+  { id: '5kw_sp_surya_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  { id: '5kw_sp_jackson_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  { id: '5kw_sp_goutam_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  { id: '5kw_sp_utl_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  // Hybrid 2 Nos
+  { id: '5kw_sp_tata_hybrid_2nos', capacity: '5 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: '2 Nos', price: 409000 },
+  { id: '5kw_sp_adani_hybrid_2nos', capacity: '5 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: '2 Nos', price: 369000 },
+  { id: '5kw_sp_waaree_hybrid_2nos', capacity: '5 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: '2 Nos', price: 369000 },
+  { id: '5kw_sp_luminous_hybrid_2nos', capacity: '5 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: '2 Nos', price: 359000 },
+  { id: '5kw_sp_surya_hybrid_2nos', capacity: '5 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: '2 Nos', price: 339000 },
+  { id: '5kw_sp_jackson_hybrid_2nos', capacity: '5 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: '2 Nos', price: 339000 },
+  { id: '5kw_sp_goutam_hybrid_2nos', capacity: '5 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: '2 Nos', price: 339000 },
+  { id: '5kw_sp_utl_hybrid_2nos', capacity: '5 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: '2 Nos', price: 339000 },
+
+  // ===== 10 KW Single Phase =====
+  // Ongrid
+  { id: '10kw_sp_tata_ongrid_nobat', capacity: '10 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 519000 },
+  { id: '10kw_sp_adani_ongrid_nobat', capacity: '10 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 479000 },
+  { id: '10kw_sp_waaree_ongrid_nobat', capacity: '10 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 479000 },
+  { id: '10kw_sp_luminous_ongrid_nobat', capacity: '10 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 469000 },
+  { id: '10kw_sp_surya_ongrid_nobat', capacity: '10 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 449000 },
+  { id: '10kw_sp_jackson_ongrid_nobat', capacity: '10 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 449000 },
+  { id: '10kw_sp_goutam_ongrid_nobat', capacity: '10 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 449000 },
+  { id: '10kw_sp_utl_ongrid_nobat', capacity: '10 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 449000 },
+  // Hybrid Without Battery
+  { id: '10kw_sp_tata_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: 'Without Battery', price: 669000 },
+  { id: '10kw_sp_adani_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: 'Without Battery', price: 629000 },
+  { id: '10kw_sp_waaree_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: 'Without Battery', price: 629000 },
+  { id: '10kw_sp_luminous_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: 'Without Battery', price: 619000 },
+  { id: '10kw_sp_surya_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: 'Without Battery', price: 599000 },
+  { id: '10kw_sp_jackson_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: 'Without Battery', price: 599000 },
+  { id: '10kw_sp_goutam_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: 'Without Battery', price: 599000 },
+  { id: '10kw_sp_utl_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: 'Without Battery', price: 599000 },
+  // Hybrid 4 Nos
+  { id: '10kw_sp_tata_hybrid_4nos', capacity: '10 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: '4 Nos', price: 749000 },
+  { id: '10kw_sp_adani_hybrid_4nos', capacity: '10 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: '4 Nos', price: 709000 },
+  { id: '10kw_sp_waaree_hybrid_4nos', capacity: '10 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: '4 Nos', price: 709000 },
+  { id: '10kw_sp_luminous_hybrid_4nos', capacity: '10 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: '4 Nos', price: 699000 },
+  { id: '10kw_sp_surya_hybrid_4nos', capacity: '10 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: '4 Nos', price: 679000 },
+  { id: '10kw_sp_jackson_hybrid_4nos', capacity: '10 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: '4 Nos', price: 679000 },
+  { id: '10kw_sp_goutam_hybrid_4nos', capacity: '10 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: '4 Nos', price: 679000 },
+  { id: '10kw_sp_utl_hybrid_4nos', capacity: '10 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: '4 Nos', price: 679000 },
+
+  // ===== 3 KW Three Phase =====
+  // Ongrid
+  { id: '3kw_tp_tata_ongrid_nobat', capacity: '3 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 280000 },
+  { id: '3kw_tp_adani_ongrid_nobat', capacity: '3 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 275000 },
+  { id: '3kw_tp_waaree_ongrid_nobat', capacity: '3 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 275000 },
+  { id: '3kw_tp_luminous_ongrid_nobat', capacity: '3 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 265000 },
+  { id: '3kw_tp_surya_ongrid_nobat', capacity: '3 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 265000 },
+  { id: '3kw_tp_jackson_ongrid_nobat', capacity: '3 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 265000 },
+  { id: '3kw_tp_goutam_ongrid_nobat', capacity: '3 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 265000 },
+  { id: '3kw_tp_utl_ongrid_nobat', capacity: '3 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 265000 },
+  // Hybrid Without Battery
+  { id: '3kw_tp_tata_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: 'Without Battery', price: 349000 },
+  { id: '3kw_tp_adani_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: 'Without Battery', price: 329000 },
+  { id: '3kw_tp_waaree_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: 'Without Battery', price: 329000 },
+  { id: '3kw_tp_luminous_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: 'Without Battery', price: 319000 },
+  { id: '3kw_tp_surya_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  { id: '3kw_tp_jackson_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  { id: '3kw_tp_goutam_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  { id: '3kw_tp_utl_hybrid_withoutbat', capacity: '3 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: 'Without Battery', price: 299000 },
+  // Hybrid 4 Nos
+  { id: '3kw_tp_tata_hybrid_4nos', capacity: '3 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: '4 Nos', price: 429000 },
+  { id: '3kw_tp_adani_hybrid_4nos', capacity: '3 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: '4 Nos', price: 409000 },
+  { id: '3kw_tp_waaree_hybrid_4nos', capacity: '3 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: '4 Nos', price: 409000 },
+  { id: '3kw_tp_luminous_hybrid_4nos', capacity: '3 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: '4 Nos', price: 399000 },
+  { id: '3kw_tp_surya_hybrid_4nos', capacity: '3 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: '4 Nos', price: 379000 },
+  { id: '3kw_tp_jackson_hybrid_4nos', capacity: '3 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: '4 Nos', price: 379000 },
+  { id: '3kw_tp_goutam_hybrid_4nos', capacity: '3 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: '4 Nos', price: 379000 },
+  { id: '3kw_tp_utl_hybrid_4nos', capacity: '3 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: '4 Nos', price: 379000 },
+
+  // ===== 5 KW Three Phase =====
+  // Ongrid
+  { id: '5kw_tp_tata_ongrid_nobat', capacity: '5 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 385000 },
+  { id: '5kw_tp_adani_ongrid_nobat', capacity: '5 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 345000 },
+  { id: '5kw_tp_waaree_ongrid_nobat', capacity: '5 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 345000 },
+  { id: '5kw_tp_luminous_ongrid_nobat', capacity: '5 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 335000 },
+  { id: '5kw_tp_surya_ongrid_nobat', capacity: '5 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 315000 },
+  { id: '5kw_tp_jackson_ongrid_nobat', capacity: '5 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 315000 },
+  { id: '5kw_tp_goutam_ongrid_nobat', capacity: '5 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 315000 },
+  { id: '5kw_tp_utl_ongrid_nobat', capacity: '5 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 315000 },
+  // Hybrid Without Battery
+  { id: '5kw_tp_tata_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: 'Without Battery', price: 479000 },
+  { id: '5kw_tp_adani_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: 'Without Battery', price: 459000 },
+  { id: '5kw_tp_waaree_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: 'Without Battery', price: 459000 },
+  { id: '5kw_tp_luminous_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: 'Without Battery', price: 439000 },
+  { id: '5kw_tp_surya_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: 'Without Battery', price: 419000 },
+  { id: '5kw_tp_jackson_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: 'Without Battery', price: 419000 },
+  { id: '5kw_tp_goutam_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: 'Without Battery', price: 419000 },
+  { id: '5kw_tp_utl_hybrid_withoutbat', capacity: '5 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: 'Without Battery', price: 419000 },
+  // Hybrid 4 Nos
+  { id: '5kw_tp_tata_hybrid_4nos', capacity: '5 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: '4 Nos', price: 559000 },
+  { id: '5kw_tp_adani_hybrid_4nos', capacity: '5 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: '4 Nos', price: 539000 },
+  { id: '5kw_tp_waaree_hybrid_4nos', capacity: '5 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: '4 Nos', price: 539000 },
+  { id: '5kw_tp_luminous_hybrid_4nos', capacity: '5 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: '4 Nos', price: 519000 },
+  { id: '5kw_tp_surya_hybrid_4nos', capacity: '5 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: '4 Nos', price: 499000 },
+  { id: '5kw_tp_jackson_hybrid_4nos', capacity: '5 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: '4 Nos', price: 499000 },
+  { id: '5kw_tp_goutam_hybrid_4nos', capacity: '5 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: '4 Nos', price: 499000 },
+  { id: '5kw_tp_utl_hybrid_4nos', capacity: '5 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: '4 Nos', price: 499000 },
+
+  // ===== 10 KW Three Phase =====
+  // Ongrid
+  { id: '10kw_tp_tata_ongrid_nobat', capacity: '10 KW', panelBrand: 'TATA', inverterType: 'Ongrid', battery: 'No Battery', price: 599000 },
+  { id: '10kw_tp_adani_ongrid_nobat', capacity: '10 KW', panelBrand: 'adani', inverterType: 'Ongrid', battery: 'No Battery', price: 579000 },
+  { id: '10kw_tp_waaree_ongrid_nobat', capacity: '10 KW', panelBrand: 'Waaree', inverterType: 'Ongrid', battery: 'No Battery', price: 579000 },
+  { id: '10kw_tp_luminous_ongrid_nobat', capacity: '10 KW', panelBrand: 'Luminous', inverterType: 'Ongrid', battery: 'No Battery', price: 569000 },
+  { id: '10kw_tp_surya_ongrid_nobat', capacity: '10 KW', panelBrand: 'Surya', inverterType: 'Ongrid', battery: 'No Battery', price: 549000 },
+  { id: '10kw_tp_jackson_ongrid_nobat', capacity: '10 KW', panelBrand: 'Jackson', inverterType: 'Ongrid', battery: 'No Battery', price: 549000 },
+  { id: '10kw_tp_goutam_ongrid_nobat', capacity: '10 KW', panelBrand: 'Goutam', inverterType: 'Ongrid', battery: 'No Battery', price: 549000 },
+  { id: '10kw_tp_utl_ongrid_nobat', capacity: '10 KW', panelBrand: 'UTL', inverterType: 'Ongrid', battery: 'No Battery', price: 549000 },
+  // Hybrid Without Battery
+  { id: '10kw_tp_tata_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: 'Without Battery', price: 919000 },
+  { id: '10kw_tp_adani_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: 'Without Battery', price: 879000 },
+  { id: '10kw_tp_waaree_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: 'Without Battery', price: 879000 },
+  { id: '10kw_tp_luminous_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: 'Without Battery', price: 869000 },
+  { id: '10kw_tp_surya_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: 'Without Battery', price: 849000 },
+  { id: '10kw_tp_jackson_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: 'Without Battery', price: 849000 },
+  { id: '10kw_tp_goutam_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: 'Without Battery', price: 849000 },
+  { id: '10kw_tp_utl_hybrid_withoutbat', capacity: '10 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: 'Without Battery', price: 849000 },
+  // Hybrid 8 Nos
+  { id: '10kw_tp_tata_hybrid_8nos', capacity: '10 KW', panelBrand: 'TATA', inverterType: 'Hybrid', battery: '8 Nos', price: 1079000 },
+  { id: '10kw_tp_adani_hybrid_8nos', capacity: '10 KW', panelBrand: 'adani', inverterType: 'Hybrid', battery: '8 Nos', price: 1039000 },
+  { id: '10kw_tp_waaree_hybrid_8nos', capacity: '10 KW', panelBrand: 'Waaree', inverterType: 'Hybrid', battery: '8 Nos', price: 1039000 },
+  { id: '10kw_tp_luminous_hybrid_8nos', capacity: '10 KW', panelBrand: 'Luminous', inverterType: 'Hybrid', battery: '8 Nos', price: 1029000 },
+  { id: '10kw_tp_surya_hybrid_8nos', capacity: '10 KW', panelBrand: 'Surya', inverterType: 'Hybrid', battery: '8 Nos', price: 1009000 },
+  { id: '10kw_tp_jackson_hybrid_8nos', capacity: '10 KW', panelBrand: 'Jackson', inverterType: 'Hybrid', battery: '8 Nos', price: 1009000 },
+  { id: '10kw_tp_goutam_hybrid_8nos', capacity: '10 KW', panelBrand: 'Goutam', inverterType: 'Hybrid', battery: '8 Nos', price: 1009000 },
+  { id: '10kw_tp_utl_hybrid_8nos', capacity: '10 KW', panelBrand: 'UTL', inverterType: 'Hybrid', battery: '8 Nos', price: 1009000 },
+];
+
+// ============================================
+// PRICE LOOKUP FUNCTION
+// ============================================
+function findPrice(
+  capacity: string,
+  panelBrand: string,
+  inverterType: string,
+  battery: string
+): { price: number | null; matchType: 'exact' | 'partial' | 'none' } {
+  // Clean up inputs
+  const cleanCapacity = capacity?.trim() || '';
+  const cleanPanelBrand = panelBrand?.trim() || '';
+  const cleanInverterType = inverterType?.trim() || '';
+  const cleanBattery = battery?.trim() || '';
+
+  // If any required field is empty, return no match
+  if (!cleanCapacity || !cleanPanelBrand || !cleanInverterType) {
+    return { price: null, matchType: 'none' };
+  }
+
+  // Find exact match
+  const exactMatch = PRICE_MASTER.find(
+    (entry) =>
+      entry.capacity.toLowerCase() === cleanCapacity.toLowerCase() &&
+      entry.panelBrand.toLowerCase() === cleanPanelBrand.toLowerCase() &&
+      entry.inverterType.toLowerCase() === cleanInverterType.toLowerCase() &&
+      entry.battery.toLowerCase() === cleanBattery.toLowerCase()
+  );
+
+  if (exactMatch) {
+    return { price: exactMatch.price, matchType: 'exact' };
+  }
+
+  // Try partial match (without battery)
+  if (cleanBattery && cleanBattery !== 'No Battery') {
+    const partialMatch = PRICE_MASTER.find(
+      (entry) =>
+        entry.capacity.toLowerCase() === cleanCapacity.toLowerCase() &&
+        entry.panelBrand.toLowerCase() === cleanPanelBrand.toLowerCase() &&
+        entry.inverterType.toLowerCase() === cleanInverterType.toLowerCase() &&
+        entry.battery === 'No Battery'
+    );
+    if (partialMatch) {
+      return { price: partialMatch.price, matchType: 'partial' };
+    }
+  }
+
+  return { price: null, matchType: 'none' };
+}
+
+// ============================================
+// COMPONENT
+// ============================================
 const printStyles = `
   @page { size: A4; margin: 12mm; }
   body { background: white; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -125,6 +387,15 @@ const printStyles = `
     font-size: 12px;
     color: #6b7280;
   }
+  .quotation-sheet .price-not-found {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #92400e;
+    font-size: 13px;
+    margin-top: 8px;
+  }
 `;
 
 export function QuotationsPage() {
@@ -135,31 +406,132 @@ export function QuotationsPage() {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [priceMessage, setPriceMessage] = useState<string>('');
+  const [isUpdatingPrice, setIsUpdatingPrice] = useState<boolean>(false);
+
+  // Dropdown options from price master
+  const capacityOptions = ['1 KW', '2 KW', '3 KW', '5 KW', '10 KW'];
+  const panelBrandOptions = ['TATA', 'adani', 'Waaree', 'Luminous', 'Surya', 'Jackson', 'Goutam', 'UTL'];
+  const inverterTypeOptions = ['Ongrid', 'Hybrid'];
+  const batteryOptions = ['No Battery', 'Without Battery', '2 Nos', '4 Nos', '8 Nos'];
+
+  // Load quotations
+  const loadQuotations = () => {
+    setItems(listQuotations());
+  };
 
   useEffect(() => {
-    setItems(listQuotations());
+    loadQuotations();
   }, []);
 
-  const selected = useMemo(() => draft || items.find((item) => item.id === selectedId) || null, [draft, items, selectedId]);
-
-  useEffect(() => {
-    if (items.length && !selectedId) {
-      setSelectedId(items[0].id);
+  const selected = useMemo(() => {
+    // First check if we have a draft that matches the selected ID
+    if (draft && selectedId === draft.id) {
+      return draft;
     }
-  }, [items, selectedId]);
+    // Otherwise find in items
+    return items.find((item) => item.id === selectedId) || null;
+  }, [draft, items, selectedId]);
 
+  // When selected ID changes, load the quotation into draft
   useEffect(() => {
     if (selectedId) {
       const item = getQuotation(selectedId);
-      setDraft(item || null);
+      if (item) {
+        setDraft(item);
+      } else {
+        // If not found in storage, find in items
+        const found = items.find(i => i.id === selectedId);
+        if (found) {
+          setDraft(found);
+        }
+      }
     }
-  }, [selectedId]);
+  }, [selectedId, items]);
+
+  // Auto-calculate price when selections change
+  useEffect(() => {
+    if (!draft) return;
+    if (isUpdatingPrice) return;
+
+    const capacity = draft.system_capacity || '';
+    const panelBrand = draft.panel_brand || '';
+    const inverterType = draft.inverter_type || '';
+    const battery = draft.battery_requirement || '';
+
+    const { price, matchType } = findPrice(capacity, panelBrand, inverterType, battery);
+
+    if (price !== null) {
+      const formattedPrice = `₹${price.toLocaleString('en-IN')}`;
+      
+      // Only update if price changed
+      if (draft.estimated_price !== formattedPrice) {
+        setIsUpdatingPrice(true);
+        
+        // Update the draft
+        const updatedDraft = { 
+          ...draft, 
+          estimated_price: formattedPrice,
+          updated_at: new Date().toISOString()
+        };
+        setDraft(updatedDraft);
+        
+        // Also update the items list
+        setItems(prevItems => 
+          prevItems.map(item => 
+            item.id === updatedDraft.id ? updatedDraft : item
+          )
+        );
+        
+        // Save to storage
+        saveQuotation(updatedDraft);
+        
+        setPriceMessage(`✅ Price found: ${formattedPrice}`);
+        setIsUpdatingPrice(false);
+      } else {
+        setPriceMessage(`✅ Price: ${formattedPrice}`);
+      }
+    } else {
+      if (capacity && panelBrand && inverterType) {
+        setPriceMessage(`❌ Price not available for this configuration. Please contact admin.`);
+        // Clear the price if it was set
+        if (draft.estimated_price) {
+          const updatedDraft = { ...draft, estimated_price: '', updated_at: new Date().toISOString() };
+          setDraft(updatedDraft);
+          setItems(prevItems => 
+            prevItems.map(item => 
+              item.id === updatedDraft.id ? updatedDraft : item
+            )
+          );
+          saveQuotation(updatedDraft);
+        }
+      } else {
+        setPriceMessage('Please select capacity, panel brand, and inverter type to get price.');
+      }
+    }
+  }, [draft?.system_capacity, draft?.panel_brand, draft?.inverter_type, draft?.battery_requirement]);
+
+  const handleFieldChange = (field: keyof Quotation, value: any) => {
+    if (!draft) return;
+    const updated = { ...draft, [field]: value, updated_at: new Date().toISOString() };
+    setDraft(updated);
+    // Update items list immediately
+    setItems(prevItems => 
+      prevItems.map(item => 
+        item.id === updated.id ? updated : item
+      )
+    );
+    // Save to storage
+    saveQuotation(updated);
+  };
 
   const handleSave = () => {
     if (!draft) return;
     const updated = { ...draft, updated_at: new Date().toISOString() };
     saveQuotation(updated);
     setItems(listQuotations());
+    setPriceMessage('✅ Quotation saved successfully!');
+    setTimeout(() => setPriceMessage(''), 3000);
   };
 
   const handleDelete = (id: string) => {
@@ -173,6 +545,12 @@ export function QuotationsPage() {
     if (!draft) return;
     const printWindow = window.open('', '_blank', 'width=900,height=700');
     if (!printWindow) return;
+    
+    const priceDisplay = draft.estimated_price || 'Price not available';
+    const priceNote = !draft.estimated_price && draft.system_capacity && draft.panel_brand && draft.inverter_type
+      ? '<div class="price-not-found">⚠️ Price not available for this configuration. Please contact admin.</div>'
+      : '';
+
     printWindow.document.write(`
       <html>
         <head>
@@ -218,7 +596,7 @@ export function QuotationsPage() {
               <tbody>
                 <tr><td><strong>System Capacity</strong></td><td>${draft.system_capacity || '---'}</td></tr>
                 <tr><td><strong>Panel Brand</strong></td><td>${draft.panel_brand || '---'}</td></tr>
-                <tr><td><strong>Inverter Brand</strong></td><td>${draft.inverter_brand || '---'}</td></tr>
+                <tr><td><strong>Inverter Type</strong></td><td>${draft.inverter_type || '---'}</td></tr>
                 <tr><td><strong>Battery Requirement</strong></td><td>${draft.battery_requirement || '---'}</td></tr>
                 <tr><td><strong>Electricity Bill</strong></td><td>${draft.electricity_bill || '---'}</td></tr>
               </tbody>
@@ -230,8 +608,9 @@ export function QuotationsPage() {
                   <p style="font-size: 14px; font-weight: 600; color: #166534; margin: 0;">Estimated Price</p>
                   ${draft.notes ? `<p style="font-size: 12px; color: #6b7280; margin: 4px 0 0 0;"><strong>Notes:</strong> ${draft.notes}</p>` : ''}
                 </div>
-                <p class="total">${draft.estimated_price || '---'}</p>
+                <p class="total">${priceDisplay}</p>
               </div>
+              ${priceNote}
             </div>
 
             <div class="footer">
@@ -302,6 +681,13 @@ export function QuotationsPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button 
+              onClick={loadQuotations}
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-green-300 hover:shadow-md transition-all duration-300"
+            >
+              <RefreshCw className="h-4 w-4 text-gray-500" />
+              <span className="text-sm text-gray-600">Refresh</span>
+            </button>
             <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl shadow-sm border border-gray-100">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-xs text-gray-500">{items.length} Quotations</span>
@@ -377,6 +763,17 @@ export function QuotationsPage() {
             </div>
           </div>
         </div>
+
+        {/* Price Message */}
+        {priceMessage && (
+          <div className={`mb-4 p-3 rounded-xl text-sm font-medium ${
+            priceMessage.includes('✅') ? 'bg-green-50 text-green-700 border border-green-200' :
+            priceMessage.includes('❌') ? 'bg-red-50 text-red-700 border border-red-200' :
+            'bg-yellow-50 text-yellow-700 border border-yellow-200'
+          }`}>
+            {priceMessage}
+          </div>
+        )}
 
         {/* Main Content */}
         <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
@@ -461,7 +858,7 @@ export function QuotationsPage() {
                   </label>
                   <input 
                     value={draft?.customer_name || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, customer_name: e.target.value } : prev)} 
+                    onChange={(e) => handleFieldChange('customer_name', e.target.value)} 
                     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
                   />
                 </div>
@@ -471,7 +868,7 @@ export function QuotationsPage() {
                   </label>
                   <input 
                     value={draft?.phone || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, phone: e.target.value } : prev)} 
+                    onChange={(e) => handleFieldChange('phone', e.target.value)} 
                     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
                   />
                 </div>
@@ -481,7 +878,7 @@ export function QuotationsPage() {
                   </label>
                   <input 
                     value={draft?.address || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, address: e.target.value } : prev)} 
+                    onChange={(e) => handleFieldChange('address', e.target.value)} 
                     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
                   />
                 </div>
@@ -491,7 +888,7 @@ export function QuotationsPage() {
                   </label>
                   <input 
                     value={draft?.electricity_bill || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, electricity_bill: e.target.value } : prev)} 
+                    onChange={(e) => handleFieldChange('electricity_bill', e.target.value)} 
                     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
                   />
                 </div>
@@ -499,41 +896,71 @@ export function QuotationsPage() {
                   <label className="mb-1.5 block text-sm font-semibold text-gray-700 flex items-center gap-1">
                     <Zap className="h-4 w-4 text-gray-400" /> System Capacity
                   </label>
-                  <input 
-                    value={draft?.system_capacity || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, system_capacity: e.target.value } : prev)} 
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
-                  />
+                  <select
+                    value={draft?.system_capacity || ''}
+                    onChange={(e) => handleFieldChange('system_capacity', e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50"
+                  >
+                    <option value="">Select capacity</option>
+                    {capacityOptions.map((cap) => (
+                      <option key={cap} value={cap}>{cap}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-gray-700 flex items-center gap-1">
                     <Package className="h-4 w-4 text-gray-400" /> Panel Brand
                   </label>
-                  <input 
-                    value={draft?.panel_brand || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, panel_brand: e.target.value } : prev)} 
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
-                  />
+                  <select
+                    value={draft?.panel_brand || ''}
+                    onChange={(e) => handleFieldChange('panel_brand', e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50"
+                  >
+                    <option value="">Select panel brand</option>
+                    {panelBrandOptions.map((brand) => (
+                      <option key={brand} value={brand}>{brand}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-gray-700 flex items-center gap-1">
-                    <Shield className="h-4 w-4 text-gray-400" /> Inverter Brand
+                    <Shield className="h-4 w-4 text-gray-400" /> Inverter Type
                   </label>
-                  <input 
-                    value={draft?.inverter_brand || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, inverter_brand: e.target.value } : prev)} 
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
-                  />
+                  <select
+                    value={draft?.inverter_type || ''}
+                    onChange={(e) => handleFieldChange('inverter_type', e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50"
+                  >
+                    <option value="">Select inverter type</option>
+                    {inverterTypeOptions.map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-gray-700 flex items-center gap-1">
                     <Battery className="h-4 w-4 text-gray-400" /> Battery Requirement
                   </label>
-                  <input 
-                    value={draft?.battery_requirement || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, battery_requirement: e.target.value } : prev)} 
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50" 
-                  />
+                  <select
+                    value={draft?.battery_requirement || ''}
+                    onChange={(e) => handleFieldChange('battery_requirement', e.target.value)}
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50"
+                  >
+                    <option value="">Select battery</option>
+                    {batteryOptions.map((bat) => (
+                      <option key={bat} value={bat}>{bat}</option>
+                    ))}
+                  </select>
+                </div>
+                {/* Price Display - Auto-calculated */}
+                <div className="md:col-span-2">
+                  <label className="mb-1.5 block text-sm font-semibold text-gray-700 flex items-center gap-1">
+                    <DollarSign className="h-4 w-4 text-green-500" /> Estimated Price (Auto-calculated)
+                  </label>
+                  <div className="w-full rounded-xl border-2 border-green-200 bg-green-50 px-4 py-3 text-xl font-bold text-green-700">
+                    {draft?.estimated_price || 'Select configuration to get price'}
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">Price is automatically calculated based on your selections</p>
                 </div>
                 <div className="md:col-span-2">
                   <label className="mb-1.5 block text-sm font-semibold text-gray-700 flex items-center gap-1">
@@ -541,7 +968,7 @@ export function QuotationsPage() {
                   </label>
                   <textarea 
                     value={draft?.notes || ''} 
-                    onChange={(e) => setDraft((prev) => prev ? { ...prev, notes: e.target.value } : prev)} 
+                    onChange={(e) => handleFieldChange('notes', e.target.value)} 
                     rows={4} 
                     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all duration-300 outline-none bg-gray-50/50 resize-none" 
                   />

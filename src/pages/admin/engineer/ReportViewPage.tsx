@@ -39,6 +39,7 @@ import {
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import aircomfortlogo from '../../../images/logo_air_comfort.jpg';
 
 function renderStatusBadge(status: SiteVisitReport['status']) {
   const base = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300';
@@ -906,8 +907,16 @@ export function ReportViewPage() {
             {/* Header Section */}
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 pb-6 border-b border-gray-100">
               <div className="flex items-start gap-4">
-                <div className={`p-3 rounded-2xl ${statusConfig.bg} border ${statusConfig.border}`}>
-                  <StatusIcon className={`w-6 h-6 ${statusConfig.color}`} />
+                <div className="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 p-3 shadow-sm">
+                  <img
+                    src={aircomfortlogo}
+                    alt="Green Leaf Energy Logo"
+                    className="h-6 w-6 rounded-xl object-cover border border-green-200 bg-white p-1"
+                  />
+                  <div>
+                    <div className="text-base font-extrabold text-green-700">GreenLeaf Energy</div>
+                    <div className="text-[10px] uppercase tracking-[0.22em] text-gray-500">Site Visit Report</div>
+                  </div>
                 </div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex items-center gap-2">
