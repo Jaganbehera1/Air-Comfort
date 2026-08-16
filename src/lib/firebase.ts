@@ -42,7 +42,7 @@ export interface GalleryItem {
   url: string;
   title: string;
   description: string;
-  company?: 'Air-Comfort';
+  company?: 'air-comfort' | 'sc-mohanty' | 'both';
   order_index: number;
   created_at: string;
   admin_id: string;

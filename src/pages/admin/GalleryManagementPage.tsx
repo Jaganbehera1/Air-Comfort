@@ -75,6 +75,7 @@ export function GalleryManagementPage() {
   const [url, setUrl] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [type, setType] = useState<'image' | 'video'>('image');
+  const [company, setCompany] = useState<'air-comfort' | 'sc-mohanty' | 'both'>('air-comfort');
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterType, setFilterType] = useState<'all' | 'image' | 'video'>('all');
@@ -133,6 +134,7 @@ export function GalleryManagementPage() {
         url: downloadUrl,
         title: title.trim(),
         description: description.trim(),
+        company,
         admin_id: user.uid,
         order_index: items.length,
         created_at: new Date().toISOString(),
@@ -144,6 +146,7 @@ export function GalleryManagementPage() {
       setFile(null);
       setTitle('');
       setDescription('');
+      setCompany('air-comfort');
       setShowUploadForm(false);
       await loadGallery();
     } catch (error) {
@@ -184,10 +187,6 @@ export function GalleryManagementPage() {
     images: items.filter(i => i.type === 'image').length,
     videos: items.filter(i => i.type === 'video').length,
   };
-
-  function handleUrlChange(value: string): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50/50 py-8 md:py-12">
@@ -290,12 +289,53 @@ export function GalleryManagementPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Company / Project
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setCompany('air-comfort')}
+                    className={`py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+                      company === 'air-comfort'
+                        ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/20 scale-105'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    Air Comfort
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCompany('sc-mohanty')}
+                    className={`py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+                      company === 'sc-mohanty'
+                        ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-600/20 scale-105'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    S.C. Mohanty
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCompany('both')}
+                    className={`py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+                      company === 'both'
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/20 scale-105'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    Both
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Media URL
                 </label>
                 <input
                   type="url"
                   value={url}
-                  onChange={(e) => handleUrlChange(e.target.value)}
+                  onChange={(e) => setUrl(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 outline-none bg-gray-50/50"
                   placeholder="https://example.com/image.jpg or https://youtube.com/watch?v=..."
                 />
