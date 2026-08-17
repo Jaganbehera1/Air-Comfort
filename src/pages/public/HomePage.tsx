@@ -684,165 +684,165 @@ export function HomePage() {
       </section>
 
       {/* ================= TATA POWER SOLAR - FINANCIAL BREAKDOWN ================= */}
-<section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-green-900">
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    <div className="absolute -top-24 -left-20 w-72 h-72 bg-yellow-400/20 rounded-full blur-3xl animate-pulse"></div>
-    <div className="absolute top-1/2 -right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-    <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-green-500/20 rounded-full blur-3xl"></div>
-  </div>
-
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Section Header */}
-    <div className="text-center mb-12">
-      <div className="inline-flex items-center gap-4 rounded-full border border-yellow-300 bg-white/10 backdrop-blur-xl px-8 py-4 shadow-2xl">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-3xl shadow-lg">
-          💰
+      <section className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-green-900">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-24 -left-20 w-72 h-72 bg-yellow-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/2 -right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-green-500/20 rounded-full blur-3xl"></div>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-extrabold">
-          <span className="bg-gradient-to-r from-yellow-400 via-green-400 to-blue-400 bg-clip-text text-transparent">
-            Financial Breakdown
-          </span>
-        </h2>
-      </div>
-      <p className="mt-6 text-lg text-gray-200 leading-8 max-w-3xl mx-auto">
-        Transparent cost structure for 3KW Solar System with government subsidy and easy financing options
-      </p>
-    </div>
-
-    {/* Main Financial Card */}
-    <div className="max-w-4xl mx-auto">
-      <div className="relative overflow-hidden rounded-[32px] border-2 border-yellow-400/30 bg-gradient-to-br from-yellow-500/20 via-orange-500/20 to-red-500/20 backdrop-blur-xl shadow-[0_20px_60px_rgba(255,215,0,0.3)] p-8 transition-all duration-500 hover:scale-105 hover:border-yellow-400 hover:shadow-[0_20px_80px_rgba(255,215,0,0.4)] group">
-        
-        {/* Background Glow Effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-orange-400/10 to-red-400/10 blur-xl animate-pulse"></div>
-        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shine_3s_linear_infinite]"></div>
-
-        {/* Decorative Elements */}
-        <div className="absolute top-4 right-6 text-yellow-300 text-2xl animate-pulse">✨</div>
-        <div className="absolute bottom-4 left-6 text-yellow-300 text-2xl animate-pulse animation-delay-1000">✨</div>
-        <div className="absolute top-1/2 left-4 text-yellow-300/30 text-xl animate-pulse animation-delay-2000">✦</div>
-        <div className="absolute top-1/2 right-4 text-yellow-300/30 text-xl animate-pulse animation-delay-1500">✦</div>
-
-        {/* Content */}
-        <div className="relative z-10">
-          {/* Header with Tata Power Logo */}
-          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-orange-500 flex items-center justify-center text-3xl shadow-lg">
-                ⚡
+                
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-4 rounded-full border border-yellow-300 bg-white/10 backdrop-blur-xl px-8 py-4 shadow-2xl">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-3xl shadow-lg">
+                💰
               </div>
-              <div>
-                <h3 className="text-2xl font-extrabold text-white">TATA POWER SOLAR</h3>
-                <p className="text-yellow-300 font-semibold text-sm">3KW - Solar System</p>
-              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold">
+                <span className="bg-gradient-to-r from-yellow-400 via-green-400 to-blue-400 bg-clip-text text-transparent">
+                  Financial Breakdown
+                </span>
+              </h2>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full border border-yellow-400/50">
-              <span className="text-white font-bold">💰 Project Cost: ₹2,10,000</span>
-            </div>
+            <p className="mt-6 text-lg text-gray-200 leading-8 max-w-3xl mx-auto">
+              Transparent cost structure for 3KW Solar System with government subsidy and easy financing options
+            </p>
           </div>
-
-          {/* Financial Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Left Column - Cost Breakdown */}
-            <div className="space-y-3">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:border-yellow-400 transition-all duration-300 hover:scale-105">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-300 font-medium">💰 Loan Sanction</span>
-                  <span className="text-white font-bold text-xl">₹1,89,000</span>
+                
+          {/* Main Financial Card */}
+          <div className="max-w-4xl mx-auto">
+            <div className="relative overflow-hidden rounded-[32px] border-2 border-yellow-400/30 bg-gradient-to-br from-yellow-500/20 via-orange-500/20 to-red-500/20 backdrop-blur-xl shadow-[0_20px_60px_rgba(255,215,0,0.3)] p-8 transition-all duration-500 hover:scale-105 hover:border-yellow-400 hover:shadow-[0_20px_80px_rgba(255,215,0,0.4)] group">
+                
+              {/* Background Glow Effects */}
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-orange-400/10 to-red-400/10 blur-xl animate-pulse"></div>
+              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shine_3s_linear_infinite]"></div>
+                
+              {/* Decorative Elements */}
+              <div className="absolute top-4 right-6 text-yellow-300 text-2xl animate-pulse">✨</div>
+              <div className="absolute bottom-4 left-6 text-yellow-300 text-2xl animate-pulse animation-delay-1000">✨</div>
+              <div className="absolute top-1/2 left-4 text-yellow-300/30 text-xl animate-pulse animation-delay-2000">✦</div>
+              <div className="absolute top-1/2 right-4 text-yellow-300/30 text-xl animate-pulse animation-delay-1500">✦</div>
+                
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Header with Tata Power Logo */}
+                <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-orange-500 flex items-center justify-center text-3xl shadow-lg">
+                      ⚡
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-extrabold text-white">TATA POWER SOLAR</h3>
+                      <p className="text-yellow-300 font-semibold text-sm">3KW - Solar System</p>
+                    </div>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full border border-yellow-400/50">
+                    <span className="text-white font-bold">💰 Project Cost: ₹2,10,000</span>
+                  </div>
                 </div>
-                <div className="w-full bg-white/20 rounded-full h-2 mt-2">
-                  <div className="bg-gradient-to-r from-blue-400 to-cyan-400 h-2 rounded-full" style={{ width: '90%' }}></div>
+                
+                {/* Financial Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Left Column - Cost Breakdown */}
+                  <div className="space-y-3">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:border-yellow-400 transition-all duration-300 hover:scale-105">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-300 font-medium">💰 Loan Sanction</span>
+                        <span className="text-white font-bold text-xl">₹1,89,000</span>
+                      </div>
+                      <div className="w-full bg-white/20 rounded-full h-2 mt-2">
+                        <div className="bg-gradient-to-r from-blue-400 to-cyan-400 h-2 rounded-full" style={{ width: '90%' }}></div>
+                      </div>
+                      <span className="text-xs text-blue-300">90% of project cost</span>
+                    </div>
+                
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:border-yellow-400 transition-all duration-300 hover:scale-105">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-300 font-medium">💳 Downpayment</span>
+                        <span className="text-white font-bold text-xl">₹21,000</span>
+                      </div>
+                      <div className="w-full bg-white/20 rounded-full h-2 mt-2">
+                        <div className="bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full" style={{ width: '10%' }}></div>
+                      </div>
+                      <span className="text-xs text-yellow-300">10% of project cost</span>
+                    </div>
+                  </div>
+                
+                  {/* Right Column - Subsidy & EMI */}
+                  <div className="space-y-3">
+                    <div className="bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 rounded-2xl p-4 border-2 border-yellow-300 shadow-lg hover:scale-105 transition-all duration-300">
+                      <div className="flex items-center justify-between">
+                        <span className="text-white font-bold">🇮🇳 Subsidy (Centre+State)</span>
+                        <span className="text-white font-extrabold text-2xl animate-pulse">₹1,38,000</span>
+                      </div>
+                      <div className="w-full bg-white/30 rounded-full h-2 mt-2">
+                        <div className="bg-white h-2 rounded-full animate-pulse" style={{ width: '100%' }}></div>
+                      </div>
+                      <span className="text-xs text-white/80">Maximum subsidy available</span>
+                    </div>
+                
+                    <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-4 border-2 border-green-300 shadow-lg hover:scale-105 transition-all duration-300">
+                      <div className="flex items-center justify-between">
+                        <span className="text-white font-bold">📅 Monthly EMI</span>
+                        <span className="text-white font-extrabold text-2xl animate-pulse">₹600</span>
+                      </div>
+                      <div className="w-full bg-white/30 rounded-full h-2 mt-2">
+                        <div className="bg-white h-2 rounded-full" style={{ width: '30%' }}></div>
+                      </div>
+                      <span className="text-xs text-white/80">Affordable financing</span>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-xs text-blue-300">90% of project cost</span>
+                
+                {/* Summary Bar */}
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10 hover:border-yellow-400 transition-all duration-300">
+                    <p className="text-xs text-gray-400">System Capacity</p>
+                    <p className="text-white font-bold text-lg">3 KW</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10 hover:border-yellow-400 transition-all duration-300">
+                    <p className="text-xs text-gray-400">Project Cost</p>
+                    <p className="text-white font-bold text-lg">₹2,10,000</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10 hover:border-yellow-400 transition-all duration-300">
+                    <p className="text-xs text-gray-400">Total Subsidy</p>
+                    <p className="text-green-400 font-bold text-lg">₹1,38,000</p>
+                  </div>
+                  <div className="bg-gradient-to-r from-yellow-400/30 to-orange-400/30 backdrop-blur-sm rounded-xl p-3 text-center border border-yellow-400/50">
+                    <p className="text-xs text-yellow-300">Net Cost After Subsidy</p>
+                    <p className="text-white font-bold text-lg">₹72,000</p>
+                  </div>
+                </div>
+                
+                {/* CTA Buttons */}
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                  <Link
+                    to="/contact"
+                    className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white font-extrabold text-lg shadow-lg shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/50 via-orange-400/50 to-red-400/50 blur-xl animate-pulse"></div>
+                    <span className="relative">📋 Apply for Subsidy</span>
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-black font-extrabold text-lg shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/70 transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/50 via-blue-400/50 to-purple-400/50 blur-xl animate-pulse"></div>
+                    <span className="relative">📞 Get Free Quote</span>
+                  </Link>
+                  <Link
+                    to="/learning"
+                    className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 text-black font-extrabold text-lg shadow-lg shadow-green-500/50 hover:shadow-green-500/70 transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/50 via-emerald-400/50 to-teal-400/50 blur-xl animate-pulse"></div>
+                    <span className="relative">📚 Learn More</span>
+                  </Link>
+                </div>
               </div>
-
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20 hover:border-yellow-400 transition-all duration-300 hover:scale-105">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-300 font-medium">💳 Downpayment</span>
-                  <span className="text-white font-bold text-xl">₹21,000</span>
-                </div>
-                <div className="w-full bg-white/20 rounded-full h-2 mt-2">
-                  <div className="bg-gradient-to-r from-yellow-400 to-orange-400 h-2 rounded-full" style={{ width: '10%' }}></div>
-                </div>
-                <span className="text-xs text-yellow-300">10% of project cost</span>
-              </div>
             </div>
-
-            {/* Right Column - Subsidy & EMI */}
-            <div className="space-y-3">
-              <div className="bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 rounded-2xl p-4 border-2 border-yellow-300 shadow-lg hover:scale-105 transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-bold">🇮🇳 Subsidy (Centre+State)</span>
-                  <span className="text-white font-extrabold text-2xl animate-pulse">₹1,38,000</span>
-                </div>
-                <div className="w-full bg-white/30 rounded-full h-2 mt-2">
-                  <div className="bg-white h-2 rounded-full animate-pulse" style={{ width: '100%' }}></div>
-                </div>
-                <span className="text-xs text-white/80">Maximum subsidy available</span>
-              </div>
-
-              <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-4 border-2 border-green-300 shadow-lg hover:scale-105 transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-bold">📅 Monthly EMI</span>
-                  <span className="text-white font-extrabold text-2xl animate-pulse">₹600</span>
-                </div>
-                <div className="w-full bg-white/30 rounded-full h-2 mt-2">
-                  <div className="bg-white h-2 rounded-full" style={{ width: '30%' }}></div>
-                </div>
-                <span className="text-xs text-white/80">Affordable financing</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Summary Bar */}
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10 hover:border-yellow-400 transition-all duration-300">
-              <p className="text-xs text-gray-400">System Capacity</p>
-              <p className="text-white font-bold text-lg">3 KW</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10 hover:border-yellow-400 transition-all duration-300">
-              <p className="text-xs text-gray-400">Project Cost</p>
-              <p className="text-white font-bold text-lg">₹2,10,000</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10 hover:border-yellow-400 transition-all duration-300">
-              <p className="text-xs text-gray-400">Total Subsidy</p>
-              <p className="text-green-400 font-bold text-lg">₹1,38,000</p>
-            </div>
-            <div className="bg-gradient-to-r from-yellow-400/30 to-orange-400/30 backdrop-blur-sm rounded-xl p-3 text-center border border-yellow-400/50">
-              <p className="text-xs text-yellow-300">Net Cost After Subsidy</p>
-              <p className="text-white font-bold text-lg">₹72,000</p>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/contact"
-              className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white font-extrabold text-lg shadow-lg shadow-yellow-500/50 hover:shadow-yellow-500/70 transition-all duration-300 hover:scale-105"
-            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/50 via-orange-400/50 to-red-400/50 blur-xl animate-pulse"></div>
-              <span className="relative">📋 Apply for Subsidy</span>
-            </Link>
-            <Link
-              to="/contact"
-              className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-black font-extrabold text-lg shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/70 transition-all duration-300 hover:scale-105"
-            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/50 via-blue-400/50 to-purple-400/50 blur-xl animate-pulse"></div>
-              <span className="relative">📞 Get Free Quote</span>
-            </Link>
-            <Link
-              to="/learning"
-              className="relative inline-block px-8 py-3 rounded-full bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 text-black font-extrabold text-lg shadow-lg shadow-green-500/50 hover:shadow-green-500/70 transition-all duration-300 hover:scale-105"
-            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/50 via-emerald-400/50 to-teal-400/50 blur-xl animate-pulse"></div>
-              <span className="relative">📚 Learn More</span>
-            </Link>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ================= LEARNING SECTION CTA ================= */}
       <section className="py-16 bg-gradient-to-br from-yellow-50 via-green-50 to-blue-50">
